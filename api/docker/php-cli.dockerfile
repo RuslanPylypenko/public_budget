@@ -4,6 +4,8 @@ RUN apt-get update && apt-get install -y \
     libmcrypt-dev \
     libxml2-dev \
     wget \
+    git \
+    zip \
     && docker-php-ext-install \
     ctype \
     iconv \
