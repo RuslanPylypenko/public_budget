@@ -1,0 +1,37 @@
+version: '3'
+services:
+  api-nginx:
+    build:
+      context: './api/docker'
+      dockerfile: 'nginx.dockerfile'
+    ports:
+      - "8081:80"
+  api-php-fpm:
+    build:
+      context: './api/docker'
+      dockerfile: 'php-fpm.dockerfile'
+    volumes:
+      - ./api:/var/www/api
+  api-php-cli:
+    build:
+      context: './api/docker'
+      dockerfile: 'php-cli.dockerfile'
+    volumes:
+      - ./api:/var/www/api
+    tty: true
+  api-mysql:
+    image: mysql:8.0
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: app
+      MYSQL_USER: user
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "33061:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
