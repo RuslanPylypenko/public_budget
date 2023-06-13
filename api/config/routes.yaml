@@ -1,5 +1,5 @@
-controllers:
-    resource:
-        path: ../src/Controller/
-        namespace: App\Controller
+api:
+    resource: ../src/**/Api/**/Handler.php
     type: attribute
+    prefix: 'api'
+    name_prefix: api
