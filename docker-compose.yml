@@ -12,6 +12,9 @@ services:
       dockerfile: 'php-fpm.dockerfile'
     volumes:
       - ./api:/var/www/api
+    working_dir: /var/www
+    environment:
+      PHP_IDE_CONFIG: serverName=app-backend
   api-php-cli:
     build:
       context: './api/docker'
