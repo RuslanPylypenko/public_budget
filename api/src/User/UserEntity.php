@@ -1,7 +1,7 @@
 <?php
 
 namespace App\User;
-use App\DateTime;
+use App\Utils\DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping;
 
