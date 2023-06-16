@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace App\User\Api\Registration\Request;
 
+use App\Api\Exception\AlreadyExistsApiException;
 use App\Api\Exception\ValidationException;
 use App\Api\Validator\Validator;
 use App\User\ConfirmToken;
+use App\User\Events\UserRegisteredEvent;
 use App\User\PasswordHasher;
 use App\User\UserEntity;
 use App\Utils\DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,6 +26,7 @@ class Handler extends AbstractController
         private readonly Validator $validator,
         private readonly PasswordHasher $passwordHasher,
         private readonly EntityManagerInterface $em,
+        private readonly EventDispatcherInterface $dispatcher,
     ) {
     }
 
@@ -33,6 +37,10 @@ class Handler extends AbstractController
 
         if ($errors = $this->validator->validate($command)) {
             throw new ValidationException($errors);
+        }
+
+        if($this->em->getRepository(UserEntity::class)->findByEmail($command->email) !== null){
+            throw new AlreadyExistsApiException();
         }
 
         $user = new UserEntity(
@@ -47,8 +55,11 @@ class Handler extends AbstractController
 
         $this->em->flush();
 
+
+        $this->dispatcher->dispatch(new UserRegisteredEvent($user), UserRegisteredEvent::NAME);
+
         return $this->json([
-            'access_token' => '123'
+            'message' => 'Check your email'
         ]);
     }
 

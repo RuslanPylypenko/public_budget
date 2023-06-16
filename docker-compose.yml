@@ -6,6 +6,9 @@ services:
       dockerfile: 'nginx.dockerfile'
     ports:
       - "8081:80"
+    depends_on:
+      - api-php-fpm
+
   api-php-fpm:
     build:
       context: './api/docker'
@@ -15,6 +18,10 @@ services:
     working_dir: /var/www
     environment:
       PHP_IDE_CONFIG: serverName=app-backend
+    depends_on:
+      - api-mysql
+      - mailer
+
   api-php-cli:
     build:
       context: './api/docker'
@@ -22,6 +29,10 @@ services:
     volumes:
       - ./api:/var/www/api
     tty: true
+    depends_on:
+      - api-mysql
+      - mailer
+
   api-mysql:
     image: mysql:8.0
     container_name: mysql
@@ -35,6 +46,13 @@ services:
       - "33061:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+
+  mailer:
+    image: mailhog/mailhog
+    restart: unless-stopped
+    ports:
+      - "1025:1025"
+      - "8082:8025"
 
 volumes:
   mysql_data:
