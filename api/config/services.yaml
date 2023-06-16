@@ -19,6 +19,10 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
-
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    App\User\Observer\User:
+        arguments:
+            $mailer: '@Symfony\Component\Mailer\MailerInterface'
+            $adminEmail: '%env(ADMIN_EMAIL)%'
+            $appUrl: '%env(APP_URL)%'
