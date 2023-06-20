@@ -24,10 +24,10 @@ final class Version20230614162355 extends AbstractMigration
         birthday DATETIME NOT NULL, 
         password_hash VARCHAR(100) NOT NULL, 
         hash_session CHAR(64) NOT NULL,
-        update_date DATETIME NOT NULL, 
-        create_date DATETIME NOT NULL, 
         confirm_token_token VARCHAR(255) DEFAULT NULL, 
         confirm_token_expired_at DATETIME DEFAULT NULL, 
+        update_date DATETIME NOT NULL, 
+        create_date DATETIME NOT NULL, 
         UNIQUE INDEX UNIQ_8D93D649E7927C74 (email), 
         PRIMARY KEY(id)
         ) 

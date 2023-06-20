@@ -26,6 +26,18 @@ class UserEntity implements UserInterface, PasswordAuthenticatedUserInterface
     #[Mapping\Column(name: 'name', type: Types::STRING, length: 255)]
     private string $name;
 
+    #[Mapping\Column(name: 'surname', type: Types::STRING, length: 255)]
+    private string $surname;
+
+    #[Mapping\Column(name: 'patronymic', type: Types::STRING, length: 255)]
+    private string $patronymic;
+
+    #[Mapping\Column(name: 'passport', type: Types::STRING, length: 255, nullable: true)]
+    private ?string $passport;
+
+    #[Mapping\Column(name: 'phone', type: Types::STRING, length: 12, nullable: true)]
+    private ?string $phone;
+
     #[Mapping\Column(name: 'email', type: Types::STRING, unique: true)]
     private string $email;
 
@@ -69,11 +81,19 @@ class UserEntity implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct(
         string $name,
+        string $surname,
+        string $patronymic,
         string $email,
         \DateTime $birthday,
         ConfirmToken $confirmToken,
+        ?string $passport = null,
+        ?string $phone = null,
     ) {
         $this->name         = $name;
+        $this->surname      = $surname;
+        $this->patronymic   = $patronymic;
+        $this->passport     = $passport;
+        $this->phone        = $phone;
         $this->email        = $email;
         $this->birthday     = $birthday;
         $this->status       = self::STATUS_NEW;
@@ -182,9 +202,13 @@ class UserEntity implements UserInterface, PasswordAuthenticatedUserInterface
     public function toArray(): array
     {
         return [
-            'name'   => $this->name,
-            'email'  => $this->email,
-            'status' => $this->status,
+            'name'       => $this->name,
+            'surname'    => $this->surname,
+            'patronymic' => $this->patronymic,
+            'passport'   => $this->passport,
+            'phone'      => $this->phone,
+            'email'      => $this->email,
+            'status'     => $this->status,
         ];
     }
 

@@ -33,8 +33,10 @@ class Handler extends AbstractController
         $user->getConfirmToken()->validate($token, DateTime::current());
 
         $user->setConfirmToken(null);
-
         $user->setStatus($user::STATUS_ACTIVE);
+
+        $this->em->persist($user);
+        $this->em->flush();
 
         return $this->json([
             'access_token' => $this->tokenManager->build($user, $request)->toString()

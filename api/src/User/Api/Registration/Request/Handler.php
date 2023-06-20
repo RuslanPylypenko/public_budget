@@ -9,7 +9,6 @@ use App\Api\Exception\ValidationException;
 use App\Api\Validator\Validator;
 use App\User\ConfirmToken;
 use App\User\Events\UserRegisteredEvent;
-use App\User\PasswordHasher;
 use App\User\UserEntity;
 use App\Utils\DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -46,15 +45,19 @@ class Handler extends AbstractController
 
         $user = new UserEntity(
             $command->name,
+            $command->surname,
+            $command->patronymic,
             $command->email,
             DateTime::fromString($command->birthday),
-            new ConfirmToken(Uuid::uuid4()->toString(), DateTime::current()->modify('+ 1 day'))
+            new ConfirmToken(Uuid::uuid4()->toString(), DateTime::current()->modify('+ 1 day')),
+            $command->passport,
+            $command->phone
+
         );
 
         $user->setPassword($this->passwordHasher->hashPassword($user, $command->password));
 
         $this->em->persist($user);
-
         $this->em->flush();
 
         $this->dispatcher->dispatch(new UserRegisteredEvent($user), UserRegisteredEvent::NAME);
@@ -68,13 +71,16 @@ class Handler extends AbstractController
     {
         $body = $request->toArray();
 
-        $command = new Command();
-
-        $command->name = $body['name'] ?? '';
-        $command->email = $body['email'] ?? '';
-        $command->password = $body['password'] ?? '';
+        $command             = new Command();
+        $command->name       = $body['name'] ?? '';
+        $command->surname    = $body['password'] ?? '';
+        $command->patronymic = $body['patronymic'] ?? '';
+        $command->passport   = $body['passport'] ?? null;
+        $command->phone      = $body['phone'] ?? null;
+        $command->email      = $body['email'] ?? '';
+        $command->password   = $body['password'] ?? '';
         $command->rePassword = $body['re_password'] ?? '';
-        $command->birthday = $body['birthday'] ?? '';
+        $command->birthday   = $body['birthday'] ?? '';
 
         return $command;
     }
