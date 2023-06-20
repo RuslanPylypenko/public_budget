@@ -17,6 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Ramsey\Uuid\Uuid;
 
@@ -24,7 +25,7 @@ class Handler extends AbstractController
 {
     public function __construct(
         private readonly Validator $validator,
-        private readonly PasswordHasher $passwordHasher,
+        private readonly UserPasswordHasherInterface $passwordHasher,
         private readonly EntityManagerInterface $em,
         private readonly EventDispatcherInterface $dispatcher,
     ) {
@@ -47,14 +48,14 @@ class Handler extends AbstractController
             $command->name,
             $command->email,
             DateTime::fromString($command->birthday),
-            $this->passwordHasher->hash($command->password),
             new ConfirmToken(Uuid::uuid4()->toString(), DateTime::current()->modify('+ 1 day'))
         );
+
+        $user->setPassword($this->passwordHasher->hashPassword($user, $command->password));
 
         $this->em->persist($user);
 
         $this->em->flush();
-
 
         $this->dispatcher->dispatch(new UserRegisteredEvent($user), UserRegisteredEvent::NAME);
 

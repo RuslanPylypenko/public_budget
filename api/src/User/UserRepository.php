@@ -10,4 +10,9 @@ class UserRepository extends EntityRepository
     {
         return $this->findOneBy(['email' => $email]);
     }
+
+    public function findByConfirmToken(string $token): ?UserEntity
+    {
+        return $this->findOneBy(['confirmToken.token' => $token]);
+    }
 }

@@ -34,6 +34,17 @@ class HttpKernelListener implements EventSubscriberInterface
                 ));
         }
 
+        if ($e instanceof \DomainException) {
+            $event->allowCustomResponseCode();
+            $event->setResponse(
+                new JsonResponse([
+                    'text' => $e->getMessage(),
+                    'code' => $e->getCode()
+                ],
+                    400
+                ));
+        }
+
         if ($e instanceof ValidationException) {
             $event->allowCustomResponseCode();
             $event->setResponse(

@@ -4,6 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    app.name: '%env(string:APP_NAME)%'
 
 services:
     # default configuration for services in *this* file
@@ -26,3 +27,7 @@ services:
             $mailer: '@Symfony\Component\Mailer\MailerInterface'
             $adminEmail: '%env(ADMIN_EMAIL)%'
             $appUrl: '%env(APP_URL)%'
+
+    App\Http\Annotation\Authenticate\TokenManager:
+        arguments:
+            $jwtSignerKey: '%env(JWT_SIGNER_KEY)%'

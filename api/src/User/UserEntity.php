@@ -1,15 +1,19 @@
 <?php
 
 namespace App\User;
+
+use App\Http\Annotation\Authenticate\UserInterface;
 use App\Utils\DateTime;
+use App\Utils\Random;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[Mapping\Entity(repositoryClass: UserRepository::class)]
 #[Mapping\Table(name: 'user')]
 #[Mapping\HasLifecycleCallbacks]
 #[Mapping\ChangeTrackingPolicy('DEFERRED_EXPLICIT')]
-class UserEntity
+class UserEntity implements UserInterface, PasswordAuthenticatedUserInterface
 {
     public const STATUS_ACTIVE = 'active';
     public const STATUS_NEW    = 'new';
@@ -33,6 +37,9 @@ class UserEntity
 
     #[Mapping\Column(name: 'password_hash', type: Types::STRING, length: 100)]
     private string $passwordHash;
+
+    #[Mapping\Column(name: 'hash_session', type: Types::STRING, length: 64, options: ['fixed' => true])]
+    private string $hashSession;
 
     #[Mapping\Embedded(class: ConfirmToken::class, columnPrefix: 'confirm_token_')]
     private ?ConfirmToken $confirmToken;
@@ -64,15 +71,15 @@ class UserEntity
         string $name,
         string $email,
         \DateTime $birthday,
-        string $passwordHash,
         ConfirmToken $confirmToken,
     ) {
         $this->name         = $name;
         $this->email        = $email;
         $this->birthday     = $birthday;
-        $this->passwordHash = $passwordHash;
         $this->status       = self::STATUS_NEW;
         $this->confirmToken = $confirmToken;
+
+        $this->hashSession = Random::getRandomString();
     }
 
     // ----------------------------------------
@@ -94,7 +101,8 @@ class UserEntity
 
     public function setEmail(string $email): void
     {
-        $this->email = $email;
+        $this->email       = $email;
+        $this->hashSession = Random::getRandomString();
     }
 
     public function getBirthday(): \DateTime
@@ -145,4 +153,39 @@ class UserEntity
     {
         return $this->confirmToken;
     }
+
+    public function setConfirmToken(?ConfirmToken $confirmToken): void
+    {
+        $this->confirmToken = $confirmToken;
+    }
+
+    // ----------------------------------------
+
+    public function getPassword(): ?string
+    {
+        return $this->passwordHash;
+    }
+
+    public function setPassword(string $passwordHash): void
+    {
+        $this->passwordHash = $passwordHash;
+        $this->hashSession  = Random::getRandomString();
+    }
+
+    public function getHashSession(): string
+    {
+        return $this->hashSession;
+    }
+
+    // ----------------------------------------
+
+    public function toArray(): array
+    {
+        return [
+            'name'   => $this->name,
+            'email'  => $this->email,
+            'status' => $this->status,
+        ];
+    }
+
 }
