@@ -1,21 +1,19 @@
 <?php
 
-namespace App\User\Api\Get;
+namespace App\City\Api\Get;
 
-use App\Http\Annotation\Authenticate;
-use App\User\UserEntity;
+use App\City\CityEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class Handler extends AbstractController
 {
-
-    #[Route('/user/', methods: ['GET']), Authenticate]
-    public function process(UserEntity $user): Response
+    #[Route('/city/{id}', methods: ['GET'])]
+    public function process(CityEntity $city): Response
     {
         return $this->json([
-            'user' => $user->toArray()
+            'city' => $city->toArray(),
         ]);
     }
 }

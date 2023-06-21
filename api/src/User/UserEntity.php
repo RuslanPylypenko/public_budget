@@ -211,5 +211,4 @@ class UserEntity implements UserInterface, PasswordAuthenticatedUserInterface
             'status'     => $this->status,
         ];
     }
-
 }
