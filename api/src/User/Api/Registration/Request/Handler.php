@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\User\Api\Registration\Request;
 
 use App\Api\Exception\AlreadyExistsApiException;
-use App\Api\Exception\ValidationException;
-use App\Api\Validator\Validator;
 use App\User\ConfirmToken;
 use App\User\Events\UserRegisteredEvent;
 use App\User\UserEntity;
@@ -23,7 +21,6 @@ use Ramsey\Uuid\Uuid;
 class Handler extends AbstractController
 {
     public function __construct(
-        private readonly Validator $validator,
         private readonly UserPasswordHasherInterface $passwordHasher,
         private readonly EntityManagerInterface $em,
         private readonly EventDispatcherInterface $dispatcher,
@@ -31,14 +28,8 @@ class Handler extends AbstractController
     }
 
     #[Route('/user/registration/request/', methods: ['POST'])]
-    public function process(Request $request): Response
+    public function process(Request $request, Command $command): Response
     {
-        $command = $this->deserialize($request);
-
-        if ($errors = $this->validator->validate($command)) {
-            throw new ValidationException($errors);
-        }
-
         if($this->em->getRepository(UserEntity::class)->findByEmail($command->email) !== null){
             throw new AlreadyExistsApiException();
         }
@@ -65,23 +56,5 @@ class Handler extends AbstractController
         return $this->json([
             'message' => 'Check your email'
         ]);
-    }
-
-    private function deserialize(Request $request): Command
-    {
-        $body = $request->toArray();
-
-        $command             = new Command();
-        $command->name       = $body['name'] ?? '';
-        $command->surname    = $body['password'] ?? '';
-        $command->patronymic = $body['patronymic'] ?? '';
-        $command->passport   = $body['passport'] ?? null;
-        $command->phone      = $body['phone'] ?? null;
-        $command->email      = $body['email'] ?? '';
-        $command->password   = $body['password'] ?? '';
-        $command->rePassword = $body['re_password'] ?? '';
-        $command->birthday   = $body['birthday'] ?? '';
-
-        return $command;
     }
 }
