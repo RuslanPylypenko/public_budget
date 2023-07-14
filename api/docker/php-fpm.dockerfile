@@ -1,4 +1,6 @@
-FROM php:8.1-fpm
+FROM php:8.1.9-fpm
+
+WORKDIR /var/www/api
 
 RUN apt-get update && apt-get install -y \
     libmcrypt-dev \
@@ -22,4 +24,5 @@ COPY ./php/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 ADD ./php/default.ini /usr/local/etc/php/conf.d/default.ini
 
-WORKDIR /var/www/api
+
+RUN wget https://getcomposer.org/installer -O - -q | php -- --install-dir=/usr/local/bin --filename=composer --quiet

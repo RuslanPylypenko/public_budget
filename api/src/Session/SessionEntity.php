@@ -36,30 +36,33 @@ class SessionEntity
     #[Mapping\Column(name: 'is_draft', type: Types::BOOLEAN)]
     private bool $isDraft;
 
-    #[Mapping\ManyToOne(targetEntity: City::class, inversedBy: 'sessions')]
-    #[Mapping\JoinColumn(name: 'city_id', nullable: false, onDelete: 'CASCADE')]
-    private City $city;
+//    #[Mapping\ManyToOne(targetEntity: City::class, inversedBy: 'sessions')]
+//    #[Mapping\JoinColumn(name: 'city_id', nullable: false, onDelete: 'CASCADE')]
+//    private City $city;
 
-    #[Mapping\OneToMany(mappedBy: 'session', targetEntity: Stage::class, cascade: ['persists'], indexBy: 'id')]
-    private Collection $stages;
+//    #[Mapping\OneToMany(mappedBy: 'session', targetEntity: Stage::class, cascade: ['persists'], indexBy: 'id')]
+//    private Collection $stages;
 
-    #[Mapping\JoinTable(name: 'session_categories')]
-    #[Mapping\JoinColumn(name: 'session_id', referencedColumnName: 'id')]
-    #[Mapping\InverseJoinColumn(name: 'category_id', referencedColumnName: 'id', unique: true)]
-    #[Mapping\ManyToMany(targetEntity: SessionCategory::class, inversedBy: 'sessions')]
-    private Collection $categories;
+    //#[Mapping\JoinTable(name: 'session_categories')]
+   // #[Mapping\JoinColumn(name: 'session_id', referencedColumnName: 'id')]
+//    #[Mapping\InverseJoinColumn(name: 'category_id', referencedColumnName: 'id', unique: true)]
+//    #[Mapping\ManyToMany(targetEntity: SessionCategory::class, inversedBy: 'sessions')]
+//    private Collection $categories;
 
-    #[Mapping\OneToMany(targetEntity: RestrictionBudget::class, cascade: ['persists'], indexBy: 'id')]
-    private Collection $restrictionsBudget;
+//    #[Mapping\OneToMany(targetEntity: RestrictionBudget::class, cascade: ['persists'], indexBy: 'id')]
+//    private Collection $restrictionsBudget;
 
-    #[Mapping\OneToMany(targetEntity: RestrictionProjectCount::class, cascade: ['persists'], indexBy: 'id')]
-    private Collection $restrictionsProjectCount;
+//    #[Mapping\OneToMany(targetEntity: RestrictionBudget::class, cascade: ['persists'], indexBy: 'id')]
+//    private Collection $restrictionsBudget;
 
-    #[Mapping\OneToOne(mappedBy: 'session', targetEntity: ProjectAuthor::class, cascade: ['persists'],)]
-    private ProjectAuthor $restrictionProjectAuthor;
+//    #[Mapping\OneToMany(targetEntity: RestrictionProjectCount::class, cascade: ['persists'], indexBy: 'id')]
+//    private Collection $restrictionsProjectCount;
+//
+//    #[Mapping\OneToOne(mappedBy: 'session', targetEntity: ProjectAuthor::class, cascade: ['persists'],)]
+//    private ProjectAuthor $restrictionProjectAuthor;
 
-    #[Mapping\OneToOne(mappedBy: 'session', targetEntity: ProjectVote::class, cascade: ['persists'],)]
-    private ProjectVote $restrictionProjectVote;
+//    #[Mapping\OneToOne(mappedBy: 'session', targetEntity: ProjectVote::class, cascade: ['persists'],)]
+//    private ProjectVote $restrictionProjectVote;
 
     #[Mapping\Column(name: 'update_date', type: Types::DATETIME_MUTABLE)]
     private \DateTime $updateDate;
@@ -87,12 +90,12 @@ class SessionEntity
    public function __construct(
        string $name,
        string $description,
-       City $city,
+     //  City $city,
        bool $isDraft = false,
    ) {
        $this->name                     = $name;
        $this->description              = $description;
-       $this->city                     = $city;
+      // $this->city                     = $city;
        $this->isDraft                  = $isDraft;
        $this->categories               = new ArrayCollection();
        $this->stages                   = new ArrayCollection();

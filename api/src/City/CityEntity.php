@@ -39,8 +39,8 @@ class CityEntity
     #[Mapping\Column(name: 'lon', type: Types::FLOAT)]
     private float $lon;
 
-    #[Mapping\OneToMany(mappedBy: 'city', targetEntity: SessionEntity::class, cascade: ['persists'], indexBy: 'id')]
-    private Collection $sessions;
+//    #[Mapping\OneToMany(mappedBy: 'city', targetEntity: SessionEntity::class, cascade: ['persists'], indexBy: 'id')]
+//    private Collection $sessions;
 
     #[Mapping\Column(name: 'update_date', type: Types::DATETIME_MUTABLE)]
     private \DateTime $updateDate;
