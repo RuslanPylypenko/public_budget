@@ -12,19 +12,17 @@ class CityFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        $faker = Factory::create('uk_UA');
-
-        for ($i = 0; $i < 2; $i++) {
             $city = new CityEntity(
-                $cityName = $faker->city,
-                $faker->slug(1),
-                $faker->words(rand(3,6), true),
-                $faker->sentences(5, true),
-                $faker->latitude,
-                $faker->longitude,
+                "Львів",
+                'lviv',
+                "Платформа реалізації ідей для покращення твого міста",
+                'Бюджет міських ініціатив дозволяє мешканцю взяти участь в тому, як і де бюджетні кошти 
+                можуть використовуватися для поліпшення життя міста. Подавайте свої проекти і голосуйте за цікаві ідеї. 
+                Проекти, які найбільше підтримають мешканці, будуть реалізовані з бюджету мiста.',
+                49.842957,
+                24.031111,
             );
             $manager->persist($city);
-        }
 
         $manager->flush();
     }
