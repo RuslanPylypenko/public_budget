@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class Handler extends AbstractController
 {
-    #[Route('/city/{id}', methods: ['GET'])]
+    #[Route('/city/', methods: ['GET'])]
     public function process(CityEntity $city): Response
     {
         return $this->json([

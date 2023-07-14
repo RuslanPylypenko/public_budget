@@ -1,6 +1,4 @@
-FROM php:8.1.9-fpm
-
-WORKDIR /var/www/api
+FROM php:8.1-fpm
 
 RUN apt-get update && apt-get install -y \
     libmcrypt-dev \
@@ -26,3 +24,5 @@ ADD ./php/default.ini /usr/local/etc/php/conf.d/default.ini
 
 
 RUN wget https://getcomposer.org/installer -O - -q | php -- --install-dir=/usr/local/bin --filename=composer --quiet
+
+WORKDIR /var/www/api

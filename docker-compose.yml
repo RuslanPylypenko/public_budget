@@ -7,7 +7,7 @@ services:
     volumes:
       - ./frontend:/var/www/frontend
     depends_on:
-      - backend
+      - api-php-fpm
     ports:
       - "8080:80"
   frontend-nodejs:
@@ -16,7 +16,6 @@ services:
       - ./frontend:/var/www/frontend
     working_dir: /var/www/frontend
     tty: true
-
   api-nginx:
     build:
       context: './api/docker'
@@ -24,23 +23,13 @@ services:
     ports:
       - "8081:80"
     depends_on:
-      - backend
-
-  backend:
+      - api-php-fpm
+  api-php-fpm:
     build:
       context: './api/docker'
       dockerfile: 'php-fpm.dockerfile'
     volumes:
       - ./api:/var/www/api
-    working_dir: /var/www/api
-    restart: on-failure
-    user: root
-    command: >
-      sh -c "
-      composer install --no-interaction --no-cache
-      && php bin/console doctrine:database:create --if-not-exists
-      && php bin/console doctrine:migrations:migrate --all-or-nothing --allow-no-migration -vvv
-      && docker-php-entrypoint php-fpm"
     environment:
       PHP_IDE_CONFIG: serverName=app-backend
     depends_on:
