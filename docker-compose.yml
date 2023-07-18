@@ -30,8 +30,26 @@ services:
       dockerfile: 'php-fpm.dockerfile'
     volumes:
       - ./api:/var/www/api
+    working_dir: /var/www/api
+    restart: on-failure
+    user: root
     environment:
       PHP_IDE_CONFIG: serverName=app-backend
+    depends_on:
+      - api-mysql
+      - mailer
+  api-php-cli:
+    build:
+      context: './api/docker'
+      dockerfile: 'php-cli.dockerfile'
+    volumes:
+      - ./api:/var/www/api
+    command: >
+      sh -c "
+      composer install --no-interaction --no-cache
+      && php bin/console doctrine:database:create --if-not-exists
+      && php bin/console doctrine:migrations:migrate --all-or-nothing --allow-no-migration -vvv"
+    tty: true
     depends_on:
       - api-mysql
       - mailer

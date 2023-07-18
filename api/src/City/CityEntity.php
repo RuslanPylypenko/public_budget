@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\City;
 
-use App\Session\SessionEntity;
+use App\Session\SessionEntity as Session;
 use App\Utils\DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -39,8 +39,8 @@ class CityEntity
     #[Mapping\Column(name: 'lon', type: Types::FLOAT)]
     private float $lon;
 
-//    #[Mapping\OneToMany(mappedBy: 'city', targetEntity: SessionEntity::class, cascade: ['persists'], indexBy: 'id')]
-//    private Collection $sessions;
+    #[Mapping\OneToMany(mappedBy: 'city', targetEntity: Session::class, cascade: ['persist'], indexBy: 'id')]
+    private Collection $sessions;
 
     #[Mapping\Column(name: 'update_date', type: Types::DATETIME_MUTABLE)]
     private \DateTime $updateDate;
@@ -93,5 +93,18 @@ class CityEntity
             'lat'       => $this->lat,
             'lon'       => $this->lon
         ];
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getSessions(): Collection
+    {
+        return $this->sessions;
+    }
+
+    public function getCurrentSession(): Session
+    {
+        return $this->sessions->first();
     }
 }

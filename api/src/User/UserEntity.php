@@ -3,8 +3,11 @@
 namespace App\User;
 
 use App\Http\Annotation\Authenticate\UserInterface;
+use App\Project\ProjectEntity as Project;
 use App\Utils\DateTime;
 use App\Utils\Random;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -56,6 +59,10 @@ class UserEntity implements UserInterface, PasswordAuthenticatedUserInterface
     #[Mapping\Embedded(class: ConfirmToken::class, columnPrefix: 'confirm_token_')]
     private ?ConfirmToken $confirmToken;
 
+    #[Mapping\OneToMany(mappedBy: 'project', targetEntity: Project::class, cascade: ['persist'])]
+    private Collection $projects;
+
+
     #[Mapping\Column(name: 'update_date', type: Types::DATETIME_MUTABLE)]
     private \DateTime $updateDate;
 
@@ -98,6 +105,8 @@ class UserEntity implements UserInterface, PasswordAuthenticatedUserInterface
         $this->birthday     = $birthday;
         $this->status       = self::STATUS_NEW;
         $this->confirmToken = $confirmToken;
+
+        $this->projects     = new ArrayCollection();
 
         $this->hashSession = Random::getRandomString();
     }
