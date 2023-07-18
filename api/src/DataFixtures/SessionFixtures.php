@@ -7,9 +7,10 @@ namespace App\DataFixtures;
 use App\City\CityEntity;
 use App\Session\SessionEntity;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class SessionFixtures extends Fixture
+class SessionFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {

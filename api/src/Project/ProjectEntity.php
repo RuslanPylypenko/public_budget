@@ -89,7 +89,7 @@ class ProjectEntity
         string $description,
         User $author,
         Session $session,
-        Address $address,
+
     ) {
         $this->number = $number;
         $this->status = $status;
@@ -99,6 +99,5 @@ class ProjectEntity
         $this->description = $description;
         $this->author = $author;
         $this->session = $session;
-        $this->address = $address;
     }
 }

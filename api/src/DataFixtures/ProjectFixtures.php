@@ -7,10 +7,11 @@ use App\Project\Address\AddressEntity;
 use App\Project\ProjectEntity;
 use App\User\UserEntity;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
-class ProjectFixtures extends Fixture
+class ProjectFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -22,20 +23,7 @@ class ProjectFixtures extends Fixture
         /** @var CityEntity $city */
         $city = $manager->getRepository(CityEntity::class)->findOneBy(['techName' => 'lviv']);
 
-        var_dump($city->getSessions());
-        die();
-
         for ($i = 1; $i <= 10; $i++) {
-
-            $address = new AddressEntity(
-                'Львівська область',
-                'Львів',
-                $faker->streetName,
-                $faker->latitude(49.832689, 49.8881351),
-                $faker->longitude(24.0632909, 24.0924831),
-            );
-
-            $manager->persist($address);
 
             $project = new ProjectEntity(
                 number: $i,
@@ -52,15 +40,30 @@ class ProjectFixtures extends Fixture
                 description: $faker->sentences(12, true),
                 author: $faker->randomElement($users),
                 session: $city->getCurrentSession(),
-                address: $address,
                );
+
+            $address = new AddressEntity(
+                $project,
+                'Львівська область',
+                'Львів',
+                $faker->streetName(),
+                $faker->latitude(49.832689, 49.8881351),
+                $faker->longitude(24.0632909, 24.0924831),
+            );
+
+            $manager->persist($address);
+
+            $manager->persist($project);
         }
+
+        $manager->flush();
     }
 
     public function getDependencies(): array
     {
         return [
             SessionFixtures::class,
+            UserFixtures::class,
         ];
     }
 }
