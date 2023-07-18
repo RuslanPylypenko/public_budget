@@ -13,8 +13,24 @@ services:
   frontend-nodejs:
     image: node:18.16
     volumes:
-      - ./frontend:/var/www/frontend
-    working_dir: /var/www/frontend
+      - ./frontend:/var/www/frontend2
+    working_dir: /var/www/frontend2
+    tty: true
+  frontend-nginx-2:
+    build:
+      context: ./frontend2/docker
+      dockerfile: nginx.docker
+    volumes:
+      - ./frontend2:/var/www/frontend2
+    depends_on:
+      - api-php-fpm
+    ports:
+      - "5555:80"
+  frontend-nodejs-2:
+    image: node:18.16
+    volumes:
+      - ./frontend2:/var/www/frontend2
+    working_dir: /var/www/frontend2
     tty: true
   api-nginx:
     build:
