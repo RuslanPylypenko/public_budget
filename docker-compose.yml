@@ -10,12 +10,15 @@ services:
       - api-php-fpm
     ports:
       - "8080:80"
+
   frontend-nodejs:
     image: node:18.16
     volumes:
       - ./frontend:/var/www/frontend2
     working_dir: /var/www/frontend2
     tty: true
+
+
   frontend-nginx-2:
     build:
       context: ./frontend2/docker
@@ -26,12 +29,14 @@ services:
       - api-php-fpm
     ports:
       - "5555:80"
+
   frontend-nodejs-2:
     image: node:18.16
     volumes:
       - ./frontend2:/var/www/frontend2
     working_dir: /var/www/frontend2
     tty: true
+
   api-nginx:
     build:
       context: './api/docker'
@@ -40,12 +45,19 @@ services:
       - "8081:80"
     depends_on:
       - api-php-fpm
+
   api-php-fpm:
     build:
       context: './api/docker'
       dockerfile: 'php-fpm.dockerfile'
     volumes:
       - ./api:/var/www/api
+    command: >
+      sh -c "
+      composer install --no-interaction --no-cache
+      && php bin/console doctrine:database:create --if-not-exists
+      && php bin/console doctrine:migrations:migrate --all-or-nothing --allow-no-migration -vvv
+      && php-fpm"
     working_dir: /var/www/api
     restart: on-failure
     user: root
@@ -54,21 +66,7 @@ services:
     depends_on:
       - api-mysql
       - mailer
-  api-php-cli:
-    build:
-      context: './api/docker'
-      dockerfile: 'php-cli.dockerfile'
-    volumes:
-      - ./api:/var/www/api
-    command: >
-      sh -c "
-      composer install --no-interaction --no-cache
-      && php bin/console doctrine:database:create --if-not-exists
-      && php bin/console doctrine:migrations:migrate --all-or-nothing --allow-no-migration -vvv"
-    tty: true
-    depends_on:
-      - api-mysql
-      - mailer
+
   api-mysql:
     image: mysql:8.0
     container_name: mysql

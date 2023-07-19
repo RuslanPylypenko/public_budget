@@ -1,24 +1,45 @@
-.ONESHELL: # Applies to every targets in the file!
+##################
+# Variables
+##################
 
-UNAME := $(shell uname)
+DOCKER_COMPOSE = docker-compose --env-file ./api/docker/.env
+DOCKER_COMPOSE_PHP_FPM_EXEC = ${DOCKER_COMPOSE} exec -u www-data api-php-fpm
 
-# Запустити проект
-# тут також встановлення composer i нових міграцій бази даних автоматично
+##################
+# Docker compose
+##################
+
 up:
 	docker-compose up --force-recreate --no-deps -d
 
-#Зупинити проект
 down:
 	docker-compose down
 
-#Зупинити і видалити базу даних
 destroy:
 	docker-compose down -v --remove-orphans
 
-#Білд, потрібно запускати, якщо треба перезібрати image
 build:
 	docker-compose build
 
-#Наповнення бази тестовими даними
+##################
+# App
+##################
+
+
 install:
-	docker-compose exec api-php-cli php bin/console doctrine:fixtures:load
+	docker-compose exec api-php-fpm php bin/console doctrine:fixtures:load
+
+bash:
+	${DOCKER_COMPOSE} exec api-php-fpm bash
+
+
+##################
+# Database
+##################
+
+migrate:
+	${DOCKER_COMPOSE} exec -u www-data api-php-fpm bin/console doctrine:migrations:migrate --no-interaction
+diff:
+	${DOCKER_COMPOSE} exec -u www-data api-php-fpm bin/console doctrine:migrations:diff --no-interaction
+drop:
+	${DOCKER_COMPOSE} exec -u www-data api-php-fpm bin/console doctrine:schema:drop --force
