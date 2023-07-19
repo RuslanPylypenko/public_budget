@@ -78,7 +78,7 @@ class ProjectEntity
         $this->createDate = DateTime::current();
     }
 
-    // ----------------------------------------\
+    // ----------------------------------------
 
     public function __construct(
         int $number,
@@ -99,5 +99,47 @@ class ProjectEntity
         $this->description = $description;
         $this->author = $author;
         $this->session = $session;
+    }
+
+    // ----------------------------------------
+
+    public function getNumber(): int
+    {
+        return $this->number;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function getBudget(): float
+    {
+        return $this->budget;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getShort(): string
+    {
+        return $this->short;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function getAuthor(): User
+    {
+        return $this->author;
+    }
+
+    public function getSession(): Session
+    {
+        return $this->session;
     }
 }

@@ -22,14 +22,14 @@ final class Version20230717192454 extends AbstractMigration
 
         $this->addSql('CREATE TABLE project (
             id INT UNSIGNED AUTO_INCREMENT NOT NULL,
-            author_id INT UNSIGNED DEFAULT NULL, 
-            session_id INT UNSIGNED DEFAULT NULL, 
+            name VARCHAR(255) NOT NULL,
             number INT UNSIGNED NOT NULL, 
             status VARCHAR(32) NOT NULL, 
             budget DOUBLE PRECISION NOT NULL, 
-            name VARCHAR(255) NOT NULL, 
             short TEXT NOT NULL, 
             description LONGTEXT NOT NULL, 
+            author_id INT UNSIGNED DEFAULT NULL, 
+            session_id INT UNSIGNED DEFAULT NULL, 
             update_date DATETIME NOT NULL, 
             create_date DATETIME NOT NULL, 
             INDEX IDX_2FB3D0EEF675F31B (author_id),
