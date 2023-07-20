@@ -23,7 +23,7 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
         /** @var CityEntity $city */
         $city = $manager->getRepository(CityEntity::class)->findOneBy(['techName' => 'lviv']);
 
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 100; $i++) {
 
             $project = new ProjectEntity(
                 number: $i,
@@ -34,8 +34,8 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
                     ProjectEntity::STATUS_TAKE_PART,
                     ProjectEntity::STATUS_REJECTED_FULLY,
                 ]),
-                budget: $faker->randomFloat(min: 10000, max: 1000000),
-                name: $faker->words(rand(3, 6), true),
+                budget: $faker->randomFloat(nbMaxDecimals: 2, min: 10000, max: 1000000),
+                name: $faker->sentence(5),
                 short: $faker->sentences(5, true),
                 description: $faker->sentences(12, true),
                 author: $faker->randomElement($users),

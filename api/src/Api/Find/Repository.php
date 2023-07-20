@@ -6,17 +6,35 @@ use Doctrine\ORM\QueryBuilder;
 
 class Repository
 {
+    private bool $decorated = false;
+
     private ?int $offset = null;
     private ?int $count  = null;
 
     /** @var array<string, string> */
     private array $sorts = [];
 
+    /** @var array<DecoratorInterface>  */
+    private array $decorators = [];
+
     // ----------------------------------------
 
     public function __construct(
         private readonly QueryBuilder $qb
     ) {
+    }
+
+    // ----------------------------------------
+
+    /**
+     * @param array<DecoratorInterface>|DecoratorInterface $decorator
+     */
+    public function addDecorators(array | DecoratorInterface $decorator): self
+    {
+        is_array($decorator) ? $this->decorators += $decorator : $this->decorators[] = $decorator;
+        $this->decorated  = false;
+
+        return $this;
     }
 
     // ----------------------------------------
@@ -45,6 +63,7 @@ class Repository
 
     public function total()
     {
+        $this->decorate();
         $query = clone $this->qb;
 
         $query->setFirstResult(null);
@@ -60,6 +79,8 @@ class Repository
 
     public function queryBuilder(): QueryBuilder
     {
+        $this->decorate();
+
         foreach ($this->sorts as $column => $direction) {
             $this->qb->addOrderBy($column, $direction);
         }
@@ -71,5 +92,17 @@ class Repository
     }
 
     // ----------------------------------------
+
+    private function decorate(): void
+    {
+        if ($this->decorated) {
+            return;
+        }
+
+        foreach ($this->decorators as $decorator) {
+            $decorator->apply($this->qb);
+        }
+        $this->decorated = true;
+    }
 
 }

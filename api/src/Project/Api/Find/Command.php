@@ -8,5 +8,23 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Command implements InputInterface
 {
     #[Assert\NotBlank(allowNull: true)]
-    public string $search;
+    public ?string $search = null;
+
+    #[Assert\Collection(
+        fields: [
+            'limit' => new Assert\Required([
+                new Assert\NotBlank,
+                new Assert\Type('integer'),
+            ]),
+            'offset' => new Assert\Required([
+                    new Assert\NotBlank,
+                    new Assert\Type('integer'),
+                ]
+            ),
+        ],
+    )]
+    public array $result = [
+        'limit' => null,
+        'offset' => null,
+    ];
 }
