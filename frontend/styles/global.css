@@ -1,28 +1,52 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+html,
+body {
+	margin: 0;
+	padding: 0;
+
+	color: var(--neutral-dark);
+
+	font-family: var(--ff_main);
+	font-size: 1.6vw;
+}
+
+@media (max-width: 991px) {
+	html,
+	body {
+		font-size: 2vw;
+	}
+}
+
+@media (max-width: 767px) {
+	html,
+	body {
+		font-size: 15px;
+	}
+}
+
+a {
+	text-decoration: none;
+
+	color: inherit;
+}
+
+* {
+	box-sizing: border-box;
+}
 
 :root {
-    --foreground-rgb: 0, 0, 0;
-    --background-start-rgb: 214, 219, 220;
-    --background-end-rgb: 255, 255, 255;
-}
+	/* Font */
+	--ff_main: 'Source Serif 4', serif;
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --foreground-rgb: 255, 255, 255;
-        --background-start-rgb: 0, 0, 0;
-        --background-end-rgb: 0, 0, 0;
-    }
-}
+	/* Main color */
+	--danger: #FC836D;
+	--warning: #DCB44E;
+	--success: #1DC37E;
+	--primary: #459DDD;
 
-body {
-    color: rgb(var(--foreground-rgb));
-    background:
-            linear-gradient(
-                    to bottom,
-                    transparent,
-                    rgb(var(--background-end-rgb))
-            )
-            rgb(var(--background-start-rgb));
+	/* Neutral Color */
+	--neutral-black: #000;
+	--neutral-dark: #0E293E;
+	--neutral-gray: #42596A;
+	--neutral-light: #969FA8;
+	--neutral-white: #FFF;
 }
