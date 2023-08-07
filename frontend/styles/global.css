@@ -3,10 +3,11 @@ body {
 	margin: 0;
 	padding: 0;
 
-	color: var(--neutral-dark);
+	color: var(--darkSlateGray);
 
 	font-family: var(--ff_main);
 	font-size: 1.6vw;
+	line-height: 1.2;
 }
 
 @media (max-width: 991px) {
@@ -38,15 +39,21 @@ a {
 	--ff_main: 'Source Serif 4', serif;
 
 	/* Main color */
-	--danger: #FC836D;
-	--warning: #DCB44E;
-	--success: #1DC37E;
-	--primary: #459DDD;
+	--danger: #C71254;
+	--warning: #F0C20C;
+	--success: #6ECC39;
+	--primary: #2C5E83;
+
+	/* Accent color */
+	--accent: #459DDD;
 
 	/* Neutral Color */
-	--neutral-black: #000;
-	--neutral-dark: #0E293E;
-	--neutral-gray: #42596A;
-	--neutral-light: #969FA8;
-	--neutral-white: #FFF;
+	--black: #000;
+	--darkSlateGray: #0E293E;
+	--slateGray: #42596A;
+	--lightSlateGray: #969FA8;
+	--darkGray: #99A2AA;
+	--gray: #A9A9A9;
+	--lightGray: #EEEFF0;
+	--white: #FFF;
 }
