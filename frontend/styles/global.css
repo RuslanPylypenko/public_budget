@@ -42,10 +42,12 @@ a {
 	--danger: #C71254;
 	--warning: #F0C20C;
 	--success: #6ECC39;
-	--primary: #2C5E83;
+	--primary: #0d47a1;
 
 	/* Accent color */
+	--darkAccent: #2C5E83;
 	--accent: #459DDD;
+	--lightAccent: #B3D8FC;
 
 	/* Neutral Color */
 	--black: #000;

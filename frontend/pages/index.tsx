@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Htag, P} from "../components";
+import {Button, Htag, Label, P} from "../components";
 
 export default function Home(): JSX.Element {
   return (
@@ -17,6 +17,11 @@ export default function Home(): JSX.Element {
           <P size='p3'>Paragraph size 3</P>
           <P size='p4'>Paragraph size 4</P>
           <P size='p5'>Paragraph size 5</P>
+
+          <Label>Номер: 175</Label>
+          <Label status='participantStatus'>Відхилений</Label>
+          <Label status='rejectedStatus'>Брав участь</Label>
+          <Label status='finishedStatus'>Реалізований</Label>
       </>
   );
 }

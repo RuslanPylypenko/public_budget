@@ -13,12 +13,11 @@ export const Button = ({ appearance, arrow, children, className, ...props }: But
             }) }
             {...props}
         >
-            {arrow &&
-            <span className={styles.arrow}>
-                <ArrowIcon />
-            </span>}
-            {children}
-
+            {
+                arrow
+                    ? <><span className={styles.arrow}><ArrowIcon /></span> {children}</>
+                    : <>{children}</>
+            }
         </button>
     );
 };

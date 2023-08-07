@@ -1,0 +1,22 @@
+.label {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    font-size: 20px;
+    line-height: 1.4;
+    font-weight: 400;
+    color: var(--white);
+    padding: 0 10px;
+    background: var(--lightSlateGray);
+    border-radius: 14px;
+}
+
+.participantStatus {
+    background-color: var(--slateGray);
+}
+.rejectedStatus {
+    background-color: var(--danger);
+}
+.finishedStatus {
+    background-color: var(--primary);
+}
