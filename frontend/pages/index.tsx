@@ -1,7 +1,8 @@
-import React from "react";
-import {Button, Htag, Label, P} from "../components";
+import React, { useState } from "react";
+import { Button, Htag, Label, P } from "../components";
+import { withLayout } from '../layout/Layout';
 
-export default function Home(): JSX.Element {
+function Home(): JSX.Element {
   return (
       <>
           <Htag tag='h1'>Heading level 1</Htag>
@@ -25,3 +26,5 @@ export default function Home(): JSX.Element {
       </>
   );
 }
+
+export default withLayout(Home);
