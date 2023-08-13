@@ -1,0 +1,26 @@
+.footer {
+	display: grid;
+
+	padding: 20px;
+
+	color: var(--white);
+
+	background-color: var(--slateGray);
+
+	font-size: 16px;
+	line-height: 20px;
+	grid-template-columns: 1fr auto;
+	gap: 0 10px;
+}
+
+@media (max-width: 991px) {
+	.footer {
+		padding: 20px;
+
+		text-align: center;
+
+		font-size: 12px;
+		line-height: 20px;
+		grid-template-columns: 1fr;
+	}
+}
