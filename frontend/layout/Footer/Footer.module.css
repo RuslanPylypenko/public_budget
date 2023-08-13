@@ -13,6 +13,10 @@
 	gap: 0 10px;
 }
 
+.footer span {
+	white-space: nowrap;
+}
+
 @media (max-width: 991px) {
 	.footer {
 		padding: 20px;
