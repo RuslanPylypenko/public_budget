@@ -58,4 +58,10 @@ a {
 	--gray: #A9A9A9;
 	--lightGray: #EEEFF0;
 	--white: #FFF;
+
+	/* Media Query */
+	--desktop: 1493px;
+	--laptop: 1199px;
+	--tablet: 991px;
+	--mobile: 641px;
 }
