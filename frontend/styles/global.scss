@@ -8,18 +8,11 @@ body {
 	font-family: var(--ff_main);
 	font-size: 1.6vw;
 	line-height: 1.2;
-}
 
-@media (max-width: 991px) {
-	html,
-	body {
+	@media (max-width: 991px){
 		font-size: 2vw;
 	}
-}
-
-@media (max-width: 767px) {
-	html,
-	body {
+	@media (max-width: 767px){
 		font-size: 15px;
 	}
 }
@@ -58,10 +51,31 @@ a {
 	--gray: #A9A9A9;
 	--lightGray: #EEEFF0;
 	--white: #FFF;
+}
 
-	/* Media Query */
-	--desktop: 1493px;
-	--laptop: 1199px;
-	--tablet: 991px;
-	--mobile: 641px;
+.container {
+	width: 100%;
+	max-width: 1800px;
+	padding-right: 15px;
+	padding-left: 15px;
+	margin-right: auto;
+	margin-left: auto;
+
+	@media (max-width: 1921px){
+		max-width: 1434px;
+	}
+	@media (max-width: 1493px){
+		max-width: 1140px;
+	}
+	@media (max-width: 1199px){
+		max-width: 962px;
+	}
+	@media (max-width: 991px){
+		max-width: 738px;
+	}
+	@media (max-width: 767px){
+		max-width: 100%;
+		padding-right: 10px;
+		padding-left: 10px;
+	}
 }

@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Error() {
     return (
-        <>
+        <div className="container">
             <Htag tag='h1'>404</Htag>
             <Button appearance='primary'>
                 <Link href="/">
@@ -12,6 +12,6 @@ export default function Error() {
                 </Link>
 
             </Button>
-        </>
+        </div>
     )
 }

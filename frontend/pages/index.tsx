@@ -4,7 +4,7 @@ import { withLayout } from '../layout/Layout';
 
 function Home(): JSX.Element {
   return (
-      <>
+      <div className="container">
           <Htag tag='h1'>Heading level 1</Htag>
           <Htag tag='h2'>Heading level 2</Htag>
           <Htag tag='h3'>Heading level 3</Htag>
@@ -23,7 +23,7 @@ function Home(): JSX.Element {
           <Label status='participantStatus'>Відхилений</Label>
           <Label status='rejectedStatus'>Брав участь</Label>
           <Label status='finishedStatus'>Реалізований</Label>
-      </>
+      </div>
   );
 }
 
