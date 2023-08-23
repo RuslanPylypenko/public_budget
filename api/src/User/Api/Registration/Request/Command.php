@@ -32,11 +32,11 @@ class Command implements InputInterface
     #[Assert\Date]
     public string $birthday;
 
-    #[Assert\NotBlank, Assert\Length(null, 6, 255)]
-    public string $password;
+    #[Assert\NotBlank, Assert\Length(min: 6, max: 255)]
+    public ?string $password = null;
 
-    #[Assert\NotBlank, Assert\Length(null, 6, 255)]
-    public string $rePassword;
+    #[Assert\NotBlank, Assert\Length(min: 6, max: 255)]
+    public ?string $rePassword = null;
 
     #[Assert\IsTrue(message: 'The rePasswordField has to the same as password')]
     public function isPasswordSafe(): bool
@@ -54,6 +54,7 @@ class Command implements InputInterface
         $value = $this->formatPassport($this->passport);
         $allowedLetters = 'АВСЕНІКЛМОРТЮФ';
         $value = preg_replace('/[^0-9' . $allowedLetters . ']/', '', $value);
+        dd(!!preg_match('/(^[' . $allowedLetters . ']{2}\d{6}$)|(^\d{9}$)/u', $value));
         return !!preg_match('/(^[' . $allowedLetters . ']{2}\d{6}$)|(^\d{9}$)/u', $value);
     }
 
