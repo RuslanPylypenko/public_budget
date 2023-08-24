@@ -79,3 +79,37 @@ a {
 		padding-left: 10px;
 	}
 }
+
+.promo {
+	background-color: var(--accent);
+	background-position: bottom;
+	background-repeat: no-repeat;
+	background-size: cover;
+	position: relative;
+
+	&:before {
+		content: '';
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		background: #fff;
+		opacity: 0.5;
+	}
+
+	&__container {
+		display: flex;
+		position: relative;
+		padding: 120px 0 180px;
+	}
+
+	&__descr {
+		padding: 0 40px;
+	}
+
+	&__logo {
+		min-width: 10%;
+		background-size: contain;
+		background-position: top right;
+		background-repeat: no-repeat;
+	}
+}
