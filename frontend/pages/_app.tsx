@@ -1,7 +1,7 @@
+import { AppProps } from "next/dist/shared/lib/router/router";
 import Head from "next/head";
 import React from "react";
-import { AppProps } from 'next/dist/next-server/lib/router/router';
-import '../styles/global.css';
+import '../styles/global.scss';
 
 export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   return (
