@@ -15,7 +15,7 @@ class Handler extends AbstractController
     ) {
     }
 
-    #[Route('/projects/find/', methods: ['GET'])]
+    #[Route('/projects/find/', methods: ['POST'])]
     public function handle(Command $command): Response
     {
         $repository = $this->repositoryFactory->fromInput($command);
