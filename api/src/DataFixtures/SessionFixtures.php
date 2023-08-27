@@ -26,14 +26,17 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
         );
 
         $manager->persist($session);
+        $end = null;
 
         foreach (['submission', 'review', 'voting', 'decision', 'implementation'] as $key => $stageName){
             $stage = new StageEntity(
                 $stageName,
                 $session,
                 true,
-                (new DateTime())->modify("+$key week"),
-                (new DateTime())->modify("+$key")->modify('+2 week'),
+                $end
+                    ? (clone $end)->modify('+1 day')->setTime(0,0)
+                    : (new DateTime())->modify("+$key week")->setTime(0,0),
+                $end = (new DateTime())->modify("+$key week")->modify('+2 week')->setTime(23,59),
             );
 
             $manager->persist($stage);
