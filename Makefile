@@ -2,7 +2,7 @@
 # Variables
 ##################
 
-DOCKER_COMPOSE = docker-compose --env-file ./api/docker/.env
+DOCKER_COMPOSE = docker-compose --env-file ./api/.env
 DOCKER_COMPOSE_PHP_FPM_EXEC = ${DOCKER_COMPOSE} exec -u www-data api-php-fpm
 
 ##################

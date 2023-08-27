@@ -86,12 +86,13 @@ class CityEntity
     public function toArray(): array
     {
         return [
-            'name'      => $this->name,
-            'techName'  => $this->techName,
-            'mainTitle' => $this->mainTitle,
-            'mainText'  => $this->mainText,
-            'lat'       => $this->lat,
-            'lon'       => $this->lon
+            'name'           => $this->name,
+            'techName'       => $this->techName,
+            'mainTitle'      => $this->mainTitle,
+            'mainText'       => $this->mainText,
+            'currentSession' => $this->getCurrentSession()->toArray(),
+            'lat'            => $this->lat,
+            'lon'            => $this->lon
         ];
     }
 

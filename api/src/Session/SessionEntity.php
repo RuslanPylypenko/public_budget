@@ -6,6 +6,7 @@ namespace App\Session;
 
 use App\City\CityEntity as City;
 use App\Utils\DateTime;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping;
 
@@ -26,6 +27,9 @@ class SessionEntity
     #[Mapping\ManyToOne(targetEntity: City::class, inversedBy: 'sessions')]
     #[Mapping\JoinColumn(name: 'city_id', nullable: false, onDelete: 'CASCADE')]
     private City $city;
+
+    #[Mapping\OneToMany(mappedBy: 'session', targetEntity: StageEntity::class, cascade: ['persist'], indexBy: 'id')]
+    private Collection $stages;
 
     #[Mapping\Column(name: 'update_date', type: Types::DATETIME_MUTABLE)]
     private \DateTime $updateDate;
@@ -56,5 +60,17 @@ class SessionEntity
     ) {
         $this->name = $name;
         $this->city = $city;
+    }
+
+    // ----------------------------------------
+
+    public function toArray(): array
+    {
+        return [
+            'name'   => $this->name,
+            'stages' => array_values(
+                array_map(static fn(StageEntity $stage) => $stage->toArray(), $this->stages->toArray())
+            )
+        ];
     }
 }
