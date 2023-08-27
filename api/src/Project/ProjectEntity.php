@@ -142,4 +142,15 @@ class ProjectEntity
     {
         return $this->session;
     }
+
+    public function toArray(): array
+    {
+        return [
+            'name'   => $this->getName(),
+            'number' => $this->getNumber(),
+            'status' => $this->getStatus(),
+            'budget' => $this->getBudget(),
+            'short'  => $this->getShort(),
+        ];
+    }
 }

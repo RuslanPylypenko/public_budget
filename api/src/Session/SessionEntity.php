@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Session;
 
 use App\City\CityEntity as City;
+use App\Project\ProjectEntity as Project;
 use App\Utils\DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -30,6 +31,9 @@ class SessionEntity
 
     #[Mapping\OneToMany(mappedBy: 'session', targetEntity: StageEntity::class, cascade: ['persist'], indexBy: 'id')]
     private Collection $stages;
+
+    #[Mapping\OneToMany(mappedBy: 'session', targetEntity: Project::class, cascade: ['persist'], indexBy: 'id')]
+    private Collection $projects;
 
     #[Mapping\Column(name: 'update_date', type: Types::DATETIME_MUTABLE)]
     private \DateTime $updateDate;
@@ -70,6 +74,9 @@ class SessionEntity
             'name'   => $this->name,
             'stages' => array_values(
                 array_map(static fn(StageEntity $stage) => $stage->toArray(), $this->stages->toArray())
+            ),
+            'projects' => array_values(
+                array_map(static fn(Project $p) => $p->toArray(), $this->projects->slice(0, 5))
             )
         ];
     }
