@@ -1,9 +1,16 @@
+import {Header} from "./layout/Header/Header";
+import {Container} from "./layout/container/Container";
 
 function App() {
     return (
-        <div>
-            <h1>frontend react</h1>
-        </div>
+        <>
+            <Header />
+            <div className="content">
+                <Container>
+                    <h1>Платформа реалізації ідей для покращення твого міста</h1>
+                </Container>
+            </div>
+        </>
     );
 }
 
