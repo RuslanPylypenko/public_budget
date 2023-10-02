@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
-import { IoMoon, IoMoonOutline } from 'react-icons/io5';
-import {Container} from "../container/Container";
-
+import { IoMoon, IoSunny } from 'react-icons/io5';
+import {Container} from "../../components";
 
 const HeaderEl = styled.header`
   box-shadow: var(--shadow);
@@ -55,7 +54,7 @@ export const Header = () => {
                     <Logo>Logo</Logo>
                     <ModeSwitcher onClick={toggleTheme}>
                         {theme === 'light' ? (
-                            <IoMoonOutline size="14px" />
+                            <IoSunny size="14px" />
                         ) : (
                             <IoMoon size="14px" />
                         )}{' '}

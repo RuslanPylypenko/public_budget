@@ -1,0 +1,66 @@
+.button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	min-width: 70px;
+	height: 40px;
+	padding: 0 25px;
+	cursor: pointer;
+	transition: all 0.2s;
+	color: var(--white);
+	border: 1px solid transparent;
+	border-radius: 3px;
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 17px;
+}
+
+.primary {
+	transition: background 0.5s;
+	background-image: linear-gradient(125deg, var(--darkAccent) 0%, var(--darkAccent) 20%, var(--accent) 50%, var(--darkAccent) 70%, var(--darkAccent) 100%);
+	background-size: 200% auto;
+
+	&:hover {
+		transition: background 0.5s;
+		background-position: right center;
+	}
+}
+
+.accent {
+	transition: background 0.5s;
+	background-image: linear-gradient(125deg, var(--accent) 0%, var(--accent) 20%, var(--lightAccent) 50%, var(--accent) 70%, var(--accent) 100%);
+	background-size: 200% auto;
+
+	&:hover {
+		transition: background 0.5s;
+		background-position: right center;
+	}
+}
+
+.ghost {
+	transition: all 0.5s;
+	color: var(--accent);
+	border: 1px solid var(--accent);
+	background: none;
+
+	&:hover {
+		transition: all 0.5s;
+		color: var(--white);
+		border: 1px solid transparent;
+		background: var(--accent);
+	}
+}
+
+.arrow {
+	display: inline-flex;
+	margin-right: 10px;
+	border: 3px solid #fff;
+	padding: 5px 5px 4px 4px;
+	border-radius: 50%;
+
+	svg {
+		height: 16px;
+		fill: var(--white);
+	}
+}

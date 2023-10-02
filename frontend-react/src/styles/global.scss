@@ -3,16 +3,16 @@
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 :root {
   /* Typography */
   --ff_main: 'Source Serif 4', serif;
-  --fs-sm: 14px;
-  --fs-md: 16px;
-  --fw-light: 300;
-  --fw-normal: 600;
-  --fw-bold: 800;
+  --fs-main: 16px;
+  --fw-main: 400;
+  --lh-main: 1.2;
 
   /* Main color */
   --danger: #C71254;
@@ -32,6 +32,11 @@
   --lightGray: #EEEFF0;
   --white: #FFF;
 
+  /* Slate Gray */
+  --darkSlateGray: #0E293E;
+  --slateGray: #42596A;
+  --lightSlateGray: #969FA8;
+
   /* Other */
   --radii: 0.5rem;
 }
@@ -50,19 +55,17 @@ body[data-theme='light'] {
 }
 
 body {
-  margin: 0;
-  padding: 0;
   font-family: var(--ff_main);
+  font-size: var(--fs-main);
   font-weight: var(--fw-light);
-  font-size: 18px;
-  line-height: 1.2;
+  line-height: var(--lh-main);
   color: var(--colors-text);
   background-color: var(--colors-bg);
   @media (max-width: 991px){
-    font-size: 16px;
+    font-size: 14px;
   }
   @media (max-width: 767px){
-    font-size: 14px;
+    font-size: 12px;
   }
 }
 

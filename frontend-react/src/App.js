@@ -1,14 +1,12 @@
-import {Header} from "./layout/Header/Header";
-import {Container} from "./layout/container/Container";
+import { Header } from "./layout/Header/Header";
+import { Home } from "./pages/Home/Home";
 
 function App() {
     return (
         <>
             <Header />
-            <div className="content">
-                <Container>
-                    <h1>Платформа реалізації ідей для покращення твого міста</h1>
-                </Container>
+            <div className="main">
+                <Home />
             </div>
         </>
     );
