@@ -1,24 +1,22 @@
 import { Button, Container, Htag, Label, Ptag } from "../../components";
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export function Home() {
-    let city = 'test';
+    let [city, setCity] = useState(null);
+
     useEffect(() => {
         fetch('http://localhost:8081/api/city/', {
             method: 'GET',
         })
-            .then((res) => res.json())
-            .then(json => {
-                city = json.city;
-                console.log(city);
-            })
-            .catch(err => console.warn(err))
+            .then( response => response.json() )
+            .then( data => setCity(data.city) )
+            .catch( err => console.log('Error', err) );
     }, []);
 
     return (
         <>
             <section style={{ padding: `80px 0` }}>
-                {city}
+                <Htag tag='h1'>{city && city.mainTitle}</Htag>
             </section>
 
             <Container>
