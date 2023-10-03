@@ -1,8 +1,26 @@
 import { Button, Container, Htag, Label, Ptag } from "../../components";
+import React, { useEffect } from 'react';
 
 export function Home() {
+    let city = 'test';
+    useEffect(() => {
+        fetch('http://localhost:8081/api/city/', {
+            method: 'GET',
+        })
+            .then((res) => res.json())
+            .then(json => {
+                city = json.city;
+                console.log(city);
+            })
+            .catch(err => console.warn(err))
+    }, []);
+
     return (
         <>
+            <section style={{ padding: `80px 0` }}>
+                {city}
+            </section>
+
             <Container>
                 <section style={{ padding: `80px 0` }}>
                     <Htag tag='h1'>Heading level 1</Htag>
@@ -28,3 +46,5 @@ export function Home() {
         </>
     );
 }
+
+
