@@ -1,0 +1,23 @@
+.footer {
+  padding: 20px;
+  color: var(--white);
+  background-color: var(--slateGray);
+
+  @media (max-width: 1199px) {
+    text-align: center;
+  }
+}
+
+.footerContainer {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0 10px;
+
+  @media (max-width: 1199px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.footer span {
+  white-space: nowrap;
+}

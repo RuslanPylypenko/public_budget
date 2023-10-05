@@ -1,5 +1,6 @@
 import { Header } from "./layout/Header/Header";
 import { Home } from "./pages/Home/Home";
+import {Footer} from "./layout/Footer/Footer";
 
 function App() {
     return (
@@ -9,6 +10,8 @@ function App() {
             <div className="main">
                 <Home />
             </div>
+
+            <Footer />
         </>
     );
 }
