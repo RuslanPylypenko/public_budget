@@ -4,9 +4,13 @@ import { IoMoon, IoSunny } from 'react-icons/io5';
 import {Container} from "../../components";
 
 const HeaderEl = styled.header`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 99;
   box-shadow: var(--shadow);
   background-color: #363636;
- 
 `;
 
 const Wrapper = styled.div`

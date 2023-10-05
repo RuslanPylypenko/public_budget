@@ -1,4 +1,4 @@
-import styles from './Htag.module.css';
+import styles from './Htag.module.scss';
 
 export const Htag = ({ tag, children }) => {
     switch (tag) {

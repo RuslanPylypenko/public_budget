@@ -1,4 +1,4 @@
-import styles from './Label.module.css';
+import styles from './Label.module.scss';
 import cn from "classnames";
 
 export const Label = ({ children, status, href, className, ...props}) => {

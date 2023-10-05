@@ -5,9 +5,14 @@
 	white-space: nowrap;
 	border-radius: 14px;
 	font-size: 20px;
-
 	color: var(--white);
 	background-color: var(--lightSlateGray);
+	@media (max-width: 991px){
+		font-size: 17px;
+	}
+	@media (max-width: 767px){
+		font-size: 15px;
+	}
 }
 
 .participantStatus {

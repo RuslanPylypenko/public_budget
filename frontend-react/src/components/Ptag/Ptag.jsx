@@ -1,4 +1,4 @@
-import styles from './Ptag.module.css';
+import styles from './Ptag.module.scss';
 import cn from "classnames";
 
 export const Ptag = ({ size = 'p5', children , className, ...props}) => {

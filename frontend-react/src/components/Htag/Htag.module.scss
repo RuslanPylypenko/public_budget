@@ -1,0 +1,33 @@
+.h1 {
+	font-size: 56px;
+	font-weight: 700;
+	line-height: 1;
+	@media (max-width: 991px){
+		font-size: 38px;
+	}
+	@media (max-width: 767px){
+		font-size: 24px;
+	}
+}
+
+.h2 {
+	font-size: 32px;
+	font-weight: 700;
+	@media (max-width: 991px){
+		font-size: 26px;
+	}
+	@media (max-width: 767px){
+		font-size: 22px;
+	}
+}
+
+.h3 {
+	font-size: 22px;
+	font-weight: 600;
+	@media (max-width: 991px){
+		font-size: 18px;
+	}
+	@media (max-width: 767px){
+		font-size: 16px;
+	}
+}
