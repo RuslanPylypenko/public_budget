@@ -1,23 +1,11 @@
+
 import { Button, Container, Htag, Label, Ptag } from "../../components";
-import React, { useState, useEffect } from 'react';
+import { Promo } from "../../sections";
 
 export function Home() {
-    let [city, setCity] = useState(null);
-
-    useEffect(() => {
-        fetch('http://localhost:8081/api/city/', {
-            method: 'GET',
-        })
-            .then( response => response.json() )
-            .then( data => setCity(data.city) )
-            .catch( err => console.log('Error', err) );
-    }, []);
-
     return (
         <>
-            <section style={{ padding: `80px 0` }}>
-                <Htag tag='h1'>{city && city.mainTitle}</Htag>
-            </section>
+            <Promo />
 
             <Container>
                 <section style={{ padding: `80px 0` }}>
