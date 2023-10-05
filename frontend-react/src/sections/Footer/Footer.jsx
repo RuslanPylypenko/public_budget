@@ -1,18 +1,39 @@
-import styles from './Footer.module.scss';
-import cn from "classnames";
+import styled from "styled-components";
 import { format } from 'date-fns';
 
-export const Footer = ({className, ...props}) => {
+const FooterEl = styled.header`
+  padding: 20px;
+  color: var(--white);
+  background-color: var(--slateGray);
+  @media (max-width: 1199px) {
+    text-align: center;
+  }
+`;
+
+const Wrapper = styled.div`
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0 10px;
+  @media (max-width: 1199px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const Span = styled.span `
+  white-space: nowrap;
+`;
+
+export const Footer = () => {
     return (
-        <footer className={cn(className, styles.footer)} {...props}>
-            <div className={styles.footerContainer}>
+        <FooterEl>
+            <Wrapper>
                 <div>
-                    Телефон для довідок: (099)1234567 <span>© { format(new Date(), 'yyyy') }</span>
+                    Телефон для довідок: (099)1234567 <Span>© { format(new Date(), 'yyyy') }</Span>
                 </div>
                 <div>
                     При використанні матеріалів посилання на сайт обов’язкове. Всі права захищені.
                 </div>
-            </div>
-        </footer>
+            </Wrapper>
+        </FooterEl>
     );
 };

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { IoMoon, IoSunny } from 'react-icons/io5';
-import {Container} from "../../components";
+import { Container } from "../../components";
 
 const HeaderEl = styled.header`
   position: fixed;
