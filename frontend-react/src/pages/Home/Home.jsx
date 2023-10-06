@@ -1,12 +1,10 @@
-
 import { Button, Container, Htag, Label, Ptag } from "../../components";
-import { Promo } from "../../sections";
+import {Map, Promo} from "../../sections";
 
 export function Home() {
     return (
         <>
             <Promo />
-
             <Container>
                 <section style={{ padding: `80px 0` }}>
                     <Htag tag='h1'>Heading level 1</Htag>
@@ -29,6 +27,7 @@ export function Home() {
                     <Label status='finishedStatus'>Реалізований</Label>
                 </section>
             </Container>
+            <Map />
         </>
     );
 }

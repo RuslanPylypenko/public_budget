@@ -59,6 +59,7 @@ export function Promo() {
                     <Description>
                         <Htag tag='h1'>{city && city.mainTitle}</Htag>
                         <Ptag size='p2'>{city && city.mainText}</Ptag>
+                        <Ptag size='p2'>{city && console.log(city)}</Ptag>
                     </Description>
                 </Wrapper>
             </Container>

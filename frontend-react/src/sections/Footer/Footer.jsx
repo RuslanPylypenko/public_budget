@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { format } from 'date-fns';
 
-const FooterEl = styled.header`
+const FooterEl = styled.footer`
   padding: 20px;
   color: var(--white);
   background-color: var(--slateGray);
