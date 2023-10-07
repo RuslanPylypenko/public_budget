@@ -118,6 +118,11 @@ class UserEntity implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->name;
     }
 
+    public function getFullName(): string
+    {
+        return trim(sprintf('%s %s %s', $this->name, $this->surname, $this->patronymic));
+    }
+
     public function setName(string $name): void
     {
         $this->name = $name;

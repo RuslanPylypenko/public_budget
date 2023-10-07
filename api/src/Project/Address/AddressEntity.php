@@ -18,13 +18,31 @@ class AddressEntity extends EntitySuperclass
 
     public function __construct(
         Project $project,
-        string $region,
-        string $city,
-        string $street,
-        float $lat,
-        float $lon,
+        ?string $country = null,
+        ?string $countryCode = null,
+        ?string $region = null,
+        ?string $city = null,
+        ?string $district = null,
+        ?string $street = null,
+        ?string $building = null,
+        ?string $apartment = null,
+        ?string $postcode = null,
+        ?float $lat = null,
+        ?float $lon = null,
     ) {
-        parent::__construct($region, $city, $street, $lat, $lon);
+        parent::__construct(
+            $country,
+            $countryCode,
+            $region,
+            $city,
+            $district,
+            $street,
+            $building,
+            $apartment,
+            $postcode,
+            $lat,
+            $lon
+        );
         $this->project = $project;
     }
 }
