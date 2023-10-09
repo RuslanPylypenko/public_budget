@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { Container, Htag, Ptag } from "../../components";
-import React, { useState, useEffect } from 'react';
 
 const PromoE1 = styled.section `
   background-color: var(--accent);
@@ -39,17 +38,7 @@ const Description = styled.div`
   color: var(--darkGray);
 `;
 
-export function Promo() {
-    let [city, setCity] = useState(null);
-
-    useEffect(() => {
-        fetch('http://localhost:8081/api/city/', {
-            method: 'GET',
-        })
-            .then( response => response.json() )
-            .then( data => setCity(data.city) )
-            .catch( err => console.log('Error', err) );
-    }, []);
+export function Promo({ mainTitle, mainText }) {
 
     return (
         <PromoE1 style={{ backgroundImage: `url("/background/header.svg")` }}>
@@ -57,9 +46,8 @@ export function Promo() {
                 <Wrapper>
                     <Logo style={{ backgroundImage: `url("/lviv.png")` }} />
                     <Description>
-                        <Htag tag='h1'>{city && city.mainTitle}</Htag>
-                        <Ptag size='p2'>{city && city.mainText}</Ptag>
-                        <Ptag size='p2'>{city && console.log(city)}</Ptag>
+                        <Htag tag='h1'>{mainTitle && mainTitle}</Htag>
+                        <Ptag size='p2'>{mainText && mainText}</Ptag>
                     </Description>
                 </Wrapper>
             </Container>

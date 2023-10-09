@@ -1,10 +1,23 @@
 import { Button, Container, Htag, Label, Ptag } from "../../components";
 import {Map, Promo} from "../../sections";
+import React, { useState, useEffect } from 'react';
 
 export function Home() {
+    let [city, setCity] = useState(null);
+
+    useEffect(() => {
+        fetch('http://localhost:8081/api/city/', {
+            method: 'GET',
+        })
+            .then( response => response.json() )
+            .then( data => setCity(data.city) )
+            .catch( err => console.log('Error', err) );
+    }, []);
+
     return (
         <>
-            <Promo />
+            <Promo mainTitle={city && city.mainTitle} mainText={city && city.mainText} />
+
             <Container>
                 <section style={{ padding: `80px 0` }}>
                     <Htag tag='h1'>Heading level 1</Htag>
@@ -27,7 +40,8 @@ export function Home() {
                     <Label status='finishedStatus'>Реалізований</Label>
                 </section>
             </Container>
-            <Map />
+
+            <Map lat={city && city.lat} lon={city && city.lon} />
         </>
     );
 }

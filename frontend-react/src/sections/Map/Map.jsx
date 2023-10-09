@@ -1,8 +1,9 @@
 import styled from "styled-components";
-import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
+import React, { useState, useEffect } from 'react';
+import {MapContainer, Marker, Popup, TileLayer, useMapEvents} from "react-leaflet";
 import { IoLocation } from 'react-icons/io5';
 import './Map.scss';
-import L from 'leaflet';
+import L, {LatLng} from 'leaflet';
 
 L.Icon.Default.imagePath = "https://unpkg.com/leaflet@1.5.0/dist/images/";
 
@@ -16,12 +17,19 @@ const Wrapper = styled.section`
   overflow: hidden;
 `;
 
-export function Map() {
-    const position = [49.842957, 24.031111];
+export function Map({ lat, lon }) {
+
+    const [position, setPosition] = useState([50, 24]);
+
+    useEffect(() => {
+        if (lat !== null && lon !== null) {
+            setPosition([lat, lon]);
+        }
+    }, [lat, lon]);
 
     return (
         <Wrapper>
-            <MapContainer center={position} zoom={13} scrollWheelZoom={false}>
+            <MapContainer center={position} zoom={13} scrollWheelZoom={false} >
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
