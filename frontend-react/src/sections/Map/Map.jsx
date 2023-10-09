@@ -18,29 +18,19 @@ const Wrapper = styled.section`
 `;
 
 export function Map({ lat, lon }) {
-
-    const [position, setPosition] = useState([50, 24]);
-
-    useEffect(() => {
-        if (lat !== null && lon !== null) {
-            setPosition([lat, lon]);
-        }
-    }, [lat, lon]);
-
-    return (
-        <Wrapper>
-            <MapContainer center={position} zoom={13} scrollWheelZoom={false} >
-                <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-                <Marker position={position}>
-                    <IoLocation size="14px" />
-                    <Popup>
-                        A pretty CSS3 popup. <br /> Easily customizable.
-                    </Popup>
-                </Marker>
-            </MapContainer>
-        </Wrapper>
-    )
+    if (lat !== null && lon !== null) {
+        return (
+            <Wrapper>
+                <MapContainer center={[lat, lon]} zoom={13} scrollWheelZoom={false} >
+                    <TileLayer
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <Marker position={[lat, lon]}>
+                        <IoLocation size="14px" />
+                    </Marker>
+                </MapContainer>
+            </Wrapper>
+        )
+    }
 }
