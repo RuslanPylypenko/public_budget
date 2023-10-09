@@ -143,14 +143,29 @@ class ProjectEntity
         return $this->session;
     }
 
+    public function getCreateDate(): \DateTime
+    {
+        return $this->createDate;
+    }
+
+    public function getAddress(): ?Address
+    {
+        return $this->address;
+    }
+
     public function toArray(): array
     {
         return [
-            'name'   => $this->getName(),
-            'number' => $this->getNumber(),
-            'status' => $this->getStatus(),
-            'budget' => $this->getBudget(),
-            'short'  => $this->getShort(),
+            'name'        => $this->getName(),
+            'number'      => $this->getNumber(),
+            'status'      => $this->getStatus(),
+            'budget'      => $this->getBudget(),
+            'short'       => $this->getShort(),
+            'author'      => [
+                'name' => $this->getAuthor()->getFullName()
+            ],
+            'address'     => $this->address?->getLocalAddress(),
+            'create_date' => $this->getCreateDate(),
         ];
     }
 }

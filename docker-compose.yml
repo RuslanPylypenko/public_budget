@@ -1,41 +1,22 @@
 version: '3'
 services:
-  frontend-nginx:
-    build:
-      context: ./frontend/docker
-      dockerfile: nginx.docker
-    volumes:
-      - ./frontend:/var/www/frontend
-    depends_on:
-      - api-php-fpm
-    ports:
-      - "8080:80"
-
   frontend-nodejs:
     image: node:18.16
     volumes:
-      - ./frontend:/var/www/frontend2
-    working_dir: /var/www/frontend2
+      - ./frontend-react:/var/www/frontend-react
+    working_dir: /var/www/frontend-react
     tty: true
 
-
-  frontend-nginx-2:
+  frontend-nginx:
     build:
-      context: ./frontend2/docker
+      context: ./frontend-react/docker
       dockerfile: nginx.docker
     volumes:
-      - ./frontend2:/var/www/frontend2
+      - ./frontend-react:/var/www/frontend-react
     depends_on:
       - api-php-fpm
     ports:
       - "5555:80"
-
-  frontend-nodejs-2:
-    image: node:18.16
-    volumes:
-      - ./frontend2:/var/www/frontend2
-    working_dir: /var/www/frontend2
-    tty: true
 
   api-nginx:
     build:

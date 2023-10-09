@@ -42,16 +42,24 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
                 session: $city->getCurrentSession(),
                );
 
-            $address = new AddressEntity(
-                $project,
-                'Львівська область',
-                'Львів',
-                $faker->streetName(),
-                $faker->latitude(49.832689, 49.8881351),
-                $faker->longitude(24.0632909, 24.0924831),
-            );
+            if ($faker->boolean()) {
+                $address = new AddressEntity(
+                    $project,
+                    null,
+                    null,
+                    'Львівська область',
+                    'Львів',
+                    'Сихів',
+                    "вул. " . $faker->streetName(),
+                    $faker->buildingNumber(),
+                    $faker->boolean() ? "кв. " . $faker->numberBetween(1, 120) : null,
+                    null,
+                    $faker->latitude(49.832689, 49.8881351),
+                    $faker->longitude(24.0632909, 24.0924831),
+                );
 
-            $manager->persist($address);
+                $manager->persist($address);
+            }
 
             $manager->persist($project);
         }
