@@ -18,19 +18,17 @@ const Wrapper = styled.section`
 `;
 
 export function Map({ lat, lon }) {
-    if (lat !== null && lon !== null) {
-        return (
-            <Wrapper>
-                <MapContainer center={[lat, lon]} zoom={13} scrollWheelZoom={false} >
-                    <TileLayer
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    />
-                    <Marker position={[lat, lon]}>
-                        <IoLocation size="14px" />
-                    </Marker>
-                </MapContainer>
-            </Wrapper>
-        )
-    }
+    return (
+        <Wrapper>
+            <MapContainer center={[lat, lon]} zoom={13} scrollWheelZoom={false} >
+                <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <Marker position={[lat, lon]}>
+                    <IoLocation size="14px" />
+                </Marker>
+            </MapContainer>
+        </Wrapper>
+    )
 }

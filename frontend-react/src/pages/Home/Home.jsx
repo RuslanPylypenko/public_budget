@@ -41,7 +41,8 @@ export function Home() {
                 </section>
             </Container>
 
-            <Map lat={city && city.lat} lon={city && city.lon} />
+            {city && <Map lat={city.lat} lon={city.lon} />}
+
         </>
     );
 }
