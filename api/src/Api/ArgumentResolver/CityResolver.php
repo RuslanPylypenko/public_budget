@@ -19,9 +19,11 @@ class CityResolver implements ValueResolverInterface
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
         if ($argument->getType() === CityEntity::class) {
+            dd(123);
             $httpOrigin = $request->server->get('HTTP_ORIGIN');
             $scheme     = $request->getScheme();
             $subdomain  = null;
+
             if (preg_match("#$scheme://([a-z]+)\.#", $httpOrigin, $matches)) {
                 $subdomain = $matches[1];
             }

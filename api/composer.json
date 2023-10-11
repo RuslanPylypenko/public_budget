@@ -12,6 +12,8 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.15",
         "lcobucci/jwt": "^5.0",
+        "league/flysystem-bundle": "^3.2",
+        "league/flysystem-ftp": "^3.16",
         "ramsey/uuid": "^4.7",
         "symfony/console": "6.3.*",
         "symfony/dotenv": "6.3.*",
