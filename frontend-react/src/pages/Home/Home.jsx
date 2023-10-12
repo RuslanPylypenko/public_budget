@@ -17,7 +17,8 @@ export function Home() {
     return (
         <>
             <Promo mainTitle={city && city.mainTitle} mainText={city && city.mainText} />
-            <Timeline />
+
+            <Timeline stages={city && city.currentSession.stages} />
 
             <Container>
                 <section style={{ padding: `80px 0` }}>

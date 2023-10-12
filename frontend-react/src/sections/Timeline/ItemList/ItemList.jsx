@@ -2,6 +2,7 @@ import React from 'react';
 import styled from "styled-components";
 import styles from './ItemList.module.scss';
 import cn from 'classnames';
+import {format} from "date-fns";
 
 const ItemListE1 = styled.li `
   position: relative;
@@ -45,12 +46,26 @@ const ItemListE1 = styled.li `
   }
 `;
 
-export function ItemList({ status }) {
+export function ItemList({ stage }) {
+    let currentDate = new Date();
+    let startDate = new Date(stage.startDate);
+    let endDate = new Date(stage.endDate);
+    
+    let status = '';
+
+    if (currentDate > endDate) {
+        status = 'past';
+    } else if (currentDate > startDate && currentDate < endDate ) {
+        status = 'active';
+    }
+
     return (
         <ItemListE1 className={ status }>
             <div className={styles.itemWrap}>
                 <div className={styles.date}>
-                    <time dateTime="2023-03-30" className={styles.time}>до 30.03.2023</time>
+                    <time dateTime="" className={styles.time}>
+                        до {format(new Date(stage.endDate), 'dd.MM.yyyy')}
+                    </time>
                 </div>
                 <div className={styles.iconWrap}>
                     <div className={ cn(styles.ribbon, status + "Ribbon") } />
@@ -59,7 +74,7 @@ export function ItemList({ status }) {
                              alt="Подання" />
                     </div>
                 </div>
-                <div className={styles.name}>Подання</div>
+                <div className={styles.name}>{stage.name}</div>
             </div>
         </ItemListE1>
     )

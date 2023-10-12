@@ -13,17 +13,12 @@ const UL = styled.ul `
   display: flex;
 `;
 
-export function Timeline() {
+export function Timeline({ stages }) {
     return (
         <TimelineE1>
             <Container>
                 <UL>
-                    <ItemList status="past" />
-
-                    <ItemList status="past" />
-                    <ItemList status="past" />
-                    <ItemList status="active" />
-                    <ItemList />
+                    { stages && stages.map((stage, i) => <ItemList key={i} stage={stage} />) }
                 </UL>
             </Container>
         </TimelineE1>
