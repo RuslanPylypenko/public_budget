@@ -83,6 +83,26 @@ class CityEntity
 
     // ----------------------------------------
 
+    /**
+     * @return Collection
+     */
+    public function getSessions(): Collection
+    {
+        return $this->sessions;
+    }
+
+    public function getCurrentSession(): Session
+    {
+        return $this->sessions->first();
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    // ----------------------------------------
+
     public function toArray(): array
     {
         return [
@@ -96,16 +116,13 @@ class CityEntity
         ];
     }
 
-    /**
-     * @return Collection
-     */
-    public function getSessions(): Collection
+    public function getLat(): float
     {
-        return $this->sessions;
+        return $this->lat;
     }
 
-    public function getCurrentSession(): Session
+    public function getLon(): float
     {
-        return $this->sessions->first();
+        return $this->lon;
     }
 }

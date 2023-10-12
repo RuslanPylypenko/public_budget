@@ -68,6 +68,14 @@ class SessionEntity
 
     // ----------------------------------------
 
+
+    public function getCity(): City
+    {
+        return $this->city;
+    }
+
+    // ----------------------------------------
+
     public function toArray(): array
     {
         return [

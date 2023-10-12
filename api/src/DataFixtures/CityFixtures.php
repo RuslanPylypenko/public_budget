@@ -25,6 +25,16 @@ class CityFixtures extends Fixture
             24.031111,
         );
         $manager->persist($city);
+
+        $city = new CityEntity(
+            "Київ",
+            'kyiv',
+            "Бюджет участі у м. Київ",
+            'Зміни своє місто! Подай свій проєкт та отримай гроші на реалізацію!',
+            50.450001,
+            30.523333,
+        );
+        $manager->persist($city);
         $manager->flush();
     }
 }

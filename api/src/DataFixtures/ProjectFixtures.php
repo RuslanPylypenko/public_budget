@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\City\CityEntity;
 use App\Project\Address\AddressEntity;
 use App\Project\ProjectEntity;
+use App\Session\SessionEntity;
 use App\User\UserEntity;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -21,48 +22,54 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
             ->findAll();
 
         /** @var CityEntity $city */
-        $city = $manager->getRepository(CityEntity::class)->findOneBy(['techName' => 'lviv']);
+        $sessions = $manager->getRepository(SessionEntity::class)->findAll();
 
-        for ($i = 1; $i <= 100; $i++) {
+        foreach ($sessions as $session){
+            for ($i = 1; $i <= 100; $i++) {
 
-            $project = new ProjectEntity(
-                number: $i,
-                status: $faker->randomElement([
-                    ProjectEntity::STATUS_IMPLEMENTED,
-                    ProjectEntity::STATUS_IMPOSSIBLE,
-                    ProjectEntity::STATUS_REJECTED,
-                    ProjectEntity::STATUS_TAKE_PART,
-                    ProjectEntity::STATUS_REJECTED_FULLY,
-                ]),
-                budget: $faker->randomFloat(nbMaxDecimals: 2, min: 10000, max: 1000000),
-                name: $faker->sentence(5),
-                short: $faker->sentences(5, true),
-                description: $faker->sentences(12, true),
-                author: $faker->randomElement($users),
-                session: $city->getCurrentSession(),
-               );
-
-            if ($faker->boolean()) {
-                $address = new AddressEntity(
-                    $project,
-                    null,
-                    null,
-                    'Львівська область',
-                    'Львів',
-                    'Сихів',
-                    "вул. " . $faker->streetName(),
-                    $faker->buildingNumber(),
-                    $faker->boolean() ? "кв. " . $faker->numberBetween(1, 120) : null,
-                    null,
-                    $faker->latitude(49.832689, 49.8881351),
-                    $faker->longitude(24.0632909, 24.0924831),
+                $project = new ProjectEntity(
+                    number: $i,
+                    status: $faker->randomElement([
+                        ProjectEntity::STATUS_IMPLEMENTED,
+                        ProjectEntity::STATUS_IMPOSSIBLE,
+                        ProjectEntity::STATUS_REJECTED,
+                        ProjectEntity::STATUS_TAKE_PART,
+                        ProjectEntity::STATUS_REJECTED_FULLY,
+                    ]),
+                    budget: $faker->randomFloat(nbMaxDecimals: 2, min: 10000, max: 1000000),
+                    name: $faker->sentence(5),
+                    short: $faker->sentences(5, true),
+                    description: $faker->sentences(12, true),
+                    author: $faker->randomElement($users),
+                    session: $session,
                 );
 
-                $manager->persist($address);
-            }
+                $city = $session->getCity();
 
-            $manager->persist($project);
+                if ($faker->boolean()) {
+                    $address = new AddressEntity(
+                        $project,
+                        null,
+                        null,
+                        null,
+                        $city->getName(),
+                        null,
+                        "вул. " . $faker->streetName(),
+                        $faker->buildingNumber(),
+                        $faker->boolean() ? "кв. " . $faker->numberBetween(1, 120) : null,
+                        null,
+                        $faker->latitude($city->getLat() - 0.02, $city->getLat() + 0.02),
+                        $faker->longitude($city->getLon() - 0.02, $city->getLon() + 0.02),
+                    );
+
+                    $manager->persist($address);
+                }
+
+                $manager->persist($project);
+            }
         }
+
+
 
         $manager->flush();
     }

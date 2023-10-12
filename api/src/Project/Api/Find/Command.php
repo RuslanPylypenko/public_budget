@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Project\Api\Find;
 
 use App\Api\InputInterface;
