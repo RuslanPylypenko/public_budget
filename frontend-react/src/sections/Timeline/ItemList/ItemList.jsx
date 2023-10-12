@@ -11,6 +11,7 @@ const ItemListE1 = styled.li `
   text-align: center;
   color: #a6d0eb;
   list-style: none;
+  min-height: 180px;
   
   &.past {
     color: #cfd8dc;
@@ -26,6 +27,9 @@ const ItemListE1 = styled.li `
   }
   .pastIcon {
     border-color: #cfd8dc;
+    img {
+      filter: grayscale(100%);
+    }
   }
   
   &.active {
@@ -70,8 +74,7 @@ export function ItemList({ stage }) {
                 <div className={styles.iconWrap}>
                     <div className={ cn(styles.ribbon, status + "Ribbon") } />
                     <div className={ cn(styles.icon, status + "Icon") }>
-                        <img src="https://if.pb.org.ua/assets/app/img/stages/stage-submission_disabled.svg"
-                             alt="Подання" />
+                        <img src={`/timelineIcons/stage-${stage.name}.svg`} alt={stage.name} />
                     </div>
                 </div>
                 <div className={styles.name}>{stage.name}</div>
