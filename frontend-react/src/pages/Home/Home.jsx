@@ -1,5 +1,5 @@
 import { Button, Container, Htag, Label, Ptag } from "../../components";
-import {Map, Promo} from "../../sections";
+import {Map, Promo, Timeline} from "../../sections";
 import React, { useState, useEffect } from 'react';
 
 export function Home() {
@@ -17,6 +17,7 @@ export function Home() {
     return (
         <>
             <Promo mainTitle={city && city.mainTitle} mainText={city && city.mainText} />
+            <Timeline />
 
             <Container>
                 <section style={{ padding: `80px 0` }}>
