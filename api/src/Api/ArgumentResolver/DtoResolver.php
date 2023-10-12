@@ -21,18 +21,25 @@ class DtoResolver implements ValueResolverInterface
 
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
-        if (is_subclass_of($argument->getType(), InputInterface::class)) {
-            if (empty($request->getContent())) {
-                throw new ApiException('Request can`t be empty', 400);
-            }
-
-            $input  = $this->serializer->deserialize($request->getContent(), $argument->getType(), 'json');
-
-            if ($errors = $this->validator->validate($input)) {
-                throw new ValidationException($errors);
-            }
-
-            yield $input;
+        $argumentType = $argument->getType();
+        if (
+            !$argumentType
+            || !is_subclass_of($argumentType, InputInterface::class, true)
+        ) {
+            return [];
         }
+
+        if (empty($request->getContent())) {
+            throw new ApiException('Request can`t be empty', 400);
+        }
+
+        $input  = $this->serializer->deserialize($request->getContent(), $argument->getType(), 'json');
+
+        if ($errors = $this->validator->validate($input)) {
+            throw new ValidationException($errors);
+        }
+
+        yield $input;
     }
+
 }

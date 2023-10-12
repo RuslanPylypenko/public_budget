@@ -2,9 +2,12 @@
 
 namespace App\Project\Api\Find;
 
+use App\City\CityEntity;
 use App\Project\Api\DataBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\ValueResolver;
 use Symfony\Component\Routing\Annotation\Route;
 
 class Handler extends AbstractController
@@ -16,9 +19,10 @@ class Handler extends AbstractController
     }
 
     #[Route('/projects/find/', methods: ['POST'])]
-    public function handle(Command $command): Response
-    {
-        $repository = $this->repositoryFactory->fromInput($command);
+    public function handle(
+        CityEntity $city,
+    ): Response {
+        $repository = $this->repositoryFactory->fromInput(new Command());
 
         return $this->json([
             'list'  => $this->dataBuilder->projects($repository->result()),
