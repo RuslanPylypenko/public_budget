@@ -2,6 +2,7 @@
 
 namespace App\Project\Uploader;
 
+use App\Project\ProjectEntity;
 use League\Flysystem\FilesystemOperator;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -14,9 +15,9 @@ class FileUploader
     ) {
     }
 
-    public function uploadProjectImage(UploadedFile $file, int $projectId): File
+    public function uploadProjectImage(UploadedFile $file, ProjectEntity $project): File
     {
-        return $this->upload($file, 'images/' . $projectId);
+        return $this->upload($file, sprintf('%s/%s/images', $project->getSession()->getId(), $project->getNumber()));
     }
 
     private function upload(UploadedFile $file, string $path): File

@@ -10,4 +10,9 @@ class File
         public readonly int $size,
     ) {
     }
+
+    public function getFileName():string
+    {
+        return $this->path . '/' . $this->name;
+    }
 }

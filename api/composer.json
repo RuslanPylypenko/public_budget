@@ -11,6 +11,7 @@
         "doctrine/doctrine-bundle": "^2.10",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.15",
+        "guzzlehttp/guzzle": "^7.8",
         "lcobucci/jwt": "^5.0",
         "league/flysystem-bundle": "^3.2",
         "league/flysystem-ftp": "^3.16",
@@ -77,6 +78,7 @@
         }
     },
     "require-dev": {
+        "bluemmb/faker-picsum-photos-provider": "^2.0",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "fakerphp/faker": "^1.23"
     }

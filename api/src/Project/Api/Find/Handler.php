@@ -5,7 +5,6 @@ namespace App\Project\Api\Find;
 use App\City\CityEntity;
 use App\Project\Api\DataBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 

@@ -8,6 +8,7 @@ use App\Project\Address\AddressEntity as Address;
 use App\Session\SessionEntity as Session;
 use App\User\UserEntity as User;
 use App\Utils\DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping;
 
@@ -45,6 +46,9 @@ class ProjectEntity
 
     #[Mapping\Column(name: 'description', type: Types::TEXT)]
     private string $description;
+
+    #[Mapping\Column(name: 'images', type: Types::JSON)]
+    private array $images;
 
     #[Mapping\ManyToOne(targetEntity: User::class, inversedBy: 'projects')]
     #[Mapping\JoinColumn('author_id', onDelete: 'CASCADE')]
@@ -99,9 +103,15 @@ class ProjectEntity
         $this->description = $description;
         $this->author = $author;
         $this->session = $session;
+        $this->images = [];
     }
 
     // ----------------------------------------
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
     public function getNumber(): int
     {
@@ -153,6 +163,21 @@ class ProjectEntity
         return $this->address;
     }
 
+    public function getImages(): array
+    {
+        return $this->images;
+    }
+
+    public function getMainImage(): string
+    {
+        return array_shift($this->images);
+    }
+
+    public function addImage(string $path): void
+    {
+        $this->images[] = $path;
+    }
+
     public function toArray(): array
     {
         return [
@@ -168,4 +193,6 @@ class ProjectEntity
             'create_date' => $this->getCreateDate(),
         ];
     }
+
+
 }
