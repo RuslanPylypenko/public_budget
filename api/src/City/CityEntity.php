@@ -103,19 +103,6 @@ class CityEntity
 
     // ----------------------------------------
 
-    public function toArray(): array
-    {
-        return [
-            'name'           => $this->name,
-            'techName'       => $this->techName,
-            'mainTitle'      => $this->mainTitle,
-            'mainText'       => $this->mainText,
-            'currentSession' => $this->getCurrentSession()->toArray(),
-            'lat'            => $this->lat,
-            'lon'            => $this->lon
-        ];
-    }
-
     public function getLat(): float
     {
         return $this->lat;
@@ -124,5 +111,30 @@ class CityEntity
     public function getLon(): float
     {
         return $this->lon;
+    }
+
+    public function getTechName(): string
+    {
+        return $this->techName;
+    }
+
+    public function getMainTitle(): string
+    {
+        return $this->mainTitle;
+    }
+
+    public function getMainText(): string
+    {
+        return $this->mainText;
+    }
+
+    public function setSessions(Collection $sessions): void
+    {
+        $this->sessions = $sessions;
+    }
+
+    public function getUpdateDate(): \DateTime
+    {
+        return $this->updateDate;
     }
 }

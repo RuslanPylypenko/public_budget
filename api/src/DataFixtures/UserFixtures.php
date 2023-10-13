@@ -28,7 +28,7 @@ class UserFixtures extends Fixture
         for ($i = 1; $i <= 5; $i++) {
             $user = new UserEntity(
                 name: $faker->firstName(),
-                surname: $faker->name(),
+                surname: $faker->firstNameMale(),
                 patronymic: $faker->lastName(),
                 email: $faker->email(),
                 birthday: $faker->dateTimeBetween('-50 years', '-10 years'),

@@ -93,4 +93,17 @@ class SessionEntity
     {
         return $this->id;
     }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return Collection<int, StageEntity>
+     */
+    public function getStages(): Collection
+    {
+        return $this->stages;
+    }
 }
