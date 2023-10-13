@@ -2,6 +2,7 @@
 
 namespace App\Project\Api\Find;
 
+use App\City\CityEntity as City;
 use App\Project\Api\Find\Filter\Search;
 use App\Project\ProjectEntity;
 use App\Api\Find\Repository;
@@ -14,7 +15,7 @@ class RepositoryFactory
     ) {
     }
 
-    public function fromInput(Command $command): Repository
+    public function fromInput(City $city, Command $command): Repository
     {
         $decorators = [];
 
@@ -23,10 +24,13 @@ class RepositoryFactory
         }
 
         $qb = $this->em->getRepository(ProjectEntity::class)->createQueryBuilder('p');
-        $repository = (new Repository($qb))
+
+        $qb->join('p.session', 's')
+            ->where($qb->expr()->eq('s.city', ':city'))
+            ->setParameter('city', $city);
+
+        return (new Repository($qb))
             ->setPagination($command->result['offset'], $command->result['limit'])
             ->addDecorators($decorators);
-
-        return $repository;
     }
 }

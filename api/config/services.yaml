@@ -34,3 +34,7 @@ services:
 
     App\Project\Uploader\FileUploader:
         arguments: ['@default.storage', '%env(STORAGE_BASE_URL)%']
+
+    App\Api\ArgumentResolver\DtoResolver:
+        tags:
+            - {name: controller.argument_value_resolver, priority: 150 }
