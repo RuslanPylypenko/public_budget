@@ -33,13 +33,11 @@ class DataBuilder
             'mainTitle'      => $city->getMainTitle(),
             'mainText'       => $city->getMainText(),
             'currentSession' => [
-                [
-                    'name'   => $session->getName(),
+                    'name' => $session->getName(),
                     'stages' => array_values(
                         array_map(static fn(StageEntity $stage) => $stage->toArray(), $session->getStages()->toArray())
                     ),
-                ]
-            ],
+                ],
             'projects' => $this->projectsDataBuilder->projects($projects),
             'lat'            => $city->getLat(),
             'lon'            => $city->getLon()

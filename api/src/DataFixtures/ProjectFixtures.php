@@ -88,6 +88,7 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
 
                 $uploadedFile = new UploadedFile($temporaryFilePath, 'image.png');
                 $image = $this->fileUploader->uploadProjectImage($uploadedFile, $project);
+
                 $project->addImage($image->getFileName());
 
                 $manager->persist($project);
