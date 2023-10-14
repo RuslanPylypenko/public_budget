@@ -1,5 +1,5 @@
 import { Button, Container, Htag, Label, Ptag } from "../../components";
-import {Map, Promo, Timeline} from "../../sections";
+import {Map, Projects, Promo, Timeline} from "../../sections";
 import React, { useState, useEffect } from 'react';
 
 export function Home() {
@@ -17,8 +17,8 @@ export function Home() {
     return (
         <>
             <Promo mainTitle={city && city.mainTitle} mainText={city && city.mainText} />
-
             <Timeline stages={city && city.currentSession.stages} />
+            <Projects />
 
             <Container>
                 <section style={{ padding: `80px 0` }}>
@@ -44,7 +44,6 @@ export function Home() {
             </Container>
 
             {city && <Map lat={city.lat} lon={city.lon} />}
-
         </>
     );
 }

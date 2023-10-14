@@ -41,7 +41,7 @@ const Description = styled.div`
 export function Promo({ mainTitle, mainText }) {
 
     return (
-        <PromoE1 style={{ backgroundImage: `url("/background/header.svg")` }}>
+        <PromoE1 style={{ backgroundImage: `url("/background/promo.svg")` }}>
             <Container>
                 <Wrapper>
                     <Logo style={{ backgroundImage: `url("/lviv.png")` }} />
