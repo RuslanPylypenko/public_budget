@@ -29,15 +29,26 @@ class DtoResolver implements ValueResolverInterface
             return [];
         }
 
-        if (empty($request->getContent())) {
+
+        $payload = array_merge($request->getPayload()->all());
+        if (!empty($payload)) {
+            $input = $this->serializer->deserialize(json_encode($payload), $argument->getType(), 'json');
+        } elseif (!empty($request->getContent())) {
+            $input = $this->serializer->deserialize($request->getContent(), $argument->getType(), 'json');
+        } else {
             throw new ApiException('Request can`t be empty', 400);
         }
 
-        $input  = $this->serializer->deserialize($request->getContent(), $argument->getType(), 'json');
+        foreach ($request->files->all() as $property => $files){
+            if(property_exists($input, $property)){
+                $input->{$property} = $request->files->get($property);
+            }
+        }
 
         if ($errors = $this->validator->validate($input)) {
             throw new ValidationException($errors);
         }
+
 
         yield $input;
     }

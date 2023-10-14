@@ -8,7 +8,6 @@ use App\Project\Address\AddressEntity as Address;
 use App\Session\SessionEntity as Session;
 use App\User\UserEntity as User;
 use App\Utils\DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping;
 
@@ -18,11 +17,20 @@ use Doctrine\ORM\Mapping;
 #[Mapping\ChangeTrackingPolicy('DEFERRED_EXPLICIT')]
 class ProjectEntity
 {
-    public const STATUS_REJECTED       = 'rejected';
-    public const STATUS_REJECTED_FULLY = 'rejected fully';
-    public const STATUS_TAKE_PART      = 'take part';
-    public const STATUS_IMPOSSIBLE     = 'impossible to implement';
-    public const STATUS_IMPLEMENTED    = 'implemented';
+    const STATUS_MODERATION = "moderation";
+    const STATUS_AUTHOR_EDIT = "author_edit";
+    const STATUS_REVIEW = "review";
+    const STATUS_REJECTED = "rejected";
+    const STATUS_APPROVED = "approved";
+    const STATUS_VOTING = "voting";
+    const STATUS_REJECTED_FINAL = "rejected_final";
+    const STATUS_AWAIT = "await";
+    const STATUS_PARTICIPANT = "participant";
+    const STATUS_WINNER = "winner";
+    const STATUS_IMPLEMENTATION = "implementation";
+    const STATUS_IMPLEMENTATION_FAILED = "implementation_failed";
+    const STATUS_FINISHED = "finished";
+    const STATUS_DELETED = "deleted";
 
     #[Mapping\Id]
     #[Mapping\Column(type: Types::INTEGER, options: ['unsigned' => true])]
@@ -31,6 +39,9 @@ class ProjectEntity
 
     #[Mapping\Column(name: 'number', type: Types::INTEGER, options: ['unsigned' => true])]
     private int $number;
+
+    #[Mapping\Column(name: 'category', type: Types::STRING, length: 255)]
+    private string $category;
 
     #[Mapping\Column(name: 'status', type: Types::STRING, length: 32)]
     private string $status;
@@ -86,6 +97,7 @@ class ProjectEntity
 
     public function __construct(
         int $number,
+        Category $category,
         string $status,
         float $budget,
         string $name,
@@ -96,6 +108,7 @@ class ProjectEntity
 
     ) {
         $this->number = $number;
+        $this->category = $category->value;
         $this->status = $status;
         $this->budget = $budget;
         $this->name = $name;
@@ -158,6 +171,11 @@ class ProjectEntity
         return $this->createDate;
     }
 
+    public function getUpdateDate(): \DateTime
+    {
+        return $this->updateDate;
+    }
+
     public function getAddress(): ?Address
     {
         return $this->address;
@@ -170,12 +188,22 @@ class ProjectEntity
 
     public function getMainImage(): string
     {
-        return array_shift($this->images);
+        return $this->images[0];
     }
 
     public function addImage(string $path): void
     {
         $this->images[] = $path;
+    }
+
+    public function setCategory(Category $category): void
+    {
+        $this->category = $category->value;
+    }
+
+    public function getCategory(): string
+    {
+        return $this->category;
     }
 
     public function toArray(): array
@@ -193,6 +221,4 @@ class ProjectEntity
             'create_date' => $this->getCreateDate(),
         ];
     }
-
-
 }

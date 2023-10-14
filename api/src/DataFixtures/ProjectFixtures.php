@@ -4,8 +4,9 @@ namespace App\DataFixtures;
 
 use App\City\CityEntity;
 use App\Project\Address\AddressEntity;
+use App\Project\Category;
 use App\Project\ProjectEntity;
-use App\Project\Uploader\File;
+use App\Project\ProjectFactory;
 use App\Project\Uploader\FileUploader;
 use App\Session\SessionEntity;
 use App\User\UserEntity;
@@ -14,14 +15,14 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
-use GuzzleHttp\Client;
+use App\Kernel;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ProjectFixtures extends Fixture implements DependentFixtureInterface
 {
     public function __construct(
         private readonly FileUploader $fileUploader,
-        private readonly Client $client,
+        private readonly Kernel $kernel,
     ) {
     }
 
@@ -42,13 +43,8 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
 
                 $project = new ProjectEntity(
                     number: $i,
-                    status: $faker->randomElement([
-                        ProjectEntity::STATUS_IMPLEMENTED,
-                        ProjectEntity::STATUS_IMPOSSIBLE,
-                        ProjectEntity::STATUS_REJECTED,
-                        ProjectEntity::STATUS_TAKE_PART,
-                        ProjectEntity::STATUS_REJECTED_FULLY,
-                    ]),
+                    category: $faker->randomElement(Category::all()),
+                    status: $faker->randomElement(ProjectFactory::PROJECT_STATUSES),
                     budget: $faker->randomFloat(nbMaxDecimals: 2, min: 10000, max: 1000000),
                     name: $faker->sentence(5),
                     short: $faker->sentences(5, true),
@@ -78,25 +74,19 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
                     $manager->persist($address);
                 }
 
-                $manager->persist($project);
-                $manager->flush();
+                $imagesDir = $this->kernel->getDataFixturesPath() . '/images';
+                $images   = array_filter(scandir($imagesDir), fn($item) => is_file($imagesDir . '/' . $item));
 
-
-                $response = $this->client->get($faker->imageUrl(500,500));
-                $temporaryFilePath = tempnam(sys_get_temp_dir(), 'image_');
-                file_put_contents($temporaryFilePath, $response->getBody());
-
-                $uploadedFile = new UploadedFile($temporaryFilePath, 'image.png');
-                $image = $this->fileUploader->uploadProjectImage($uploadedFile, $project);
-
-                $project->addImage($image->getFileName());
+                foreach ($faker->randomElements($images, random_int(2, 6)) as $image){
+                    $uploadedFile = new UploadedFile($imagesDir . '/' . $image, 'image.png');
+                    $projectImage = $this->fileUploader->uploadProjectImage($uploadedFile, $project);
+                    $project->addImage($projectImage->getFileName());
+                }
 
                 $manager->persist($project);
                 $manager->flush();
             }
         }
-
-
 
         $manager->flush();
     }

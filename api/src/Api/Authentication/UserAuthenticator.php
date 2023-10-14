@@ -18,7 +18,6 @@ class UserAuthenticator implements UserAuthenticatorInterface
 
     public function authenticate(TokenInterface $token): ?UserInterface
     {
-        $a = $token->claims()->all();
         if (null === $user = $this->em->getRepository(UserEntity::class)->findByEmail($token->claims()->get(TokenManager::USER_EMAIL_CLM))) {
             return null;
         }

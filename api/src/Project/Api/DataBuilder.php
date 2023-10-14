@@ -32,7 +32,8 @@ class DataBuilder
             'author'      => [
                 'name' => $project->getAuthor()->getFullName()
             ],
-            'main_image'  => $this->containerBag->get('app.storage_base_url') . $project->getMainImage(),
+            'main_image'  => $this->buildImageUrl($project->getMainImage()),
+            'images'      => array_map(fn($image) => $this->buildImageUrl($image) , $project->getImages()),
             'address'     => $project->getAddress()?->getLocalAddress(),
             'create_date' => $project->getCreateDate(),
         ];
@@ -42,5 +43,10 @@ class DataBuilder
         }
 
         return $data;
+    }
+
+    private function buildImageUrl($image): string
+    {
+        return $this->containerBag->get('app.storage_base_url') . $image;
     }
 }
