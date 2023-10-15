@@ -99,6 +99,17 @@ class SessionEntity
         return $this->name;
     }
 
+    public function getStage(): ?StageEntity
+    {
+        $now = DateTime::current();
+        foreach ($this->getStages() as $stage){
+           if($stage->isEnable() && $stage->getStartDate() <= $now && $stage->getEndDate() >= $now){
+               return $stage;
+           }
+        }
+        return null;
+    }
+
     /**
      * @return Collection<int, StageEntity>
      */

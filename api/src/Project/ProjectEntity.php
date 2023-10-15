@@ -136,6 +136,16 @@ class ProjectEntity
         return $this->status;
     }
 
+    public function isApprovedStatus(): bool
+    {
+        return $this->status === self::STATUS_APPROVED;
+    }
+
+    public function isAwaitStatus(): bool
+    {
+        return $this->status === self::STATUS_AWAIT;
+    }
+
     public function getBudget(): float
     {
         return $this->budget;
@@ -199,6 +209,11 @@ class ProjectEntity
     public function setCategory(Category $category): void
     {
         $this->category = $category->value;
+    }
+
+    public function setStatus(string $status): void
+    {
+        $this->status = $status;
     }
 
     public function getCategory(): string

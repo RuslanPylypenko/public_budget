@@ -15,6 +15,12 @@ use App\Session\SessionEntity as Session;
 #[Mapping\ChangeTrackingPolicy('DEFERRED_EXPLICIT')]
 class StageEntity
 {
+    public const STAGE_SUBMISSION = "submission";
+    public const STAGE_REVIEW = "review";
+    public const STAGE_VOTING = "voting";
+    public const STAGE_DECISION = "decision";
+    public const STAGE_IMPLEMENTATION = "implementation";
+
     #[Mapping\Id]
     #[Mapping\Column(type: Types::INTEGER, options: ['unsigned' => true])]
     #[Mapping\GeneratedValue]
@@ -66,5 +72,25 @@ class StageEntity
             'startDate' => $this->startDate,
             'endDate'   => $this->endDate,
         ];
+    }
+
+    public function getStartDate(): ?DateTime
+    {
+        return $this->startDate;
+    }
+
+    public function getEndDate(): ?DateTime
+    {
+        return $this->endDate;
+    }
+
+    public function isEnable(): bool
+    {
+        return $this->isEnable;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 }
