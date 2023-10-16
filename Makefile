@@ -21,6 +21,8 @@ destroy:
 build:
 	docker-compose build
 
+init: destroy build up
+
 ##################
 # App
 ##################

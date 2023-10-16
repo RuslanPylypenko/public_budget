@@ -4,6 +4,8 @@ namespace App\User;
 
 use App\Http\Annotation\Authenticate\UserInterface;
 use App\Project\ProjectEntity as Project;
+use App\ProjectVote\ProjectVoteEntity;
+use App\Session\StageEntity;
 use App\Utils\DateTime;
 use App\Utils\Random;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -12,7 +14,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
-#[Mapping\Entity(repositoryClass: UserRepository::class)]
+#[Mapping\Entity(repositoryClass: Repository::class)]
 #[Mapping\Table(name: 'user')]
 #[Mapping\HasLifecycleCallbacks]
 #[Mapping\ChangeTrackingPolicy('DEFERRED_EXPLICIT')]
@@ -62,6 +64,8 @@ class UserEntity implements UserInterface, PasswordAuthenticatedUserInterface
     #[Mapping\OneToMany(mappedBy: 'project', targetEntity: Project::class, cascade: ['persist'])]
     private Collection $projects;
 
+    #[Mapping\OneToMany(mappedBy: 'user', targetEntity: ProjectVoteEntity::class, cascade: ['persist'], indexBy: 'id')]
+    private Collection $votes;
 
     #[Mapping\Column(name: 'update_date', type: Types::DATETIME_MUTABLE)]
     private \DateTime $updateDate;
@@ -191,6 +195,13 @@ class UserEntity implements UserInterface, PasswordAuthenticatedUserInterface
     public function setConfirmToken(?ConfirmToken $confirmToken): void
     {
         $this->confirmToken = $confirmToken;
+    }
+
+    // ----------------------------------------
+
+    public function getVotes(): Collection
+    {
+        return $this->votes;
     }
 
     // ----------------------------------------

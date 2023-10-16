@@ -11,7 +11,7 @@ use App\Utils\DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping;
 
-#[Mapping\Entity]
+#[Mapping\Entity(repositoryClass: Repository::class)]
 #[Mapping\Table(name: 'project')]
 #[Mapping\HasLifecycleCallbacks]
 #[Mapping\ChangeTrackingPolicy('DEFERRED_EXPLICIT')]

@@ -21,6 +21,15 @@ class StageEntity
     public const STAGE_DECISION = "decision";
     public const STAGE_IMPLEMENTATION = "implementation";
 
+
+    public const STAGES = [
+        self::STAGE_SUBMISSION,
+        self::STAGE_REVIEW,
+        self::STAGE_VOTING,
+        self::STAGE_DECISION,
+        self::STAGE_IMPLEMENTATION,
+    ];
+
     #[Mapping\Id]
     #[Mapping\Column(type: Types::INTEGER, options: ['unsigned' => true])]
     #[Mapping\GeneratedValue]
