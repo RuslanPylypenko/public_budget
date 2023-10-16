@@ -5,6 +5,7 @@ namespace App\Project\Command;
 use App\Project\ProjectEntity as Project;
 use App\Session\SessionEntity;
 use App\Session\StageEntity as Stage;
+use App\Utils\DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -22,9 +23,18 @@ class UpdateProjectStatus extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $sessions = $this->em->getRepository(SessionEntity::class)->findAll();
+        $qb = $this->em->getRepository(SessionEntity::class)->createQueryBuilder('s');
+        $qb
+            ->where(
+                $qb->expr()->orX(
+                    $qb->expr()->isNull('s.projectStatusUpdateLastRunDate'),
+                    $qb->expr()->eq('s.projectStatusUpdateLastRunDate', ':border_date')
+                )
+            )
+            ->setParameter('border_date', DateTime::fromString('-10 minutes'));
 
-        foreach ($sessions as $session) {
+        /** @var SessionEntity $session */
+        foreach ($qb->getQuery()->getResult() as $session) {
             switch ($session->getStage()?->getName()) {
                 case Stage::STAGE_VOTING:
                     $this->voting($session);
@@ -35,7 +45,12 @@ class UpdateProjectStatus extends Command
                 case Stage::STAGE_IMPLEMENTATION:
                     $this->implementation($session);
             }
+
+            $session->setProjectStatusUpdateLastRunDate(DateTime::current());
+            $this->em->persist($session);
         }
+
+        $this->em->flush();
 
         return Command::SUCCESS;
     }

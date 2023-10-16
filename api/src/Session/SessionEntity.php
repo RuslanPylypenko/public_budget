@@ -35,6 +35,9 @@ class SessionEntity
     #[Mapping\OneToMany(mappedBy: 'session', targetEntity: Project::class, cascade: ['persist'], indexBy: 'id')]
     private Collection $projects;
 
+    #[Mapping\Column(name: 'project_status_update_last_run_date', type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTime $projectStatusUpdateLastRunDate;
+
     #[Mapping\Column(name: 'update_date', type: Types::DATETIME_MUTABLE)]
     private \DateTime $updateDate;
 
@@ -61,9 +64,11 @@ class SessionEntity
     public function __construct(
         string $name,
         City $city,
+        ?\DateTime $projectStatusUpdateLastRunDate = null,
     ) {
         $this->name = $name;
         $this->city = $city;
+        $this->projectStatusUpdateLastRunDate = $projectStatusUpdateLastRunDate;
     }
 
     // ----------------------------------------
@@ -116,5 +121,15 @@ class SessionEntity
     public function getStages(): Collection
     {
         return $this->stages;
+    }
+
+    public function getProjectStatusUpdateLastRunDate(): ?\DateTime
+    {
+        return $this->projectStatusUpdateLastRunDate;
+    }
+
+    public function setProjectStatusUpdateLastRunDate(?\DateTime $projectStatusUpdateLastRunDate): void
+    {
+        $this->projectStatusUpdateLastRunDate = $projectStatusUpdateLastRunDate;
     }
 }
