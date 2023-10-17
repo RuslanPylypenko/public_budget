@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 
 export function Home() {
     let [city, setCity] = useState(null);
+    let [statistic, setStatistic] = useState(null);
 
     useEffect(() => {
         fetch('http://localhost:8081/api/city/', {
@@ -11,14 +12,24 @@ export function Home() {
         })
             .then( response => response.json() )
             .then( data => setCity(data.city) )
+            .then( data => {
+                console.log(city && city['currentSession'].stages[0].name);
+                let stage = 'submission';
+                fetch(`http://lviv.pb.local:8081/api/sessions/statistic/${stage}/`, {
+                    method: 'GET',
+                })
+                    .then( response => response.json() )
+                    .then( data => setStatistic(data) )
+            })
             .catch( err => console.log('Error', err) );
     }, []);
 
     return (
+
         <>
             <Promo mainTitle={city && city.mainTitle} mainText={city && city.mainText} />
             <Timeline stages={city && city.currentSession.stages} />
-            <Projects />
+            <Projects statistic={statistic && statistic} stage={city && city['currentSession'].stages[0].name} />
 
             <Container>
                 <section style={{ padding: `80px 0` }}>
