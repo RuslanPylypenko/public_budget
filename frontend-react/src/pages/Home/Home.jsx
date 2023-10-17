@@ -13,7 +13,7 @@ export function Home() {
             .then( response => response.json())
             .then( data => {
                 setCity(data.city);
-                return city.currentSession.stages.find(stage => new Date > new Date(stage.startDate) && new Date() < new Date(stage.endDate));
+                return data.city.currentSession.stages.find(stage => new Date > new Date(stage.startDate) && new Date() < new Date(stage.endDate));
             })
             .then( stage => {
                 fetch(`http://lviv.pb.local:8081/api/sessions/statistic/${stage.name}/`, {
