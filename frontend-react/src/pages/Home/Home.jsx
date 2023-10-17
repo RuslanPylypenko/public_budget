@@ -10,10 +10,11 @@ export function Home() {
         fetch('http://localhost:8081/api/city/', {
             method: 'GET',
         })
-            .then( response => {
-                return response.json()
-            } )
-            .then( data => (setCity(data.city), data.city))
+            .then( response => response.json())
+            .then( data => {
+                setCity(data.city);
+                return data.city
+            })
             .then( city => {
                 let stage = city.currentSession.stages.find(stage => new Date > new Date(stage.startDate) && new Date() < new Date(stage.endDate));
                 fetch(`http://lviv.pb.local:8081/api/sessions/statistic/${stage.name}/`, {
