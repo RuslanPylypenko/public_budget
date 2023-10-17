@@ -28,18 +28,17 @@ class DataBuilder
             'number'      => $project->getNumber(),
             'status'      => $project->getStatus(),
             'budget'      => $project->getBudget(),
-            'short'       => $project->getShort(),
             'author'      => [
                 'name' => $project->getAuthor()->getFullName()
             ],
-            'main_image'  => $this->buildImageUrl($project->getMainImage()),
-            'images'      => array_map(fn($image) => $this->buildImageUrl($image) , $project->getImages()),
             'address'     => $project->getAddress()?->getLocalAddress(),
             'create_date' => $project->getCreateDate(),
         ];
 
         if ($extend) {
+            $data['short'] = $project->getShort();
             $data['description'] = $project->getDescription();
+            $data['images'] = array_map(fn($image) => $this->buildImageUrl($image) , $project->getImages());
         }
 
         return $data;

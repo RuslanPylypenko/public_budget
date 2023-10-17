@@ -11,11 +11,14 @@ use App\Project\Uploader\FileUploader;
 use App\Session\SessionEntity;
 use App\User\UserEntity;
 use Bluemmb\Faker\PicsumPhotosProvider;
+use DavidBadura\FakerMarkdownGenerator\FakerProvider as FakerProvider;
+use DavidBadura\MarkdownBuilder\MarkdownBuilder;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use App\Kernel;
+use Faker\Provider\uk_UA\Text;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ProjectFixtures extends Fixture implements DependentFixtureInterface
@@ -29,7 +32,9 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('uk_UA');
+        $faker->addProvider(new Text($faker));
         $faker->addProvider(new PicsumPhotosProvider($faker));
+        $faker->addProvider(new FakerProvider($faker));
 
         $users = $manager->getRepository(UserEntity::class)
             ->findAll();
@@ -47,8 +52,8 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
                     status: $faker->randomElement(ProjectFactory::PROJECT_STATUSES),
                     budget: $faker->randomFloat(nbMaxDecimals: 2, min: 10000, max: 1000000),
                     name: $faker->sentence(5),
-                    short: $faker->sentences(5, true),
-                    description: $faker->sentences(20, true),
+                    short: $faker->text(200),
+                    description: $faker->markdown() . (new MarkdownBuilder())->p($faker->sentences(20, true))->getMarkdown(),
                     author: $faker->randomElement($users),
                     session: $session,
                 );
