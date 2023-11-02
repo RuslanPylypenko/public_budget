@@ -82,6 +82,8 @@
         "bluemmb/faker-picsum-photos-provider": "^2.0",
         "davidbadura/faker-markdown-generator": "^1.1",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
-        "fakerphp/faker": "^1.23"
+        "fakerphp/faker": "^1.23",
+        "symfony/stopwatch": "6.3.*",
+        "symfony/web-profiler-bundle": "6.3.*"
     }
 }
