@@ -1,47 +1,45 @@
-##################
-# Variables
-##################
+init: docker-down-clear docker-pull docker-build docker-up api-init
+up: docker-up
+down: docker-down
+restart: down up
+lint: api-lint
 
-DOCKER_COMPOSE = docker-compose --env-file ./api/.env
-DOCKER_COMPOSE_PHP_FPM_EXEC = ${DOCKER_COMPOSE} exec -u www-data api-php-fpm
+docker-up:
+	docker-compose up -d
 
-##################
-# Docker compose
-##################
+docker-down:
+	docker-compose down --remove-orphans
 
-up:
-	docker-compose up --force-recreate --no-deps -d
-
-down:
-	docker-compose down
-
-destroy:
+docker-down-clear:
 	docker-compose down -v --remove-orphans
 
-build:
+docker-pull:
+	docker-compose pull
+
+docker-build:
 	docker-compose build
 
-init: destroy build up
+api-init: api-composer-install
 
-##################
-# App
-##################
+api-composer-install:
+	docker-compose run --rm api-php-cli composer install
+
+api-lint:
+	docker-compose run --rm api-php-cli composer lint
 
 
-install:
+install-data:
 	docker-compose exec api-php-fpm php bin/console doctrine:fixtures:load
 
 bash:
-	${DOCKER_COMPOSE} exec api-php-fpm bash
+	docker-compose exec api-php-cli bash -it
 
-
-##################
-# Database
-##################
+test:
+	docker-compose exec api-php-cli ./vendor/bin/phpunit
 
 migrate:
-	${DOCKER_COMPOSE} exec -u www-data api-php-fpm bin/console doctrine:migrations:migrate --no-interaction
+	docker-compose exec -u www-data api-php-fpm bin/console doctrine:migrations:migrate --no-interaction
 diff:
-	${DOCKER_COMPOSE} exec -u www-data api-php-fpm bin/console doctrine:migrations:diff --no-interaction
+	docker-compose exec -u www-data api-php-fpm bin/console doctrine:migrations:diff --no-interaction
 drop:
-	${DOCKER_COMPOSE} exec -u www-data api-php-fpm bin/console doctrine:schema:drop --force
+	docker-compose exec -u www-data api-php-fpm bin/console doctrine:schema:drop --force

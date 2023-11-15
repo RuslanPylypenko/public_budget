@@ -43,7 +43,6 @@ class Handler extends AbstractController
             new ConfirmToken(Uuid::uuid4()->toString(), DateTime::current()->modify('+ 1 day')),
             $command->passport,
             $command->phone
-
         );
 
         $user->setPassword($this->passwordHasher->hashPassword($user, $command->password));
