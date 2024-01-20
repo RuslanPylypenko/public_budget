@@ -32,8 +32,7 @@ class Handler extends AbstractController
 
         $user->getConfirmToken()->validate($token, DateTime::current());
 
-        $user->setConfirmToken(null);
-        $user->setStatus($user::STATUS_ACTIVE);
+        $user->confirmSignUp();
 
         $this->em->persist($user);
         $this->em->flush();

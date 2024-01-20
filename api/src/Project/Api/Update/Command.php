@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Project\Api\Create;
+namespace App\Project\Api\Update;
 
 use App\Api\InputInterface;
 use App\Project\Category;

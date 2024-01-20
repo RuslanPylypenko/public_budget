@@ -29,7 +29,7 @@ api-lint:
 
 
 install-data:
-	docker-compose exec api-php-fpm php bin/console doctrine:fixtures:load
+	docker-compose exec api-php-fpm php bin/console doctrine:fixtures:load --no-interaction
 
 bash:
 	docker-compose exec api-php-cli bash -it

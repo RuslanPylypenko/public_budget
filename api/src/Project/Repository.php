@@ -5,6 +5,8 @@ namespace App\Project;
 use App\Session\SessionEntity;
 use Doctrine\ORM\EntityRepository;
 use App\Project\ProjectEntity as Project;
+use DomainException;
+use InvalidArgumentException;
 
 /**
  * @template-extends EntityRepository<ProjectEntity>
@@ -81,5 +83,19 @@ class Repository extends EntityRepository
             ]);
 
         return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     */
+    public function get(SessionEntity $session, int $projectNumber): Project
+    {
+        if (!$project = $this->findOneBy([
+            'session' => $session,
+            'number'  => $projectNumber
+        ])) {
+            throw new DomainException('Project is not found.');
+        }
+        return $project;
     }
 }

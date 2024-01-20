@@ -66,7 +66,8 @@ class ProjectFactory
 
         foreach ($images as $image){
             /** @var UploadedFile $image */
-            $this->fileUploader->uploadProjectImage($image, $project);
+            $projectImage = $this->fileUploader->uploadProjectImage($image, $project);
+            $project->addImage($projectImage->getFileName());
         }
 
         return $project;

@@ -151,9 +151,19 @@ class ProjectEntity
         return $this->budget;
     }
 
+    public function setBudget(float $budget): void
+    {
+        $this->budget = $budget;
+    }
+
     public function getName(): string
     {
         return $this->name;
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
     }
 
     public function getShort(): string
@@ -161,9 +171,19 @@ class ProjectEntity
         return $this->short;
     }
 
+    public function setShort(string $short): void
+    {
+        $this->short = $short;
+    }
+
     public function getDescription(): string
     {
         return $this->description;
+    }
+
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
     }
 
     public function getAuthor(): User
@@ -204,6 +224,13 @@ class ProjectEntity
     public function addImage(string $path): void
     {
         $this->images[] = $path;
+    }
+
+    public function removeImage(string $path): void
+    {
+        if(false !== $key = array_search($path, $this->images)){
+           $this->images = array_slice($this->images, $key, 1);
+        }
     }
 
     public function setCategory(Category $category): void

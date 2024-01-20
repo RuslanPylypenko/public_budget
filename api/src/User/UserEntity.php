@@ -197,6 +197,15 @@ class UserEntity implements UserInterface, PasswordAuthenticatedUserInterface
         $this->confirmToken = $confirmToken;
     }
 
+    public function confirmSignUp(): void
+    {
+        if (!$this->isNew()) {
+            throw new \DomainException('User is already confirmed.');
+        }
+        $this->status = self::STATUS_ACTIVE;
+        $this->confirmToken = null;
+    }
+
     // ----------------------------------------
 
     public function getVotes(): Collection
