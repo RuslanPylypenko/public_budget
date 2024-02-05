@@ -1,0 +1,15 @@
+POST http://localhost:8081/api/user/registration/request/
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Test",
+  "surname": "Surname",
+  "patronymic": "Test",
+  "email": "app.test@mail.com",
+  "birthday": "1999-05-30",
+  "password": "password",
+  "re_password": "password"
+}
+
+###

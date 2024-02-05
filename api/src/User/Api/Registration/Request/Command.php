@@ -5,18 +5,21 @@ declare(strict_types=1);
 namespace App\User\Api\Registration\Request;
 
 use App\Api\InputInterface;
+use Symfony\Component\Serializer\Annotation\SerializedPath;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class Command implements InputInterface
 {
     #[Assert\NotBlank]
-    #[Assert\Length(min: 3, max: 255)]
+    #[Assert\Length(min: 1, max: 255)]
     public string $name;
 
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 1, max: 255)]
     public string $surname;
 
     #[Assert\NotBlank]
-    #[Assert\Length(min: 3, max: 255)]
+    #[Assert\Length(min: 1, max: 255)]
     public string $patronymic;
 
     public ?string $passport = null;
@@ -30,12 +33,14 @@ class Command implements InputInterface
     public string $email;
 
     #[Assert\Date]
+    #[Assert\NotBlank]
     public string $birthday;
 
     #[Assert\NotBlank, Assert\Length(min: 6, max: 255)]
     public ?string $password = null;
 
     #[Assert\NotBlank, Assert\Length(min: 6, max: 255)]
+    #[SerializedPath('[re_password]')]
     public ?string $rePassword = null;
 
     #[Assert\IsTrue(message: 'The rePasswordField has to the same as password')]
