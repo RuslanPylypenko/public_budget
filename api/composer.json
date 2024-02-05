@@ -16,7 +16,6 @@
         "lcobucci/jwt": "^5.0",
         "league/flysystem-bundle": "^3.2",
         "league/flysystem-ftp": "^3.16",
-        "nelmio/api-doc-bundle": "^4.19",
         "ramsey/uuid": "^4.7",
         "symfony/console": "6.3.*",
         "symfony/dotenv": "6.3.*",
@@ -27,6 +26,7 @@
         "symfony/runtime": "6.3.*",
         "symfony/security-bundle": "6.3.*",
         "symfony/serializer": "6.3.*",
+        "symfony/twig-bundle": "6.3.*",
         "symfony/validator": "6.3.*",
         "symfony/yaml": "6.3.*",
         "webmozart/assert": "^1.11"
