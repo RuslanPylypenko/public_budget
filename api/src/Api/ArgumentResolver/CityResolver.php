@@ -20,7 +20,7 @@ class CityResolver implements ValueResolverInterface
     {
         if ($argument->getType() === CityEntity::class) {
             $scheme     = $request->getScheme();
-            $httpOrigin = $request->server->get('HTTP_ORIGIN') ?? sprintf('%s://%s', $scheme, $request->server->get('HTTP_HOST'));
+            $httpOrigin = $request->headers->get('X-HOST') ?? $request->server->get('HTTP_ORIGIN') ?? sprintf('%s://%s', $scheme, $request->server->get('HTTP_HOST'));
             $subdomain  = null;
 
             if (preg_match("#$scheme://([a-z]+)\.#", $httpOrigin, $matches)) {
