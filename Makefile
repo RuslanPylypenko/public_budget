@@ -1,11 +1,13 @@
-init: docker-down-clear docker-pull docker-build docker-up api-init
+init: docker-down-clear api-clear docker-pull docker-build docker-up api-init api-fixtures
 up: docker-up
+build: docker-build
 down: docker-down
-restart: down up
-lint: api-lint
 
 docker-up:
 	docker-compose up -d
+
+docker-build:
+	docker-compose build
 
 docker-down:
 	docker-compose down --remove-orphans
@@ -16,30 +18,29 @@ docker-down-clear:
 docker-pull:
 	docker-compose pull
 
-docker-build:
-	docker-compose build
+api-clear:
+	docker run --rm -v ${PWD}/api:/app -w /app alpine sh -c 'rm -rf var/*'
+	docker run --rm -v ${PWD}/storage:/storage -w /storage alpine sh -c 'rm -rf public/*'
 
-api-init: api-composer-install
+api-init: api-permissions api-composer-install api-wait-db api-migrations
+
+api-fixtures:
+	docker-compose run --rm api-php-cli php bin/console doctrine:fixtures:load --no-interaction
+
+api-test:
+	docker-compose run --rm api-php-cli ./vendor/bin/phpunit
+
+api-permissions:
+	docker run --rm -v ${PWD}/api:/app -w /app alpine chmod 777 var
+
+api-migrations:
+	docker-compose run --rm api-php-cli composer app do:mi:mi --no-interaction
 
 api-composer-install:
 	docker-compose run --rm api-php-cli composer install
 
-api-lint:
-	docker-compose run --rm api-php-cli composer lint
-
-
-install-data:
-	docker-compose exec api-php-fpm php bin/console doctrine:fixtures:load --no-interaction
+api-wait-db:
+	docker-compose run --rm api-php-cli wait-for-it api-mysql:3306 -t 30
 
 bash:
 	docker-compose exec api-php-cli bash -it
-
-test:
-	docker-compose exec api-php-cli ./vendor/bin/phpunit
-
-migrate:
-	docker-compose exec -u www-data api-php-fpm bin/console doctrine:migrations:migrate --no-interaction
-diff:
-	docker-compose exec -u www-data api-php-fpm bin/console doctrine:migrations:diff --no-interaction
-drop:
-	docker-compose exec -u www-data api-php-fpm bin/console doctrine:schema:drop --force

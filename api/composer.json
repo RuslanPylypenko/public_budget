@@ -69,7 +69,8 @@
         "post-update-cmd": [
             "@auto-scripts"
         ],
-        "lint": "phplint --no-cache"
+        "lint": "phplint --no-cache",
+        "app": "php bin/console --ansi"
     },
     "conflict": {
         "symfony/symfony": "*"

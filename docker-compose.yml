@@ -15,7 +15,6 @@ services:
       dockerfile: 'php-fpm.dockerfile'
     volumes:
       - ./api:/var/www/api
-    working_dir: /var/www/api
     restart: on-failure
     user: root
     depends_on:
@@ -29,13 +28,6 @@ services:
       dockerfile: 'php-cli.dockerfile'
     volumes:
       - ./api:/var/www/api
-    command: >
-      sh -c "
-      composer install --no-interaction --no-cache
-      && php bin/console doctrine:database:create --if-not-exists
-      && php bin/console doctrine:migrations:migrate --all-or-nothing --allow-no-migration -vvv
-      && crond -f"
-    working_dir: /var/www/api
     restart: on-failure
     user: root
     depends_on:
