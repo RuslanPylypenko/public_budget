@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\City\Api\Get;
 
 use App\City\Api\DataBuilder;

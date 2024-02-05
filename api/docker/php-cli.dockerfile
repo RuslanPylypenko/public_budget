@@ -1,8 +1,8 @@
-FROM php:8.1-cli-alpine
+FROM php:8.2-cli-alpine
 
 # Install required packages and extensions
 RUN apk add --no-cache libzip-dev zip mysql-client \
-    && docker-php-ext-install zip pdo pdo_mysql
+    && docker-php-ext-install zip pdo pdo_mysql ftp
 
 # Install Composer globally
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \

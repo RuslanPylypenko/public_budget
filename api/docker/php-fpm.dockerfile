@@ -1,4 +1,4 @@
-FROM php:8.1.0-fpm-alpine
+FROM php:8.2.0-fpm-alpine
 
 # Install packages
 RUN apk add --no-cache curl git build-base zlib-dev oniguruma-dev autoconf bash && \
@@ -6,7 +6,7 @@ RUN apk add --no-cache curl git build-base zlib-dev oniguruma-dev autoconf bash 
     echo 'max_execution_time = 300' >> /usr/local/etc/php/conf.d/docker-php-maxexectime.ini;
 
 # Mysql
-RUN apk add --no-cache libpq-dev && docker-php-ext-install pdo_mysql
+RUN apk add --no-cache libpq-dev && docker-php-ext-install pdo_mysql ftp
 
 # Configure non-root user.
 ARG PUID=1000
