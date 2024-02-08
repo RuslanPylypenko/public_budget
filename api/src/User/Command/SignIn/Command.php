@@ -1,11 +1,12 @@
 <?php
 
-namespace App\User\Api\Login;
+namespace App\User\Command\SignIn;
 
 use App\Api\InputInterface;
+use App\Common\CQRS\ICommand;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Command implements InputInterface
+class Command implements InputInterface, ICommand
 {
     #[Assert\Email(
         message: 'The email {{ value }} is not a valid email.',

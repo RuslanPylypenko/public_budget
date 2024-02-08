@@ -6,10 +6,32 @@ Accept: application/json
   "name": "Test",
   "surname": "Surname",
   "patronymic": "Test",
-  "email": "app.test@mail.com",
+  "email": "app5.test@mail.com",
   "birthday": "1999-05-30",
   "password": "password",
   "re_password": "password"
 }
+
+###
+
+GET http://localhost:8081/api/user/registration/confirm/dd01a73d-8889-4fd8-bbca-23281e73f7b5
+Accept: application/json
+
+###
+
+POST http://localhost:8081/api/user/login/
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "app5.test@mail.com",
+  "password": "password"
+}
+
+###
+
+GET http://localhost:8081/api/user/
+Accept: application/json
+access-token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJQdWJsaWNCdWRnZXQiLCJqdGkiOiI2NjM5ZmZkYS0yODM1LTRmOGYtOWIxYi1lMzdiZTVlOWY0OGMiLCJpYXQiOjE3MDczNjg0MzUuMjE2MDEzLCJ1c2VyX2VtYWlsIjoiYXBwNS50ZXN0QG1haWwuY29tIiwibmJmIjoxNzA3MzY4NDM1LjIxNjAxMywiZXhwIjoxNzA3NDU0ODM1LjIxNjAxM30.zxoTK0TdpkTBtfEAmOpHR9VU2e1YS0lkej6ieRFq8yA
 
 ###

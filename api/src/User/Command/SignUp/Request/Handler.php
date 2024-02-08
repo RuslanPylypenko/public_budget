@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\User\Api\Registration\Request;
+namespace App\User\Command\Registration\Request;
 
 use App\Api\Exception\AlreadyExistsApiException;
+use App\Common\CQRS\CommandHandler;
 use App\User\ConfirmToken;
 use App\User\Events\UserRegisteredEvent;
 use App\User\UserEntity;
@@ -18,19 +19,18 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Ramsey\Uuid\Uuid;
 
-class Handler extends AbstractController
+readonly class Handler implements CommandHandler
 {
     public function __construct(
-        private readonly UserPasswordHasherInterface $passwordHasher,
-        private readonly EntityManagerInterface $em,
-        private readonly EventDispatcherInterface $dispatcher,
+        private UserPasswordHasherInterface $passwordHasher,
+        private EntityManagerInterface $em,
+        private EventDispatcherInterface $dispatcher,
     ) {
     }
 
-    #[Route('/user/registration/request/', methods: ['POST'])]
-    public function process(Request $request, Command $command): Response
+    public function __invoke(Command $command): void
     {
-        if($this->em->getRepository(UserEntity::class)->findByEmail($command->email) !== null){
+        if ($this->em->getRepository(UserEntity::class)->findByEmail($command->email) !== null) {
             throw new AlreadyExistsApiException();
         }
 
@@ -51,9 +51,5 @@ class Handler extends AbstractController
         $this->em->flush();
 
         $this->dispatcher->dispatch(new UserRegisteredEvent($user), UserRegisteredEvent::NAME);
-
-        return $this->json([
-            'message' => 'Check your email'
-        ]);
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Api\ArgumentResolver;
 
 use App\Api\Exception\ApiException;
@@ -17,11 +19,11 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
 
-class DtoResolver implements ValueResolverInterface
+readonly class DtoResolver implements ValueResolverInterface
 {
     public function __construct(
-        private readonly SerializerInterface $serializer,
-        private readonly Validator $validator,
+        private SerializerInterface $serializer,
+        private Validator           $validator,
     ) {
     }
 

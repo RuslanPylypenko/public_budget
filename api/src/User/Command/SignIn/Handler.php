@@ -5,6 +5,7 @@ namespace App\User\Api\Login;
 use App\Api\Exception\ApiException;
 use App\Api\Exception\ValidationException;
 use App\Api\Validator\Validator;
+use App\Common\CQRS\CommandHandler;
 use App\Http\Annotation\Authenticate\TokenManager;
 use App\User\PasswordHasher;
 use App\User\UserEntity;
@@ -14,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class Handler extends AbstractController
+class Handler implements CommandHandler
 {
     public function __construct(
         private readonly EntityManagerInterface $em,

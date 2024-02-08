@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\User\Api\Registration\Confirm;
+namespace App\User\Command\Registration\Confirm;
 
 use App\Api\Exception\ApiException;
+use App\Common\CQRS\CommandHandler;
 use App\Http\Annotation\Authenticate\TokenManager;
 use App\User\UserEntity;
 use App\Utils\DateTime;
@@ -14,31 +15,25 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class Handler extends AbstractController
+readonly class Handler implements CommandHandler
 {
     public function __construct(
-        private readonly EntityManagerInterface $em,
-        private readonly TokenManager $tokenManager,
+        private EntityManagerInterface $em,
     ) {
     }
 
-    #[Route('/user/registration/confirm/{token}', methods: ['GET'])]
-    public function process(Request $request, string $token): Response
+    public function __invoke(Command $command): void
     {
         /** @var null|UserEntity $user */
-        if (null === $user = $this->em->getRepository(UserEntity::class)->findByConfirmToken($token)) {
+        if (null === $user = $this->em->getRepository(UserEntity::class)->findByConfirmToken($command->token)) {
             throw new ApiException('Entity not found');
         }
 
-        $user->getConfirmToken()->validate($token, DateTime::current());
+        $user->getConfirmToken()->validate($command->token, DateTime::current());
 
         $user->confirmSignUp();
 
         $this->em->persist($user);
         $this->em->flush();
-
-        return $this->json([
-            'access_token' => $this->tokenManager->build($user, $request)->toString()
-        ]);
     }
 }

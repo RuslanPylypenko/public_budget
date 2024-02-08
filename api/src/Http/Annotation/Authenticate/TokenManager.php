@@ -45,7 +45,6 @@ class TokenManager
 
     public function build(
         ?UserInterface $user = null,
-        ?Request $request = null,
         int $lifetime = 3600 * 24,
         array $claims = [self::IP_CLM, self::USER_AGENT_CLM, self::USER_EMAIL_CLM, self::HASH_SESSION_CLM],
         ?string $issuedBy = null,

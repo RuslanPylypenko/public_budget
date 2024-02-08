@@ -1,5 +1,5 @@
 api:
-    resource: ../src/**/Api/**/Handler.php
+    resource: ../src/Http/Controller/*Controller.php
     type: attribute
     prefix: 'api'
     name_prefix: api

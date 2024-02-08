@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\User\Api\Registration\Request;
+namespace App\User\Command\Registration\Request;
 
 use App\Api\InputInterface;
+use App\Common\CQRS\ICommand;
 use Symfony\Component\Serializer\Annotation\SerializedPath;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Command implements InputInterface
+class Command implements ICommand, InputInterface
 {
     #[Assert\NotBlank]
     #[Assert\Length(min: 1, max: 255)]
@@ -59,7 +60,6 @@ class Command implements InputInterface
         $value = $this->formatPassport($this->passport);
         $allowedLetters = 'АВСЕНІКЛМОРТЮФ';
         $value = preg_replace('/[^0-9' . $allowedLetters . ']/', '', $value);
-        dd(!!preg_match('/(^[' . $allowedLetters . ']{2}\d{6}$)|(^\d{9}$)/u', $value));
         return !!preg_match('/(^[' . $allowedLetters . ']{2}\d{6}$)|(^\d{9}$)/u', $value);
     }
 
