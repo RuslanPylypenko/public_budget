@@ -29,7 +29,9 @@ class HttpKernelListener implements EventSubscriberInterface
                 new JsonResponse([
                     'text' => $e->getMessage(),
                     'code' => $e->getCode()
-                ]));
+                ],
+                    $e->getCode()
+                ));
         }
 
         if ($e instanceof \DomainException) {

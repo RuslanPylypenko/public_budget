@@ -53,12 +53,12 @@ class AuthController extends AbstractController
     public function signUpConfirm(string $token): Response
     {
         if (!$this->existsByConfirmToken($token)) {
-            throw new ApiException('Entity not found');
+            throw new ApiException('Entity not found', Response::HTTP_NOT_FOUND);
         }
 
         /** @var UserEntity $user */
         if (null === $user = $this->em->getRepository(UserEntity::class)->findByConfirmToken($token)) {
-            throw new ApiException('Invalid email or password.');
+            throw new ApiException('Invalid email or password.', Response::HTTP_BAD_REQUEST);
         }
 
         $this->commandBus->dispatch(new SignUpConfirmCommand($token));
