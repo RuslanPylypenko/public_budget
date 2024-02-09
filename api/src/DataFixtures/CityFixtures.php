@@ -14,6 +14,9 @@ class CityFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
+
+        $faker = Factory::create('uk_UA');
+
         $city = new CityEntity(
             "Львів",
             'lviv',
@@ -34,7 +37,22 @@ class CityFixtures extends Fixture
             50.450001,
             30.523333,
         );
+
         $manager->persist($city);
+        $manager->flush();
+
+        for ($i = 0; $i <= 5; $i++) {
+            $city = new CityEntity(
+                $city = $faker->city,
+                $faker->slug(1),
+                "Бюджет участі у м. " . $city,
+                $faker->text(),
+                $faker->latitude(min: 50.430001, max: 50.470001),
+                $faker->latitude(min: 30.503333, max: 30.543333),
+            );
+            $manager->persist($city);
+        }
+
         $manager->flush();
     }
 }

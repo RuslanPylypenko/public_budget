@@ -83,6 +83,11 @@ class CityEntity
 
     // ----------------------------------------
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
     /**
      * @return Collection
      */

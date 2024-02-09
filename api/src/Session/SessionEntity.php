@@ -38,6 +38,12 @@ class SessionEntity
     #[Mapping\Column(name: 'project_status_update_last_run_date', type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTime $projectStatusUpdateLastRunDate;
 
+    #[Mapping\Column(name: 'start_date', type: Types::DATETIME_MUTABLE)]
+    private \DateTime $startDate;
+
+    #[Mapping\Column(name: 'end_date', type: Types::DATETIME_MUTABLE)]
+    private \DateTime $endDate;
+
     #[Mapping\Column(name: 'update_date', type: Types::DATETIME_MUTABLE)]
     private \DateTime $updateDate;
 
@@ -64,10 +70,14 @@ class SessionEntity
     public function __construct(
         string $name,
         City $city,
+        \DateTime $startDate,
+        \DateTime $endDate,
         ?\DateTime $projectStatusUpdateLastRunDate = null,
     ) {
         $this->name = $name;
         $this->city = $city;
+        $this->startDate = $startDate;
+        $this->endDate = $endDate;
         $this->projectStatusUpdateLastRunDate = $projectStatusUpdateLastRunDate;
     }
 
@@ -131,5 +141,35 @@ class SessionEntity
     public function setProjectStatusUpdateLastRunDate(?\DateTime $projectStatusUpdateLastRunDate): void
     {
         $this->projectStatusUpdateLastRunDate = $projectStatusUpdateLastRunDate;
+    }
+
+    public function getUpdateDate(): \DateTime
+    {
+        return $this->updateDate;
+    }
+
+    public function setUpdateDate(\DateTime $updateDate): void
+    {
+        $this->updateDate = $updateDate;
+    }
+
+    public function getStartDate(): \DateTime
+    {
+        return $this->startDate;
+    }
+
+    public function setStartDate(\DateTime $startDate): void
+    {
+        $this->startDate = $startDate;
+    }
+
+    public function getEndDate(): \DateTime
+    {
+        return $this->endDate;
+    }
+
+    public function setEndDate(\DateTime $endDate): void
+    {
+        $this->endDate = $endDate;
     }
 }

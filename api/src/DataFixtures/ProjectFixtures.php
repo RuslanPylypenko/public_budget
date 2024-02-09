@@ -44,7 +44,7 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
 
 
         foreach ($sessions as $session){
-            for ($i = 1; $i <= 20; $i++) {
+            for ($i = 1; $i <= 200; $i++) {
 
                 $project = new ProjectEntity(
                     number: $i,
@@ -82,14 +82,18 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
                 $imagesDir = $this->kernel->getDataFixturesPath() . '/images';
                 $images   = array_filter(scandir($imagesDir), fn($item) => is_file($imagesDir . '/' . $item));
 
-                foreach ($faker->randomElements($images, random_int(2, 6)) as $image){
+                foreach ($faker->randomElements($images, random_int(1, 3)) as $image){
                     $uploadedFile = new UploadedFile($imagesDir . '/' . $image, 'image.png');
                     $projectImage = $this->fileUploader->uploadProjectImage($uploadedFile, $project);
                     $project->addImage($projectImage->getFileName());
                 }
 
                 $manager->persist($project);
-                $manager->flush();
+
+                if($i % 500 === 0) {
+                    $manager->flush();
+                    $manager->clear();
+                }
             }
         }
 
