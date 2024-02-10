@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Project\Api\Get;
 
 use App\Api\Exception\ApiException;
-use App\Project\Api\DataBuilder;
 use App\Project\ProjectEntity as Project;
+use App\Project\Query\DataBuilder;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;

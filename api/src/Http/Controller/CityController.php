@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controller;
 
-use App\City\Api\DataBuilder;
 use App\City\CityEntity;
 use App\City\Query\GetWithProjects\Query as GetWithProjectsQuery;
 use App\Common\CQRS\QueryBus;
@@ -13,7 +14,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class CityController extends AbstractController
 {
     public function __construct(
-        private readonly DataBuilder $dataBuilder,
         private readonly QueryBus $queryBus,
     ) {
     }

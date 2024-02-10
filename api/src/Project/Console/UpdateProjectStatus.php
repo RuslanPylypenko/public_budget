@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Project\Command;
+namespace App\Project\Console;
 
 use App\Project\ProjectEntity as Project;
 use App\Session\SessionEntity;

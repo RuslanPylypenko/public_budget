@@ -1,0 +1,14 @@
+POST http://localhost:8081/api/projects/find/
+Content-Type: application/json
+Accept: application/json
+X-HOST: http://lviv.pb.org.ua
+
+{
+  "result": {
+    "limit": 10,
+    "offset": 0
+  }
+}
+
+###
+

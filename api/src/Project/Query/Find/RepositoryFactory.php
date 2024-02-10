@@ -1,25 +1,26 @@
 <?php
 
-namespace App\Project\Api\Find;
+declare(strict_types=1);
 
-use App\City\CityEntity as City;
-use App\Project\Api\Find\Filter\Search;
-use App\Project\ProjectEntity;
+namespace App\Project\Query\Find;
+
 use App\Api\Find\Repository;
+use App\Project\ProjectEntity;
+use App\Project\Query\Find\Filter\Search;
 use Doctrine\ORM\EntityManagerInterface;
 
-class RepositoryFactory
+readonly class RepositoryFactory
 {
     public function __construct(
-        private readonly EntityManagerInterface $em,
+        private EntityManagerInterface $em,
     ) {
     }
 
-    public function fromInput(City $city, Command $command): Repository
+    public function fromInput(Query $query): Repository
     {
         $decorators = [];
 
-        if($search = $command->search){
+        if($search = $query->search){
             $decorators[] = new Search(trim($search));
         }
 
@@ -27,10 +28,10 @@ class RepositoryFactory
 
         $qb->join('p.session', 's')
             ->where($qb->expr()->eq('s.city', ':city'))
-            ->setParameter('city', $city);
+            ->setParameter('city', $query->cityId);
 
         return (new Repository($qb))
-            ->setPagination($command->result['offset'], $command->result['limit'])
+            ->setPagination($query->result['offset'], $query->result['limit'])
             ->addDecorators($decorators);
     }
 }

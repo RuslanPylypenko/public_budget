@@ -1,14 +1,16 @@
 <?php
 
-namespace App\Project\Api\Find\Filter;
+declare(strict_types=1);
+
+namespace App\Project\Query\Find\Filter;
 
 use App\Api\Find\DecoratorInterface;
 use Doctrine\ORM\QueryBuilder;
 
-class Search implements DecoratorInterface
+readonly class Search implements DecoratorInterface
 {
     public function __construct(
-        private readonly string $search,
+        private string $search,
     ) {
     }
 

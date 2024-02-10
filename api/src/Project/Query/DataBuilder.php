@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Project\Api;
+namespace App\Project\Query;
 
 use App\Project\ProjectEntity as Project;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
-class DataBuilder
+readonly class DataBuilder
 {
     public function __construct(
-        private readonly ContainerBagInterface $containerBag,
+        private ContainerBagInterface $containerBag,
     ) {
     }
 
@@ -26,6 +26,7 @@ class DataBuilder
         $data = [
             'name'        => $project->getName(),
             'number'      => $project->getNumber(),
+            'image'       => $this->buildImageUrl($project->getMainImage()),
             'status'      => $project->getStatus(),
             'budget'      => $project->getBudget(),
             'author'      => [

@@ -36,10 +36,6 @@ readonly class DtoResolver implements ValueResolverInterface
 
         $payload = array_merge($request->getPayload()->all());
 
-        if (empty($payload)) {
-            throw new ApiException('CreateRequest can`t be empty', 400);
-        }
-
         try {
             $input = $this->serializer->deserialize(json_encode($payload), $argument->getType(), 'json', [
                 DenormalizerInterface::COLLECT_DENORMALIZATION_ERRORS => true,

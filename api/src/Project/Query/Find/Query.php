@@ -2,17 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Project\Api\Find;
+namespace App\Project\Query\Find;
 
 use App\Api\InputInterface;
+use App\Common\CQRS\IQuery;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Command implements InputInterface
+class Query implements IQuery, InputInterface
 {
     #[Assert\NotBlank(allowNull: true)]
     public ?string $search = null;
 
-    #[Assert\Collection(
+    public int|null $cityId = null;
+
+    #[Assert\NotBlank(allowNull: false), Assert\Collection(
         fields: [
             'limit' => new Assert\Required([
                 new Assert\NotBlank,
