@@ -91,10 +91,9 @@ class Repository extends EntityRepository
     public function get(SessionEntity $session, int $projectNumber): Project
     {
         if (!$project = $this->findOneBy([
-            'session' => $session,
-            'number'  => $projectNumber
+
         ])) {
-            throw new DomainException('Project is not found.');
+
         }
         return $project;
     }

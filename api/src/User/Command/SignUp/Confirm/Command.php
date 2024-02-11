@@ -1,6 +1,6 @@
 <?php
 
-namespace App\User\Command\Registration\Confirm;
+namespace App\User\Command\SignUp\Confirm;
 
 use App\Common\CQRS\ICommand;
 

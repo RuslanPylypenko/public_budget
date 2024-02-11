@@ -8,6 +8,7 @@ use App\Api\Exception\ApiException;
 use App\Api\Exception\ValidationException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 
@@ -30,7 +31,7 @@ class HttpKernelListener implements EventSubscriberInterface
                     'text' => $e->getMessage(),
                     'code' => $e->getCode()
                 ],
-                    $e->getCode()
+                    $e->getCode() === 0 ? 500 : $e->getCode()
                 ));
         }
 
@@ -53,6 +54,16 @@ class HttpKernelListener implements EventSubscriberInterface
                     'data' => $e->getErrors()->toArray()
                 ],
                     422
+                ));
+        }
+
+        if ($e instanceof UnauthorizedHttpException) {
+            $event->allowCustomResponseCode();
+            $event->setResponse(
+                new JsonResponse([
+                    'message' => $e->getMessage(),
+                ],
+                    401
                 ));
         }
     }

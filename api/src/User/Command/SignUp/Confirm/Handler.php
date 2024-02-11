@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\User\Command\Registration\Confirm;
+namespace App\User\Command\SignUp\Confirm;
 
 use App\Api\Exception\ApiException;
 use App\Common\CQRS\CommandHandler;

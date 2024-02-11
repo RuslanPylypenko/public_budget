@@ -9,10 +9,10 @@ use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class CityResolver implements ValueResolverInterface
+readonly class CityResolver implements ValueResolverInterface
 {
     public function __construct(
-       private readonly EntityManagerInterface $em,
+       private EntityManagerInterface $em,
     ) {
     }
 

@@ -2,13 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Project\Api\Update;
+namespace App\Project\Command\Update;
 
 use App\Api\InputInterface;
+use App\City\CityEntity;
+use App\Common\CQRS\ICommand;
 use App\Project\Category;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Command implements InputInterface
+class Command implements InputInterface, ICommand
 {
     #[Assert\Choice(callback: 'category')]
     public string $category;
@@ -35,8 +37,32 @@ class Command implements InputInterface
     ])]
     public array $images;
 
+    private ?CityEntity $city = null;
+
+    private ?int $number = null;
+
     public function category(): array
     {
         return array_column(Category::cases(), 'value');
+    }
+
+    public function getCity(): ?CityEntity
+    {
+        return $this->city;
+    }
+
+    public function setCity(?CityEntity $city): void
+    {
+        $this->city = $city;
+    }
+
+    public function getNumber(): ?int
+    {
+        return $this->number;
+    }
+
+    public function setNumber(?int $number): void
+    {
+        $this->number = $number;
     }
 }

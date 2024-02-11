@@ -44,7 +44,7 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
 
 
         foreach ($sessions as $session){
-            for ($i = 1; $i <= 200; $i++) {
+            for ($i = 1; $i <= random_int(60, 120); $i++) {
 
                 $project = new ProjectEntity(
                     number: $i,
@@ -89,15 +89,9 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
                 }
 
                 $manager->persist($project);
-
-                if($i % 500 === 0) {
-                    $manager->flush();
-                    $manager->clear();
-                }
             }
+            $manager->flush();
         }
-
-        $manager->flush();
     }
 
     public function getDependencies(): array

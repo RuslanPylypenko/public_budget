@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\User\Command\Registration\Request;
+namespace App\User\Command\SignUp\Request;
 
 use App\Api\Exception\AlreadyExistsApiException;
 use App\Common\CQRS\CommandHandler;
