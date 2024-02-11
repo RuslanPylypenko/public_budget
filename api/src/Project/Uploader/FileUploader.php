@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Project\Uploader;
 
 use App\Project\ProjectEntity;
@@ -7,11 +9,11 @@ use League\Flysystem\FilesystemOperator;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class FileUploader
+readonly class FileUploader
 {
     public function __construct(
-        private readonly FilesystemOperator $storage,
-        private readonly string $baseUrl,
+        private FilesystemOperator $storage,
+        private string             $baseUrl,
     ) {
     }
 

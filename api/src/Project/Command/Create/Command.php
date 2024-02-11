@@ -29,7 +29,7 @@ class Command implements InputInterface, ICommand
     #[Assert\NotBlank, Assert\Length(min: 1, max: 64000)]
     public string $description;
 
-    #[Assert\NotBlank(allowNull: true), Assert\All([
+    #[Assert\All([
         new Assert\Image(
             maxSize: 134217728, // 128 megabytes in bytes,
             mimeTypes: ["image/jpeg", "image/jpg", "image/png"],

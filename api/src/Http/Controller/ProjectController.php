@@ -10,7 +10,7 @@ use App\Common\CQRS\CommandBus;
 use App\Common\CQRS\QueryBus;
 use App\Http\Annotation\Authenticate;
 use App\Project\Command\Create\Command as CreateProjectCommand;
-use App\Project\Command\Update\Command;
+use App\Project\Command\Update\Command as UpdateProjectCommand;
 use App\Project\Query\DataBuilder;
 use App\Project\Query\Find\Query as ProjectFindQuery;
 use App\Project\Query\Get\Query as ProjectGetQuery;
@@ -56,11 +56,12 @@ class ProjectController extends AbstractController
         return $this->json([], Response::HTTP_CREATED);
     }
 
-    #[Route('/projects/{number}', methods: ['PUT']), Authenticate]
-    public function update(Command $command, CityEntity $city, int $number): Response
+    #[Route('/projects/{number}/update/', methods: ['POST']), Authenticate]
+    public function update(UpdateProjectCommand $command, CityEntity $city, UserEntity $user, int $number): Response
     {
         $command->setCity($city);
         $command->setNumber($number);
+        $command->setUser($user);
         $this->commandBus->dispatch($command);
 
         return $this->json([], Response::HTTP_OK);

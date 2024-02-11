@@ -39,7 +39,7 @@ readonly class Handler implements CommandHandler
         $project->setShort($command->short);
         $project->setDescription($command->description);
 
-        $this->fileUploader->updateProjectImages($project, $command->images);
+      //  $this->fileUploader->updateProjectImages($project, $command->images);
 
         $this->em->persist($project);
         $this->em->flush();

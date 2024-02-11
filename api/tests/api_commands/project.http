@@ -1,4 +1,47 @@
-POST {{api_url}}/api/projects/
+@number =201
+POST {{api_url}}/api/projects/{{number}}/update/
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+Accept: application/json
+X-HOST: http://lviv.pb.org.ua
+access-token: {{access_token}}
+
+--WebAppBoundary
+Content-Disposition: form-data; name="images[]"; filename="image.png"
+
+< ./../../src/DataFixtures/data/images/1be51092-75bf-455f-b0f4-cf16ec629bf6.png
+--WebAppBoundary--
+
+--WebAppBoundary
+Content-Disposition: form-data; name="budget"
+
+198000.99
+--WebAppBoundary--
+
+--WebAppBoundary
+Content-Disposition: form-data; name="name"
+
+Project UPDATED
+--WebAppBoundary--
+
+--WebAppBoundary
+Content-Disposition: form-data; name="short"
+
+my short description
+--WebAppBoundary--
+
+--WebAppBoundary
+Content-Disposition: form-data; name="description"
+
+description can contain <b>HTML</b>
+--WebAppBoundary--
+
+--WebAppBoundary
+Content-Disposition: form-data; name="category"
+
+education
+--WebAppBoundary--
+
+###POST {{api_url}}/api/projects/
 Content-Type: multipart/form-data; boundary=WebAppBoundary
 Accept: application/json
 X-HOST: http://lviv.pb.org.ua
