@@ -66,6 +66,16 @@ class HttpKernelListener implements EventSubscriberInterface
                     401
                 ));
         }
+
+//        if ($e instanceof \Throwable) {
+//            $event->allowCustomResponseCode();
+//            $event->setResponse(
+//                new JsonResponse([
+//                    'message' => $e->getMessage(),
+//                ],
+//                    500
+//                ));
+//        }
     }
 
 }

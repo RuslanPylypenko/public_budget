@@ -19,6 +19,8 @@ services:
       - ./api:/var/www/api
     restart: on-failure
     user: root
+    environment:
+      PHP_IDE_CONFIG: "serverName=localhost"
     depends_on:
       - api-mysql
       - mailer

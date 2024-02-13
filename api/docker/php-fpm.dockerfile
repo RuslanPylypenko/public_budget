@@ -1,12 +1,19 @@
 FROM php:8.2.0-fpm-alpine
 
 # Install packages
-RUN apk add --no-cache curl git build-base zlib-dev oniguruma-dev autoconf bash && \
+RUN apk add --no-cache curl git build-base zlib-dev oniguruma-dev autoconf bash linux-headers libpq-dev && \
     echo "memory_limit=512M" >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini && \
     echo 'max_execution_time = 300' >> /usr/local/etc/php/conf.d/docker-php-maxexectime.ini;
 
-# Mysql
-RUN apk add --no-cache libpq-dev && docker-php-ext-install pdo_mysql ftp
+
+RUN apk add --update --no-cache --virtual .build-dependencies $PHPIZE_DEPS\
+    && docker-php-ext-install pdo_mysql ftp \
+    && pecl install xdebug \
+    && docker-php-ext-enable xdebug \
+    && pecl clear-cache \
+    && apk del .build-dependencies
+
+COPY ./php/xdebug.ini /usr/local/etc/php/conf.d/
 
 # Configure non-root user.
 ARG PUID=1000

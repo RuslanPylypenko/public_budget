@@ -1,4 +1,4 @@
-GET http://localhost:8081/api/city/
+GET {{api_url}}/api/city/
 Accept: application/json
 X-HOST: http://lviv.pb.org.ua
 
