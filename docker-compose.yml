@@ -20,7 +20,7 @@ services:
     restart: on-failure
     user: root
     environment:
-      PHP_IDE_CONFIG: "serverName=localhost"
+      PHP_IDE_CONFIG: "serverName=Docker"
     depends_on:
       - api-mysql
       - mailer
