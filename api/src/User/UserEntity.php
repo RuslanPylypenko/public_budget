@@ -5,7 +5,6 @@ namespace App\User;
 use App\Http\Annotation\Authenticate\UserInterface;
 use App\Project\ProjectEntity as Project;
 use App\ProjectVote\ProjectVoteEntity;
-use App\Session\StageEntity;
 use App\Utils\DateTime;
 use App\Utils\Random;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -22,6 +21,7 @@ class UserEntity implements UserInterface, PasswordAuthenticatedUserInterface
 {
     public const STATUS_ACTIVE = 'active';
     public const STATUS_NEW    = 'new';
+    public const STATUS_BANNED = 'banned';
 
     #[Mapping\Id]
     #[Mapping\Column(type: Types::INTEGER, options: ['unsigned' => true])]
@@ -48,6 +48,9 @@ class UserEntity implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[Mapping\Column(name: 'status', type: Types::STRING, length: 30)]
     private string $status;
+
+    #[Mapping\Column(name: 'ban_reason', type: Types::STRING, length: 255, nullable: true)]
+    private ?string $banReason = null;
 
     #[Mapping\Column(name: 'birthday', type: Types::DATETIME_MUTABLE)]
     private \DateTime $birthday;
@@ -165,9 +168,40 @@ class UserEntity implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->status === self::STATUS_ACTIVE;
     }
 
+    public function isBanned(): bool
+    {
+        return $this->status === self::STATUS_BANNED;
+    }
+
     public function isNew(): bool
     {
         return $this->status === self::STATUS_NEW;
+    }
+
+    public function moveToBanned(string $reason): void
+    {
+        if ($this->isBanned()) {
+            throw new \DomainException('User is already banned');
+        }
+
+        $this->status = self::STATUS_BANNED;
+        $this->banReason = $reason;
+    }
+
+    public function activate(): void
+    {
+        if ($this->isActive()) {
+            throw new \DomainException('User is already active');
+        }
+
+        $this->banReason = null;
+
+        $this->status = self::STATUS_ACTIVE;
+    }
+
+    public function getBanReason(): ?string
+    {
+        return $this->banReason;
     }
 
     // ----------------------------------------

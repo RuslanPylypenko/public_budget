@@ -8,6 +8,15 @@ use Doctrine\ORM\EntityRepository;
 
 class Repository extends EntityRepository
 {
+    public function getById(int $id): UserEntity
+    {
+        if (null === $user = $this->find($id)) {
+            throw new \DomainException('User not found');
+        }
+
+        return $user;
+    }
+
     public function findByEmail(string $email): ?UserEntity
     {
         return $this->findOneBy(['email' => $email]);
