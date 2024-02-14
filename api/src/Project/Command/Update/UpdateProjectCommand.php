@@ -8,9 +8,10 @@ use App\Api\InputInterface;
 use App\City\CityEntity;
 use App\Common\CQRS\ICommand;
 use App\Project\Category;
+use App\Project\Command\Create\CreateProjectCommand;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Command extends \App\Project\Command\Create\Command implements InputInterface, ICommand
+class UpdateProjectCommand extends CreateProjectCommand implements InputInterface
 {
     private ?int $number = null;
 

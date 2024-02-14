@@ -14,7 +14,6 @@ use Faker\Factory;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-// php bin/console doctrine:fixtures:load
 class UserFixtures extends Fixture
 {
     public function __construct(
@@ -26,7 +25,25 @@ class UserFixtures extends Fixture
     {
         $faker = Factory::create('uk_UA');
 
-        for ($i = 1; $i <= 5; $i++) {
+        $user = new UserEntity(
+            name: $faker->firstName(),
+            surname: $faker->firstNameMale(),
+            patronymic: $faker->lastName(),
+            email: "app@email.test",
+            birthday: $faker->dateTimeBetween('-50 years', '-10 years'),
+            confirmToken: new ConfirmToken('token', DateTime::current()->modify('+1 day')),
+            passport: sprintf('%s%s', $faker->randomElement(['KA', 'НВ', 'НЕ']), $faker->numberBetween(100000, 999999)),
+            phone: substr($faker->phoneNumber(), 0, 12),
+        );
+
+        $user->setPassword($this->passwordHasher->hashPassword($user, 'password'));
+
+        $user->setConfirmToken(null);
+        $user->setStatus($user::STATUS_ACTIVE);
+
+        $manager->persist($user);
+
+        for ($i = 1; $i <= 10; $i++) {
             $user = new UserEntity(
                 name: $faker->firstName(),
                 surname: $faker->firstNameMale(),

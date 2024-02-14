@@ -1,5 +1,5 @@
-init: docker-down-clear api-clear docker-pull docker-build docker-up api-init api-fixtures
 up: docker-up
+init: docker-down-clear api-clear docker-pull docker-build docker-up api-init api-fixtures
 build: docker-build
 down: docker-down
 

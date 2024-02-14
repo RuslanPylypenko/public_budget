@@ -46,7 +46,7 @@ readonly class FileUploader
 
         foreach ($toRemove as $hash){
             $project->removeImage($existingImages[$hash]);
-            $this->remove($existingImages[$hash]);
+            $this->removeFile($existingImages[$hash]);
         }
     }
 
@@ -67,8 +67,10 @@ readonly class FileUploader
         return $this->baseUrl . '/' . $path;
     }
 
-    public function remove(string $path): void
+    public function removeFile(string $path): void
     {
-        $this->storage->delete($path);
+        if ($this->storage->fileExists($path)) {
+            $this->storage->delete($path);
+        }
     }
 }

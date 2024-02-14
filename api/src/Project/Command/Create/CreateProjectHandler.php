@@ -8,6 +8,7 @@ use App\City\CityEntity;
 use App\Common\CQRS\CommandHandler;
 use App\Http\Annotation\Authenticate;
 use App\Project\Category;
+use App\Project\ProjectEntity;
 use App\Project\ProjectFactory;
 use App\User\UserEntity;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,7 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-readonly class Handler implements CommandHandler
+readonly class CreateProjectHandler
 {
     public function __construct(
         private ProjectFactory $projectFactory,
@@ -24,7 +25,7 @@ readonly class Handler implements CommandHandler
     ) {
     }
 
-    public function __invoke(Command $command): void
+    public function handle(CreateProjectCommand $command): ProjectEntity
     {
         $project = $this->projectFactory->fromUser(
             category: Category::from($command->category),
@@ -39,5 +40,7 @@ readonly class Handler implements CommandHandler
 
         $this->em->persist($project);
         $this->em->flush();
+
+        return $project;
     }
 }

@@ -12,7 +12,7 @@ use App\Project\Category;
 use App\User\UserEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Command implements InputInterface, ICommand
+class CreateProjectCommand implements InputInterface
 {
     #[Assert\NotBlank, Assert\Choice(callback: 'category')]
     public string $category;

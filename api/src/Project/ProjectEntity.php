@@ -228,9 +228,7 @@ class ProjectEntity
 
     public function removeImage(string $path): void
     {
-        if(false !== $key = array_search($path, $this->images)){
-           $this->images = array_slice($this->images, $key, 1);
-        }
+       $this->images = array_values(array_diff($this->images, [$path]));
     }
 
     public function setCategory(Category $category): void

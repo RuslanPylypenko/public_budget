@@ -3,7 +3,9 @@ framework:
         default_bus: command.bus
 
         buses:
-            command.bus: ~
+            command.bus:
+                middleware:
+                    - doctrine_transaction
             query.bus: ~
 
         transports:
@@ -11,7 +13,7 @@ framework:
             async: '%env(MESSENGER_TRANSPORT_DSN)%'
 
         routing:
-            'App\Common\CQRS\ICommand': sync
+            'App\Common\CQRS\ICommand': async
             'App\Common\CQRS\IQuery': sync
 
 

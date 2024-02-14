@@ -9,8 +9,9 @@ use App\City\CityEntity;
 use App\Common\CQRS\CommandBus;
 use App\Common\CQRS\QueryBus;
 use App\Http\Annotation\Authenticate;
-use App\Project\Command\Create\Command as CreateProjectCommand;
-use App\Project\Command\Update\Command as UpdateProjectCommand;
+use App\Project\Command\Create\CreateProjectCommand;
+use App\Project\Command\Create\CreateProjectHandler;
+use App\Project\Command\Update\{UpdateProjectCommand, UpdateProjectHandler};
 use App\Project\Query\DataBuilder;
 use App\Project\Query\Find\Query as ProjectFindQuery;
 use App\Project\Query\Get\Query as ProjectGetQuery;
@@ -22,9 +23,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProjectController extends AbstractController
 {
     public function __construct(
-        private readonly QueryBus $queryBus,
-        private readonly CommandBus $commandBus,
-        private readonly DataBuilder $dataBuilder,
+        private readonly QueryBus             $queryBus,
+        private readonly CommandBus           $commandBus,
+        private readonly DataBuilder          $dataBuilder,
+        private readonly UpdateProjectHandler $updateProjectHandler,
+        private readonly CreateProjectHandler $createProjectHandler,
     ) {
     }
 
@@ -51,9 +54,11 @@ class ProjectController extends AbstractController
     {
         $command->setUser($user);
         $command->setCity($city);
-        $this->commandBus->dispatch($command);
+        $project = $this->createProjectHandler->handle($command);
 
-        return $this->json([], Response::HTTP_CREATED);
+        return $this->json([
+            'data' => $this->dataBuilder->project($project, true),
+        ], Response::HTTP_CREATED);
     }
 
     #[Route('/projects/{number}/update/', methods: ['POST']), Authenticate]
@@ -62,8 +67,11 @@ class ProjectController extends AbstractController
         $command->setCity($city);
         $command->setNumber($number);
         $command->setUser($user);
-        $this->commandBus->dispatch($command);
 
-        return $this->json([], Response::HTTP_OK);
+        $project = $this->updateProjectHandler->handle($command);
+
+        return $this->json([
+            'data' => $this->dataBuilder->project($project, true)
+        ], Response::HTTP_OK);
     }
 }

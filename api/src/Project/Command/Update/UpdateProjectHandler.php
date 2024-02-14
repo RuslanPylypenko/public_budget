@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\Project\Command\Update;
 
-use App\Common\CQRS\CommandHandler;
 use App\Project\Category;
 use App\Project\ProjectEntity;
 use App\Project\Uploader\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use DomainException;
 
-readonly class Handler implements CommandHandler
+readonly class UpdateProjectHandler
 {
     public function __construct(
         private EntityManagerInterface $em,
@@ -19,7 +18,7 @@ readonly class Handler implements CommandHandler
     ) {
     }
 
-    public function __invoke(Command $command): void
+    public function handle(UpdateProjectCommand $command): ProjectEntity
     {
         /** @var ProjectEntity $project */
         $project = $this->em
@@ -43,5 +42,7 @@ readonly class Handler implements CommandHandler
 
         $this->em->persist($project);
         $this->em->flush();
+
+        return $project;
     }
 }

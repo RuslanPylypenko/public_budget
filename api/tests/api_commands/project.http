@@ -1,4 +1,48 @@
-@number =63
+POST {{api_url}}/api/projects/
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+Accept: application/json
+X-HOST: http://lviv.pb.org.ua
+access-token: {{access_token}}
+
+--WebAppBoundary
+Content-Disposition: form-data; name="images[]"; filename="image.png"
+
+< ./../../src/DataFixtures/data/images/1be51092-75bf-455f-b0f4-cf16ec629bf6.png
+--WebAppBoundary--
+
+--WebAppBoundary
+Content-Disposition: form-data; name="budget"
+
+198000.99
+--WebAppBoundary--
+
+--WebAppBoundary
+Content-Disposition: form-data; name="name"
+
+Project to---
+--WebAppBoundary--
+
+--WebAppBoundary
+Content-Disposition: form-data; name="short"
+
+my short description
+--WebAppBoundary--
+
+--WebAppBoundary
+Content-Disposition: form-data; name="description"
+
+description can contain <b>HTML</b>
+--WebAppBoundary--
+
+--WebAppBoundary
+Content-Disposition: form-data; name="category"
+
+education
+--WebAppBoundary--
+
+###
+@number = 12
+
 POST {{api_url}}/api/projects/{{number}}/update/
 Content-Type: multipart/form-data; boundary=WebAppBoundary
 Accept: application/json
@@ -8,13 +52,13 @@ access-token: {{access_token}}
 --WebAppBoundary
 Content-Disposition: form-data; name="images[]"; filename="image.png"
 
-< ./../../src/DataFixtures/data/images/de276c79-154f-4f6e-9bca-1016ba9646bd.png
+< ./../../src/DataFixtures/data/images/cbeb527f-ed49-4f3d-9888-a173a3cb8674.png
 --WebAppBoundary--
 
 --WebAppBoundary
 Content-Disposition: form-data; name="images[]"; filename="image.png"
 
-< ./../../src/DataFixtures/data/images/cbeb527f-ed49-4f3d-9888-a173a3cb8674.png
+< ./../../src/DataFixtures/data/images/155bcca4-d7c0-4e00-80ef-470913b248f4.png
 --WebAppBoundary--
 
 --WebAppBoundary
@@ -48,50 +92,7 @@ education
 --WebAppBoundary--
 
 ###
-POST {{api_url}}/api/projects/
-Content-Type: multipart/form-data; boundary=WebAppBoundary
-Accept: application/json
-X-HOST: http://lviv.pb.org.ua
-access-token: {{access_token}}
-
---WebAppBoundary
-Content-Disposition: form-data; name="images[]"; filename="image.png"
-
-< ./../../src/DataFixtures/data/images/1be51092-75bf-455f-b0f4-cf16ec629bf6.png
---WebAppBoundary--
-
---WebAppBoundary
-Content-Disposition: form-data; name="budget"
-
-198000.99
---WebAppBoundary--
-
---WebAppBoundary
-Content-Disposition: form-data; name="name"
-
-Project to feature!!!
---WebAppBoundary--
-
---WebAppBoundary
-Content-Disposition: form-data; name="short"
-
-my short description
---WebAppBoundary--
-
---WebAppBoundary
-Content-Disposition: form-data; name="description"
-
-description can contain <b>HTML</b>
---WebAppBoundary--
-
---WebAppBoundary
-Content-Disposition: form-data; name="category"
-
-education
---WebAppBoundary--
-
-###
-GET http://localhost:8081/api/projects/3/
+GET http://localhost:8081/api/projects/12/
 Accept: application/json
 X-HOST: http://lviv.pb.org.ua
 
