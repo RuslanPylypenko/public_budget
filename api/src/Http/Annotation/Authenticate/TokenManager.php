@@ -7,7 +7,6 @@ use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\UnencryptedToken;
-use Lcobucci\JWT\Validation\Constraint\HasClaimWithValue;
 use Lcobucci\JWT\Validation\Constraint\IssuedBy;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\Constraint\StrictValidAt;
@@ -17,7 +16,6 @@ use Ramsey\Uuid\Uuid;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Psr\Clock\ClockInterface as Clock;
-use Symfony\Component\HttpKernel\KernelInterface;
 
 class TokenManager
 {
@@ -44,7 +42,7 @@ class TokenManager
     }
 
     public function build(
-        ?UserInterface $user = null,
+        ?AuthInterface $user = null,
         int $lifetime = 3600 * 24,
         array $claims = [self::IP_CLM, self::USER_AGENT_CLM, self::USER_EMAIL_CLM, self::HASH_SESSION_CLM],
         ?string $issuedBy = null,

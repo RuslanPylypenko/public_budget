@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Project;
 
-use App\Project\Address\AddressEntity as Address;
+use App\Project\Address\AddressAddressEntity as Address;
 use App\Session\SessionEntity as Session;
 use App\User\UserEntity as User;
 use App\Utils\DateTime;

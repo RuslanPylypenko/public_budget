@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\City\CityEntity;
+use App\Admin\AdminEntity;
 use App\User\ConfirmToken;
 use App\User\UserEntity;
 use App\Utils\DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
-use Ramsey\Uuid\Uuid;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends Fixture
@@ -24,6 +23,15 @@ class UserFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('uk_UA');
+
+        $admin = new AdminEntity(
+            email: "admin@email.test",
+            name: $faker->firstName(),
+            surname: $faker->firstNameMale(),
+        );
+        $admin->setPassword($this->passwordHasher->hashPassword($admin, 'password'));
+        $manager->persist($admin);
+
 
         $user = new UserEntity(
             name: $faker->firstName(),

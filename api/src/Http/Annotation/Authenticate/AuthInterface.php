@@ -2,7 +2,7 @@
 
 namespace App\Http\Annotation\Authenticate;
 
-interface UserInterface
+interface AuthInterface
 {
     public function getEmail(): string;
 

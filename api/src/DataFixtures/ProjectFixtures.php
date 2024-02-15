@@ -3,7 +3,7 @@
 namespace App\DataFixtures;
 
 use App\City\CityEntity;
-use App\Project\Address\AddressEntity;
+use App\Project\Address\AddressAddressEntity;
 use App\Project\Category;
 use App\Project\ProjectEntity;
 use App\Project\ProjectFactory;
@@ -61,7 +61,7 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
                 $city = $session->getCity();
 
                 if ($faker->boolean()) {
-                    $address = new AddressEntity(
+                    $address = new AddressAddressEntity(
                         $project,
                         null,
                         null,

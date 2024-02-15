@@ -2,10 +2,13 @@
 
 namespace App\Http\EventListener;
 
+use App\Admin\AdminEntity;
 use App\Http\Annotation\Authenticate;
 use App\Http\Annotation\Authenticate\TokenManager;
 use App\Http\Annotation\Authenticate\UserAuthenticatorInterface;
+use App\User\UserEntity;
 use App\Utils\Context;
+use Doctrine\Common\Util\ClassUtils;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -63,12 +66,12 @@ class AuthenticationListener implements EventSubscriberInterface
         }
 
         if ($annotation->authUser) {
-            if (null === $user = $this->userAuthentication->authenticate($token)) {
+            if (null === $auth = $this->userAuthentication->authenticate($token)) {
                 throw new UnauthorizedHttpException('Bearer error="invalid_token"', 'Access Denied: Unauthorized');
             }
 
-            $this->context->add('user', $user->getEmail());
-            $request->attributes->set(Authenticate::USER, $user);
+            $this->context->add('user', $auth->getEmail());
+            $request->attributes->set(Authenticate::USER, $auth);
         }
 
     }

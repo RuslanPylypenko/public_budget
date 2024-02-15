@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Project\Address;
 
-use App\Address\EntitySuperclass;
+use App\Address\AddressEntitySuperclass;
 use App\Project\ProjectEntity as Project;
 use Doctrine\ORM\Mapping;
 
 #[Mapping\Entity()]
 #[Mapping\Table(name: 'project_address')]
-class AddressEntity extends EntitySuperclass
+class AddressAddressEntity extends AddressEntitySuperclass
 {
     #[Mapping\OneToOne(inversedBy: 'address', targetEntity: Project::class)]
     #[Mapping\JoinColumn(name: 'project_id', onDelete: 'CASCADE')]

@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping;
 #[Mapping\MappedSuperclass]
 #[Mapping\Table()]
 #[Mapping\ChangeTrackingPolicy('DEFERRED_EXPLICIT')]
-abstract class EntitySuperclass
+abstract class AddressEntitySuperclass
 {
     #[Mapping\Id]
     #[Mapping\Column(type: Types::INTEGER, options: ['unsigned' => true])]

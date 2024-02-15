@@ -1,0 +1,14 @@
+POST http://localhost:8081/api/admin/login/
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "admin@email.test",
+  "password": "password"
+}
+
+###
+
+GET http://localhost:8081/api/admin/
+Accept: application/json
+access-token: {{admin_token}}

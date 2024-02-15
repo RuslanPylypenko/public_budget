@@ -6,5 +6,5 @@ use Lcobucci\JWT\Token as TokenInterface;
 
 interface UserAuthenticatorInterface
 {
-    public function authenticate(TokenInterface $token): ?UserInterface;
+    public function authenticate(TokenInterface $token): ?AuthInterface;
 }
