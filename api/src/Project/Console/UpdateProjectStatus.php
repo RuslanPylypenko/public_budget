@@ -3,6 +3,7 @@
 namespace App\Project\Console;
 
 use App\Project\ProjectEntity as Project;
+use App\Project\ProjectStatus;
 use App\Session\SessionEntity;
 use App\Session\StageEntity as Stage;
 use App\Utils\DateTime;
@@ -12,7 +13,10 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand('app:project:status-change', 'Updates project statuses according to session stage changes and other conditions')]
+#[AsCommand(
+    name       : 'app:project:status-change',
+    description: 'Updates project statuses according to session stage changes and other conditions'
+)]
 class UpdateProjectStatus extends Command
 {
     public function __construct(
@@ -58,14 +62,14 @@ class UpdateProjectStatus extends Command
     private function voting(SessionEntity $session): void
     {
         $projects = $this->em->getRepository(Project::class)->findBy([
-            'status' => [Project::STATUS_MODERATION, Project::STATUS_AUTHOR_EDIT, Project::STATUS_REVIEW, Project::STATUS_APPROVED],
+            'status' => [ProjectStatus::AUTHOR_EDIT, ProjectStatus::REVIEW, ProjectStatus::APPROVED],
             'session' => $session,
         ]);
 
         foreach ($projects as $project) {
             $project->isApprovedStatus()
-                ? $project->setStatus(Project::STATUS_VOTING)
-                : $project->setStatus(Project::STATUS_REJECTED_FINAL);
+                ? $project->setStatus(ProjectStatus::VOTING)
+                : $project->setStatus(ProjectStatus::REJECTED_FINAL);
             $this->em->persist($project);
         }
 
@@ -75,12 +79,12 @@ class UpdateProjectStatus extends Command
     private function decision(SessionEntity $session): void
     {
         $projects = $this->em->getRepository(Project::class)->findBy([
-            'status' => [Project::STATUS_VOTING],
+            'status' => [ProjectStatus::VOTING],
             'session' => $session,
         ]);
 
         foreach ($projects as $project) {
-            $project->setStatus(Project::STATUS_AWAIT);
+            $project->setStatus(ProjectStatus::AWAIT);
             $this->em->persist($project);
         }
 
@@ -90,14 +94,14 @@ class UpdateProjectStatus extends Command
     private function implementation(SessionEntity $session): void
     {
         $projects = $this->em->getRepository(Project::class)->findBy([
-            'status' => [Project::STATUS_AWAIT, Project::STATUS_WINNER],
+            'status' => [ProjectStatus::AWAIT, ProjectStatus::WINNER],
             'session' => $session,
         ]);
 
         foreach ($projects as $project) {
             $project->isAwaitStatus()
-                ? $project->setStatus(Project::STATUS_AWAIT)
-                : $project->setStatus(Project::STATUS_IMPLEMENTATION);
+                ? $project->setStatus(ProjectStatus::AWAIT)
+                : $project->setStatus(ProjectStatus::IMPLEMENTATION);
 
             $this->em->persist($project);
         }

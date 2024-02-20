@@ -9,7 +9,7 @@ use DomainException;
 use InvalidArgumentException;
 
 /**
- * @template-extends EntityRepository<ProjectEntity>
+ * @template-extends EntityRepository<Project>
  */
 class Repository extends EntityRepository
 {
@@ -23,7 +23,7 @@ class Repository extends EntityRepository
             ->where($qb->expr()->eq('p.session', ':session'))
             ->andWhere($qb->expr()->notIn('p.status', ':statuses'))
             ->setParameter('session', $session)
-            ->setParameter('statuses', [Project::STATUS_DELETED]);
+            ->setParameter('statuses', [ProjectStatus::DELETED->value]);
 
         return $qb->getQuery()->getResult();
     }
@@ -39,10 +39,9 @@ class Repository extends EntityRepository
             ->andWhere($qb->expr()->notIn('p.status', ':statuses'))
             ->setParameter('session', $session)
             ->setParameter('statuses', [
-                Project::STATUS_MODERATION,
-                Project::STATUS_REJECTED,
-                Project::STATUS_REJECTED_FINAL,
-                Project::STATUS_DELETED
+                ProjectStatus::REJECTED->value,
+                ProjectStatus::REJECTED_FINAL->value,
+                ProjectStatus::DELETED->value
             ]);
 
         return $qb->getQuery()->getResult();
@@ -59,10 +58,10 @@ class Repository extends EntityRepository
             ->andWhere($qb->expr()->in('p.status', ':statuses'))
             ->setParameter('session', $session)
             ->setParameter('statuses', [
-                Project::STATUS_WINNER,
-                Project::STATUS_FINISHED,
-                Project::STATUS_IMPLEMENTATION_FAILED,
-                Project::STATUS_IMPLEMENTATION
+                ProjectStatus::WINNER,
+                ProjectStatus::FINISHED,
+                ProjectStatus::IMPLEMENTATION_FAILED,
+                ProjectStatus::IMPLEMENTATION
             ]);
 
         return $qb->getQuery()->getResult();
@@ -79,7 +78,7 @@ class Repository extends EntityRepository
             ->andWhere($qb->expr()->in('p.status', ':statuses'))
             ->setParameter('session', $session)
             ->setParameter('statuses', [
-                Project::STATUS_IMPLEMENTATION,
+                ProjectStatus::IMPLEMENTATION,
             ]);
 
         return $qb->getQuery()->getResult();
@@ -95,6 +94,20 @@ class Repository extends EntityRepository
         ])) {
 
         }
+        return $project;
+    }
+
+    public function getByProjectNumber(SessionEntity $session, int $projectNumber): Project
+    {
+        $project = $this->findOneBy([
+            'session' => $session,
+            'number' => $projectNumber,
+        ]);
+
+        if (!$project) {
+            throw new InvalidArgumentException('Project not found');
+        }
+
         return $project;
     }
 }

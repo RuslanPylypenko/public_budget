@@ -41,7 +41,7 @@ class CityFixtures extends Fixture
         $manager->persist($city);
         $manager->flush();
 
-        for ($i = 0; $i <= 1; $i++) {
+        for ($i = 0; $i <= 3; $i++) {
             $city = new CityEntity(
                 $city = $faker->city,
                 $faker->slug(1),

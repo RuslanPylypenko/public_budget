@@ -44,7 +44,9 @@ class UserFixtures extends Fixture
             phone: substr($faker->phoneNumber(), 0, 12),
         );
 
-        $user->setPassword($this->passwordHasher->hashPassword($user, 'password'));
+        $password = $this->passwordHasher->hashPassword($user, 'password');
+
+        $user->setPassword($password);
 
         $user->setConfirmToken(null);
         $user->setStatus($user::STATUS_ACTIVE);
@@ -56,14 +58,14 @@ class UserFixtures extends Fixture
                 name: $faker->firstName(),
                 surname: $faker->firstNameMale(),
                 patronymic: $faker->lastName(),
-                email: $faker->email(),
+                email: random_int(111, 999) . $faker->boolean() ? $faker->email : $faker->freeEmail,
                 birthday: $faker->dateTimeBetween('-50 years', '-10 years'),
                 confirmToken: new ConfirmToken('token', DateTime::current()->modify('+1 day')),
                 passport: sprintf('%s%s', $faker->randomElement(['KA', 'НВ', 'НЕ']), $faker->numberBetween(100000, 999999)),
                 phone: substr($faker->phoneNumber(), 0, 12),
             );
 
-            $user->setPassword($this->passwordHasher->hashPassword($user, 'admin'));
+            $user->setPassword($password);
 
             $user->setConfirmToken(null);
             $user->setStatus($user::STATUS_ACTIVE);

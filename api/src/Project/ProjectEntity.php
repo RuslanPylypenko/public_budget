@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Project;
 
-use App\Project\Address\AddressAddressEntity as Address;
+use App\Project\Address\AddressEntity as Address;
 use App\Session\SessionEntity as Session;
 use App\User\UserEntity as User;
 use App\Utils\DateTime;
@@ -17,21 +17,6 @@ use Doctrine\ORM\Mapping;
 #[Mapping\ChangeTrackingPolicy('DEFERRED_EXPLICIT')]
 class ProjectEntity
 {
-    const STATUS_MODERATION = "moderation";
-    const STATUS_AUTHOR_EDIT = "author_edit";
-    const STATUS_REVIEW = "review";
-    const STATUS_REJECTED = "rejected";
-    const STATUS_APPROVED = "approved";
-    const STATUS_VOTING = "voting";
-    const STATUS_REJECTED_FINAL = "rejected_final";
-    const STATUS_AWAIT = "await";
-    const STATUS_PARTICIPANT = "participant";
-    const STATUS_WINNER = "winner";
-    const STATUS_IMPLEMENTATION = "implementation";
-    const STATUS_IMPLEMENTATION_FAILED = "implementation_failed";
-    const STATUS_FINISHED = "finished";
-    const STATUS_DELETED = "deleted";
-
     #[Mapping\Id]
     #[Mapping\Column(type: Types::INTEGER, options: ['unsigned' => true])]
     #[Mapping\GeneratedValue]
@@ -45,6 +30,9 @@ class ProjectEntity
 
     #[Mapping\Column(name: 'status', type: Types::STRING, length: 32)]
     private string $status;
+
+    #[Mapping\Column(name: 'reject_reason', type: Types::TEXT, length: 400, nullable: true)]
+    private ?string $rejectReason = null;
 
     #[Mapping\Column(name: 'budget', type: Types::FLOAT)]
     private float $budget;
@@ -61,22 +49,28 @@ class ProjectEntity
     #[Mapping\Column(name: 'images', type: Types::JSON)]
     private array $images;
 
-    #[Mapping\ManyToOne(targetEntity: User::class, inversedBy: 'projects')]
+    #[Mapping\ManyToOne(targetEntity: User::class, cascade: ['persist'], inversedBy: 'projects')]
     #[Mapping\JoinColumn('author_id', onDelete: 'CASCADE')]
     private User $author;
 
-    #[Mapping\ManyToOne(targetEntity: Session::class, inversedBy: 'projects')]
+    #[Mapping\ManyToOne(targetEntity: Session::class, cascade: ['persist'], inversedBy: 'projects')]
     #[Mapping\JoinColumn(name: 'session_id', onDelete: 'CASCADE')]
     private Session $session;
 
     #[Mapping\OneToOne(mappedBy: 'project', targetEntity: Address::class, cascade: ['persist'])]
     protected ?Address $address = null;
 
+    #[Mapping\Column(name: 'is_deleted', type: Types::BOOLEAN, options: ['DEFAULT' => false])]
+    private bool $isDeleted = false;
+
     #[Mapping\Column(name: 'update_date', type: Types::DATETIME_MUTABLE)]
     private \DateTime $updateDate;
 
     #[Mapping\Column(name: 'create_date', type: Types::DATETIME_MUTABLE)]
     private \DateTime $createDate;
+
+    #[Mapping\Column(name: 'deleted_at', type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTime $deletedAt = null;
 
     // ----------------------------------------
 
@@ -131,6 +125,8 @@ class ProjectEntity
         return $this->number;
     }
 
+    // ----------------------------------------
+
     public function getStatus(): string
     {
         return $this->status;
@@ -138,12 +134,64 @@ class ProjectEntity
 
     public function isApprovedStatus(): bool
     {
-        return $this->status === self::STATUS_APPROVED;
+        return $this->status === ProjectStatus::APPROVED->value;
     }
 
     public function isAwaitStatus(): bool
     {
-        return $this->status === self::STATUS_AWAIT;
+        return $this->status === ProjectStatus::AWAIT->value;
+    }
+
+    // ----------------------------------------
+
+    public function approve(): void
+    {
+        if ($this->isApprovedStatus()) {
+            throw new \DomainException('Project is approved');
+        }
+
+        if ($this->status !== ProjectStatus::REVIEW->value) {
+            throw new \DomainException('Project must be on review');
+        }
+
+        $this->status       = ProjectStatus::APPROVED->value;
+        $this->rejectReason = null;
+    }
+
+    public function reject(string $reason): void
+    {
+        if ($this->status === ProjectStatus::REJECTED->value) {
+            throw new \DomainException('Project is rejected');
+        }
+
+        if ($this->status !== ProjectStatus::REVIEW->value) {
+            throw new \DomainException('Project must be on review');
+        }
+
+        $this->status       = ProjectStatus::REJECTED->value;
+        $this->rejectReason = $reason;
+    }
+
+    public function setStatus(ProjectStatus $status): void
+    {
+        $this->status = $status->value;
+    }
+
+    // ----------------------------------------
+
+    public function getRejectReason(): ?string
+    {
+        return $this->rejectReason;
+    }
+
+    public function delete(): void
+    {
+        if ($this->isDeleted) {
+            throw new \DomainException('Project already deleted');
+        }
+
+        $this->isDeleted = true;
+        $this->deletedAt = DateTime::current();
     }
 
     public function getBudget(): float
@@ -234,11 +282,6 @@ class ProjectEntity
     public function setCategory(Category $category): void
     {
         $this->category = $category->value;
-    }
-
-    public function setStatus(string $status): void
-    {
-        $this->status = $status;
     }
 
     public function getCategory(): string

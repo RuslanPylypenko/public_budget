@@ -14,6 +14,7 @@ use Doctrine\ORM\Mapping;
 
 #[Mapping\Entity(repositoryClass: Repository::class)]
 #[Mapping\Table(name: 'user')]
+#[Mapping\UniqueConstraint(name: 'email', columns: ['email'])]
 class UserEntity extends AuthEntitySuperclass
 {
     public const STATUS_ACTIVE = 'active';

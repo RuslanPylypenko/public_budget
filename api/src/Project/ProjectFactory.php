@@ -11,23 +11,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ProjectFactory
 {
-    public const PROJECT_STATUSES = [
-        Project::STATUS_MODERATION,
-        Project::STATUS_AUTHOR_EDIT,
-        Project::STATUS_REVIEW,
-        Project::STATUS_REJECTED,
-        Project::STATUS_APPROVED,
-        Project::STATUS_VOTING,
-        Project::STATUS_REJECTED_FINAL,
-        Project::STATUS_AWAIT,
-        Project::STATUS_PARTICIPANT,
-        Project::STATUS_WINNER,
-        Project::STATUS_IMPLEMENTATION,
-        Project::STATUS_IMPLEMENTATION_FAILED,
-        Project::STATUS_FINISHED,
-        Project::STATUS_DELETED,
-    ];
-
     public function __construct(
         private readonly EntityManagerInterface $em,
         private readonly FileUploader $fileUploader,
@@ -55,7 +38,7 @@ class ProjectFactory
         $project = new Project(
             number     : $max + 1,
             category   : $category,
-            status     : Project::STATUS_AWAIT,
+            status     : ProjectStatus::AWAIT->value,
             budget     : $budget,
             name       : $name,
             short      : $short,

@@ -3,10 +3,10 @@
 namespace App\DataFixtures;
 
 use App\City\CityEntity;
-use App\Project\Address\AddressAddressEntity;
+use App\Project\Address\AddressEntity;
 use App\Project\Category;
 use App\Project\ProjectEntity;
-use App\Project\ProjectFactory;
+use App\Project\ProjectStatus;
 use App\Project\Uploader\FileUploader;
 use App\Session\SessionEntity;
 use App\User\UserEntity;
@@ -31,6 +31,8 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
+        gc_collect_cycles();
+
         $faker = Factory::create('uk_UA');
         $faker->addProvider(new Text($faker));
         $faker->addProvider(new PicsumPhotosProvider($faker));
@@ -44,24 +46,25 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
 
 
         foreach ($sessions as $session){
-            for ($i = 1; $i <= random_int(6, 12); $i++) {
+            $projects = [];
+            for ($i = 1; $i <= random_int(300, 500); $i++) {
 
                 $project = new ProjectEntity(
                     number: $i,
                     category: $faker->randomElement(Category::all()),
-                    status: $faker->randomElement(ProjectFactory::PROJECT_STATUSES),
+                    status: $faker->randomElement(ProjectStatus::values()),
                     budget: $faker->randomFloat(nbMaxDecimals: 2, min: 10000, max: 1000000),
                     name: $faker->sentence(5),
-                    short: $faker->text(200),
-                    description: $faker->markdown() . (new MarkdownBuilder())->p($faker->sentences(20, true))->getMarkdown(),
+                    short: $faker->text(500),
+                    description: (new MarkdownBuilder())->p($faker->sentences(random_int(300, 600), true))->getMarkdown(),
                     author: $faker->randomElement($users),
                     session: $session,
                 );
 
                 $city = $session->getCity();
 
-                if ($faker->boolean()) {
-                    $address = new AddressAddressEntity(
+                if ($faker->boolean(80)) {
+                    $address = new AddressEntity(
                         $project,
                         null,
                         null,
@@ -77,6 +80,8 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
                     );
 
                     $manager->persist($address);
+
+                    $manager->flush();
                 }
 
                 $imagesDir = $this->kernel->getDataFixturesPath() . '/images';
@@ -88,9 +93,20 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
                     $project->addImage($projectImage->getFileName());
                 }
 
+                if($faker->boolean(8)){
+                    $project->delete();
+                }
+
                 $manager->persist($project);
+
+                $projects[] = $project;
             }
+
             $manager->flush();
+
+            foreach ($projects as $project){
+                $manager->detach($project);
+            }
         }
     }
 

@@ -7,6 +7,8 @@ RUN apk add --no-cache libzip-dev zip mysql-client bash \
 COPY ./common/wait-for-it.sh /usr/local/bin/wait-for-it
 RUN chmod 555 /usr/local/bin/wait-for-it
 
+COPY ./php/cli.ini /usr/local/etc/php/conf.d/
+
 # Install Composer globally
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \

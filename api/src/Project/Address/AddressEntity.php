@@ -10,9 +10,9 @@ use Doctrine\ORM\Mapping;
 
 #[Mapping\Entity()]
 #[Mapping\Table(name: 'project_address')]
-class AddressAddressEntity extends AddressEntitySuperclass
+class AddressEntity extends AddressEntitySuperclass
 {
-    #[Mapping\OneToOne(inversedBy: 'address', targetEntity: Project::class)]
+    #[Mapping\OneToOne(inversedBy: 'address', targetEntity: Project::class, cascade: ['persist'])]
     #[Mapping\JoinColumn(name: 'project_id', onDelete: 'CASCADE')]
     protected Project $project;
 

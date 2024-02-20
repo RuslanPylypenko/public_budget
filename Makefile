@@ -27,6 +27,9 @@ api-init: api-permissions api-composer-install api-wait-db api-migrations
 api-fixtures:
 	docker-compose run --rm api-php-cli php bin/console doctrine:fixtures:load --no-interaction
 
+api-append-projects:
+	docker-compose run --rm api-php-cli php bin/console doctrine:fixtures:load --group=projects --append --no-interaction
+
 api-test:
 	docker-compose run --rm api-php-cli ./vendor/bin/phpunit
 

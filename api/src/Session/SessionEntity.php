@@ -25,7 +25,7 @@ class SessionEntity
     #[Mapping\Column(name: 'name', type: Types::STRING, length: 255)]
     private string $name;
 
-    #[Mapping\ManyToOne(targetEntity: City::class, inversedBy: 'sessions')]
+    #[Mapping\ManyToOne(targetEntity: City::class, cascade: ['persist'], inversedBy: 'sessions')]
     #[Mapping\JoinColumn(name: 'city_id', nullable: false, onDelete: 'CASCADE')]
     private City $city;
 

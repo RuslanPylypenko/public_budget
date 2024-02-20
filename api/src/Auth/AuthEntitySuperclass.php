@@ -22,7 +22,7 @@ abstract class AuthEntitySuperclass implements AuthInterface, PasswordAuthentica
     #[Mapping\GeneratedValue]
     private ?int $id = null;
 
-    #[Mapping\Column(name: 'email', type: Types::STRING, unique: true)]
+    #[Mapping\Column(name: 'email', type: Types::STRING)]
     private string $email;
 
     #[Mapping\Column(name: 'password_hash', type: Types::STRING, length: 100)]

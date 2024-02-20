@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping;
 
 #[Mapping\Entity]
 #[Mapping\Table(name: 'admin')]
-#[Mapping\HasLifecycleCallbacks]
+#[Mapping\UniqueConstraint(name: 'email', columns: ['email'])]
 class AdminEntity extends AuthEntitySuperclass
 {
     #[Mapping\Column(name: 'name', type: Types::STRING, length: 255)]
