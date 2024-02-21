@@ -16,15 +16,13 @@ readonly class Search implements DecoratorInterface
 
     public function apply(QueryBuilder $queryBuilder): void
     {
-        if($this->search){
-            $conditions = [
-                $queryBuilder->expr()->like('p.name', ":search"),
-                $queryBuilder->expr()->like('p.short', ":search"),
-                $queryBuilder->expr()->like('p.description', ":search"),
-            ];
+        if ($this->search) {
+            $queryBuilder
+                ->addSelect("MATCH_AGAINST (p.description, p.name, p.short, :search 'IN NATURAL MODE') as HIDDEN score")
+                ->andWhere("MATCH_AGAINST (p.description, p.name, p.short, :search) > 0.0")
+                ->orderBy('score', 'desc')
+                ->setParameter('search', "$this->search");
 
-            $queryBuilder->andWhere($queryBuilder->expr()->orX(...$conditions));
-            $queryBuilder->setParameter('search', "%{$this->search}%");
         }
     }
 }

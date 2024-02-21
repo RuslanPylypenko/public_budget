@@ -47,7 +47,7 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
 
         foreach ($sessions as $session){
             $projects = [];
-            for ($i = 1; $i <= random_int(300, 500); $i++) {
+            for ($i = 1; $i <= random_int(30, 50); $i++) {
 
                 $project = new ProjectEntity(
                     number: $i,

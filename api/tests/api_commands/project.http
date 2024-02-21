@@ -19,7 +19,7 @@ Content-Disposition: form-data; name="budget"
 --WebAppBoundary
 Content-Disposition: form-data; name="name"
 
-Project to---
+Project to virtualization
 --WebAppBoundary--
 
 --WebAppBoundary
@@ -31,7 +31,7 @@ my short description
 --WebAppBoundary
 Content-Disposition: form-data; name="description"
 
-Docker is project when description can contain <b>HTML</b>
+Docker is an open platform for developing, shipping, and running applications. Docker enables you to separate your applications from your infrastructure so you can deliver software quickly. With Docker, you can manage your infrastructure in the same ways you manage your applications. By taking advantage of Docker's methodologies for shipping, testing, and deploying code, you can significantly reduce the delay between writing code and running it in production.
 --WebAppBoundary--
 
 --WebAppBoundary
@@ -103,7 +103,7 @@ Accept: application/json
 X-HOST: http://lviv.pb.org.ua
 
 {
-  "search": "Docker",
+  "search": "open platform for",
   "result": {
     "limit": 10,
     "offset": 0

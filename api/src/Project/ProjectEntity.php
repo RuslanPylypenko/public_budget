@@ -13,6 +13,7 @@ use Doctrine\ORM\Mapping;
 
 #[Mapping\Entity(repositoryClass: Repository::class)]
 #[Mapping\Table(name: 'project')]
+#[Mapping\Index(columns: ['description', 'name', 'short'], name: 'search_indexes', flags: ['fulltext'])]
 #[Mapping\HasLifecycleCallbacks]
 #[Mapping\ChangeTrackingPolicy('DEFERRED_EXPLICIT')]
 class ProjectEntity
