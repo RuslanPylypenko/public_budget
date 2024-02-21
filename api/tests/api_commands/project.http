@@ -31,7 +31,7 @@ my short description
 --WebAppBoundary
 Content-Disposition: form-data; name="description"
 
-description can contain <b>HTML</b>
+Docker is project when description can contain <b>HTML</b>
 --WebAppBoundary--
 
 --WebAppBoundary
@@ -103,8 +103,9 @@ Accept: application/json
 X-HOST: http://lviv.pb.org.ua
 
 {
+  "search": "Docker",
   "result": {
-    "limit": 50,
+    "limit": 10,
     "offset": 0
   }
 }
